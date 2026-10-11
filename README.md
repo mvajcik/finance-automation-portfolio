@@ -19,7 +19,7 @@ No client, employer or person is represented here.
 | Bank statement matched line by line | (b) bank reconciliation · [see the output](examples/finance-ops-toolkit/bank-reconciliation.csv) | Every line matched or listed as an open item with a reason |
 | Payroll: attendance, payroll tape and report disagree | (c) payroll three-way check | Hours × rate = tape = report, per employee |
 | Management cash report built by hand | (d) cash report · [see the output](examples/finance-ops-toolkit/cash-report.xlsx) | Ties to the ledger to the cent |
-| ERP rollout decisions get lost | [`odoo/`](odoo/) — implementation decisions log | — |
+| ERP set up by hand, bank ticked off line by line, cost per store typed | [`odoo/`](odoo/) — Odoo 17 Community demo from one command: stores as analytic accounts, CAMT import + matching over the ORM, weekly pack · [see the output](examples/odoo/weekly-verdict-2026-W39.html) and the [decision log](odoo/decisions/) | Setup read back bill by bill; the month is RECONCILED only if every bank line is matched or explained; the weekly pack is read back from the saved Excel and tied to the ledger |
 | "How do you actually work with AI?" | [`working-with-claude/`](working-with-claude/) — templates and skills I use daily | — |
 
 ## The one idea behind all of it
@@ -69,14 +69,16 @@ Requires Python 3.11+ and `make`.
 ```bash
 git clone <this repo>
 cd finance-automation-portfolio
-make demo   # runs every tool on the fictional data and prints the verdicts
-make test   # all checks and tamper tests (about 2 minutes; `make test-fast` skips the pipeline)
+make demo        # runs every tool on the fictional data and prints the verdicts
+make test        # all checks and tamper tests (about 2 minutes; `make test-fast` skips the pipeline)
+make odoo-demo   # the Odoo 17 Community demo (needs Docker; own containers on port 8071)
 ```
 
 ## About the data
 
 - **Demo Retail s.r.o.** and **papiernictvo2** (a fictional stationery chain) are
-  invented. Their data is produced by generators in this repository.
+  invented. Their data is produced by generators in this repository. The Odoo demo uses the
+  same Demo Retail fiction with three of its stores.
 - IBANs in the finance ops toolkit are official example IBANs from the SWIFT IBAN
   Registry; the reporting pipeline generator uses obviously fake ones (zeros and nines).
 - Names of suppliers and employees are invented and intentionally read as fake.

@@ -1,6 +1,6 @@
 PY := .venv/bin/python
 
-.PHONY: demo test test-fast venv clean
+.PHONY: demo test test-fast venv clean odoo-demo odoo-demo-down odoo-test
 
 venv: .venv/.ok
 .venv/.ok: requirements.txt reporting-pipeline/requirements.txt
@@ -23,6 +23,16 @@ test-fast: venv
 	cd finance-ops-toolkit && ../$(PY) -m pytest -q
 	cd working-with-claude && ../$(PY) -m pytest -q tests
 
+# Odoo 17 Community demo (needs Docker; its own containers and Postgres on port 8071, nothing else is touched)
+odoo-demo: venv
+	$(MAKE) -C odoo demo PY=../$(PY)
+
+odoo-demo-down:
+	$(MAKE) -C odoo down
+
+odoo-test: venv
+	cd odoo && ../$(PY) -m pytest -q
+
 clean:
-	rm -rf .venv finance-ops-toolkit/out
+	rm -rf .venv finance-ops-toolkit/out odoo/out
 	$(MAKE) -C reporting-pipeline clean

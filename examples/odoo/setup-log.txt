@@ -1,0 +1,5 @@
+Odoo 17.0-20260324 at http://127.0.0.1:8071
+database demo_retail created (country SK, no demo data)
+modules installed: account, l10n_sk
+company Demo Retail s.r.o. · stores 3 + HQ · vendors 20 · bills created now 70
+readback: 70 bills, 101036.86 EUR gross — PASS

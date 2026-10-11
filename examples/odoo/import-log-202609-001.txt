@@ -1,0 +1,37 @@
+CAMT.053 import — statement 202609-001 (2026-09-01 .. 2026-09-30) — created
+lines 27 · matched now 24 · open items 3 · already reconciled before this run 0
+
+matched    2026-09-01    -119.10  WAT-202608-004     R2 counterparty + amount + date
+matched    2026-09-01    -155.89  WAT-202608-005     R1 reference + amount
+matched    2026-09-01    -142.25  WAT-202608-006     R1 reference + amount
+matched    2026-09-02   -1476.00  MKT-202608-001     R1 reference + amount
+matched    2026-09-03    -799.50  ACC-202608-002     R1 reference + amount
+matched    2026-09-04    -720.00  CLN-202608-002     R1 reference + amount
+matched    2026-09-08    -258.30  WST-202608-002     R2 counterparty + amount + date
+matched    2026-09-09    -930.00  SEC-202608-002     R1 reference + amount
+matched    2026-09-10   -3400.00  FUR-202608-001     R1 reference + amount
+matched    2026-09-11   -3440.20  DPS-202608-006     R1 reference + amount
+matched    2026-09-14   -6239.60  DPS-202608-004     R1 reference + amount
+matched    2026-09-15   -2400.00  RENT-C-202609-003  R1 reference + amount
+matched    2026-09-15   -1850.00  RENT-N-202609-003  R1 reference + amount
+matched    2026-09-15   -1620.00  RENT-S-202609-003  R1 reference + amount
+matched    2026-09-16   -1845.00  LEG-202609-001     R1 reference + amount
+matched    2026-09-17    -109.47  SW-202609-003      R1 reference + amount
+matched    2026-09-21    -415.72  PKG-202608-002     R1 reference + amount
+matched    2026-09-22    -472.33  EN-202609-008      R1 reference + amount
+matched    2026-09-22    -582.50  EN-202609-009      R1 reference + amount
+matched    2026-09-22    -568.48  EN-202609-007      R2 counterparty + amount + date
+matched    2026-09-23    -934.80  REP-202609-002     R1 reference + amount
+matched    2026-09-28    -172.20  POS-202609-003     R1 reference + amount
+matched    2026-09-29    -149.90  TEL-202609-003     R1 reference + amount
+matched    2026-09-30   -2890.50  MKT-202609-002     R2 counterparty + amount + date
+open item  2026-09-15      -3.84  SEPA TRANSFER FEES SEPTEMBER       Bank fee: book to 568000 (other financial costs), no bill expected
+open item  2026-09-21     126.40  REFUND ANNUAL SETTLEMENT 2025      Receipt from a vendor (Example Energy AG): refund — credit note not yet in Odoo
+open item  2026-09-30     -12.50  ACCOUNT MAINTENANCE FEE            Bank fee: book to 568000 (other financial costs), no bill expected
+
+[PASS] B1 statement complete: opening + lines = closing (file) — 50099.46 + -31581.68 vs 18517.78
+[PASS] B2 Odoo statement closing = file closing — Odoo 18517.78 vs file 18517.78
+[PASS] B3 every line matched or an open item with a reason — unexplained: []
+[PASS] B4 every matched bill is paid in Odoo — not paid: []
+[PASS] B5 bank account 221001 Bank in the ledger = all statement movements imported so far (no opening entry booked) — ledger -71482.22 vs statements -71482.22
+VERDICT: RECONCILED

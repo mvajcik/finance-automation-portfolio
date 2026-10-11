@@ -16,6 +16,11 @@ company, application) has been removed.
 | [`finance-ops-toolkit/sepa-checks.txt`](finance-ops-toolkit/sepa-checks.txt) | The checks run before and after the XML was written, and the live tamper |
 | [`finance-ops-toolkit/bank-reconciliation.csv`](finance-ops-toolkit/bank-reconciliation.csv) · [`…-checks.txt`](finance-ops-toolkit/bank-reconciliation-checks.txt) | Every bank line matched or listed as an open item with its reason |
 | [`finance-ops-toolkit/cash-report.xlsx`](finance-ops-toolkit/cash-report.xlsx) | Cash report by store, tied to the ledger, the bank statement and the payroll tape |
+| [`odoo/weekly-verdict-2026-W39.html`](odoo/weekly-verdict-2026-W39.html) | **Odoo demo, start here.** One page: verdict of the weekly pack (RELEASED), the five readback checks, bills due in the week by store, bank open items with reasons |
+| [`odoo/weekly-pack-2026-W39.xlsx`](odoo/weekly-pack-2026-W39.xlsx) | The weekly pack as written from Odoo: Week · Stores · Open payables · Bank |
+| [`odoo/weekly-verdict-2026-W39-tampered.html`](odoo/weekly-verdict-2026-W39-tampered.html) | The same pack after one cent was added to a bill in the finished file: BLOCKED, W1 and W2 name the bill |
+| [`odoo/camt053-2026-09.xml`](odoo/camt053-2026-09.xml) · [`import-log-202609-001.txt`](odoo/import-log-202609-001.txt) | A fictional CAMT.053 statement and its import: every line matched by rule R1/R2 or an open item with a reason, checks B1–B5, verdict RECONCILED |
+| [`odoo/setup-log.txt`](odoo/setup-log.txt) | The setup run: company, stores, vendors, 70 bills, readback PASS |
 
 The one-page summaries are in English and in Slovak. Labels in the detailed
 reporting pipeline outputs are in Slovak (*Tržby* = revenue, *Odhad roka* =

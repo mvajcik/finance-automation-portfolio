@@ -1,0 +1,60 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><title>Weekly verdict 2026-W39</title><style>
+body{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;max-width:960px;margin:2rem auto;padding:0 1rem;color:#1b1b1b}
+h1{font-size:1.5rem;margin-bottom:.2rem} h2{font-size:1.1rem;margin-top:1.6rem;border-bottom:1px solid #ddd;padding-bottom:.2rem}
+.verdict{display:inline-block;padding:.35rem .9rem;border-radius:4px;font-weight:700;color:#fff}
+.RELEASED{background:#1a7f37} .BLOCKED{background:#b42318}
+table{border-collapse:collapse;width:100%;font-size:.92rem} th,td{border:1px solid #e3e3e3;padding:.35rem .5rem;text-align:left;vertical-align:top}
+th{background:#f6f6f6} td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.pass{color:#1a7f37;font-weight:700} .fail{color:#b42318;font-weight:700} .muted{color:#666;font-size:.85rem}
+</style></head><body>
+<h1>Demo Retail s.r.o. — payment week 2026-W39</h1>
+<p><span class='verdict BLOCKED'>BLOCKED</span> &nbsp; <span class='muted'>weekly pack <code>weekly-pack-2026-W39.xlsx</code>, read back from the saved file and tied to Odoo</span></p>
+<p class='fail'>Tamper applied to the finished file: +0.01 EUR on the first bill in the Week sheet</p>
+<h2>Checks on the finished file</h2><table><tr><th>Check</th><th>Result</th></tr>
+<tr><td>W1 every bill of the week is in the file with Odoo&#x27;s amounts, and nothing else<div class='muted'>wrong [&#x27;EN-202609-007&#x27;] missing []</div></td><td class='fail'>FAIL</td></tr>
+<tr><td>W2 week total = sum of its rows = Odoo<div class='muted'>file total (Decimal(&#x27;6030.58&#x27;), Decimal(&#x27;3300.27&#x27;)) rows (Decimal(&#x27;6030.59&#x27;), Decimal(&#x27;3300.27&#x27;)) Odoo (Decimal(&#x27;6030.58&#x27;), Decimal(&#x27;3300.27&#x27;))</div></td><td class='fail'>FAIL</td></tr>
+<tr><td>W3 store matrix: every cell = analytic lines, rows and columns add up, grand total = ledger expense (no untagged line)</td><td class='pass'>PASS</td></tr>
+<tr><td>W4 open payables: same bills and amounts as Odoo, total adds up</td><td class='pass'>PASS</td></tr>
+<tr><td>W5 bank: opening + movements = closing = Odoo, every open item listed with a reason</td><td class='pass'>PASS</td></tr>
+</table>
+<h2>Bills due this week</h2><table><tr><th>Reference</th><th>Vendor</th><th>Due</th><th>Store</th><th class='n'>Gross EUR</th><th class='n'>Open EUR</th><th>State</th></tr>
+<tr><td>EN-202609-007</td><td>Example Energy AG</td><td>2026-09-22</td><td>Store North</td><td class='n'>568.48</td><td class='n'>0.00</td><td>paid</td></tr>
+<tr><td>EN-202609-008</td><td>Example Energy AG</td><td>2026-09-22</td><td>Store Centre</td><td class='n'>472.33</td><td class='n'>0.00</td><td>paid</td></tr>
+<tr><td>EN-202609-009</td><td>Example Energy AG</td><td>2026-09-22</td><td>Store South</td><td class='n'>582.50</td><td class='n'>0.00</td><td>paid</td></tr>
+<tr><td>REP-202609-002</td><td>Mock Maintenance Services s.r.o.</td><td>2026-09-23</td><td>Store North</td><td class='n'>934.80</td><td class='n'>0.00</td><td>paid</td></tr>
+<tr><td>DPS-202608-005</td><td>Demo Paper Supply s.r.o.</td><td>2026-09-24</td><td>Store Centre</td><td class='n'>3300.27</td><td class='n'>3300.27</td><td>not_paid</td></tr>
+<tr><td>POS-202609-003</td><td>Example POS Terminals s.r.o.</td><td>2026-09-26</td><td>Store Centre, Store North, Store South</td><td class='n'>172.20</td><td class='n'>0.00</td><td>paid</td></tr>
+<tr><th colspan='4'>Total</th><th class='n'>6030.58</th><th class='n'>3300.27</th><th></th></tr></table>
+<p>Open payables, all weeks: <b>29476.30 EUR</b></p>
+<h2>Bank</h2>
+<p><b>STMT 202609-001</b>: opening 50099.46 → closing 18517.78 EUR · 27 lines, 24 matched to bills, 3 open items</p>
+<table><tr><th>Date</th><th class='n'>Amount EUR</th><th>Bank text</th><th>Reason (proposed, a person accepts it)</th></tr>
+<tr><td>2026-09-30</td><td class='n'>-12.50</td><td>ACCOUNT MAINTENANCE FEE / NOTPROVIDED</td><td>Bank fee: book to 568000 (other financial costs), no bill expected</td></tr>
+<tr><td>2026-09-21</td><td class='n'>126.40</td><td>REFUND ANNUAL SETTLEMENT 2025 / NOTPROVIDED</td><td>Receipt from a vendor (Example Energy AG): refund — credit note not yet in Odoo</td></tr>
+<tr><td>2026-09-15</td><td class='n'>-3.84</td><td>SEPA TRANSFER FEES SEPTEMBER / NOTPROVIDED</td><td>Bank fee: book to 568000 (other financial costs), no bill expected</td></tr>
+</table>
+<p><b>STMT 202608-001</b>: opening 78217.88 → closing 50099.46 EUR · 23 lines, 21 matched to bills, 2 open items</p>
+<table><tr><th>Date</th><th class='n'>Amount EUR</th><th>Bank text</th><th>Reason (proposed, a person accepts it)</th></tr>
+<tr><td>2026-08-31</td><td class='n'>-12.50</td><td>ACCOUNT MAINTENANCE FEE / NOTPROVIDED</td><td>Bank fee: book to 568000 (other financial costs), no bill expected</td></tr>
+<tr><td>2026-08-14</td><td class='n'>-3.60</td><td>SEPA TRANSFER FEES AUGUST / NOTPROVIDED</td><td>Bank fee: book to 568000 (other financial costs), no bill expected</td></tr>
+</table>
+<p><b>STMT 202607-001</b>: opening 90000.00 → closing 78217.88 EUR · 14 lines, 12 matched to bills, 2 open items</p>
+<table><tr><th>Date</th><th class='n'>Amount EUR</th><th>Bank text</th><th>Reason (proposed, a person accepts it)</th></tr>
+<tr><td>2026-07-31</td><td class='n'>-12.50</td><td>ACCOUNT MAINTENANCE FEE / NOTPROVIDED</td><td>Bank fee: book to 568000 (other financial costs), no bill expected</td></tr>
+<tr><td>2026-07-15</td><td class='n'>-3.12</td><td>SEPA TRANSFER FEES JULY / NOTPROVIDED</td><td>Bank fee: book to 568000 (other financial costs), no bill expected</td></tr>
+</table>
+<h2>Cost per store (net, from the analytic lines)</h2><table><tr><th>Month / store</th><th class='n'>EUR</th></tr>
+<tr><td>2026-07 Store North</td><td class='n'>6993.30</td></tr>
+<tr><td>2026-07 Store Centre</td><td class='n'>3942.25</td></tr>
+<tr><td>2026-07 Store South</td><td class='n'>16231.82</td></tr>
+<tr><td>2026-07 HQ</td><td class='n'>3425.23</td></tr>
+<tr><td>2026-08 Store North</td><td class='n'>3056.08</td></tr>
+<tr><td>2026-08 Store Centre</td><td class='n'>16549.13</td></tr>
+<tr><td>2026-08 Store South</td><td class='n'>6932.88</td></tr>
+<tr><td>2026-08 HQ</td><td class='n'>2636.67</td></tr>
+<tr><td>2026-09 Store North</td><td class='n'>11589.78</td></tr>
+<tr><td>2026-09 Store Centre</td><td class='n'>10785.32</td></tr>
+<tr><td>2026-09 Store South</td><td class='n'>10631.20</td></tr>
+<tr><td>2026-09 HQ</td><td class='n'>5387.15</td></tr>
+<tr><th>Ledger expense, all lines</th><th class='n'>98160.81</th></tr></table>
+<p class='muted'>Fictional company and generated data. Odoo 17 Community; the CAMT import and the matching are the repository's own scripts over the ORM.</p></body></html>

@@ -1,0 +1,30 @@
+# Demo Retail s.r.o. — Odoo 17 Community, its own Postgres, port 8071.
+# Everything here is a throwaway demo: the credentials below are not secrets, they are the demo.
+#   docker compose up -d        start
+#   docker compose down -v      remove containers AND data
+name: demo-retail
+services:
+  odoo:
+    image: odoo:17.0
+    depends_on:
+      - db
+    ports:
+      - "127.0.0.1:8071:8069"
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: demo
+    volumes:
+      - odoo-data:/var/lib/odoo
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: demo
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - db-data:/var/lib/postgresql/data/pgdata
+volumes:
+  odoo-data:
+  db-data:
