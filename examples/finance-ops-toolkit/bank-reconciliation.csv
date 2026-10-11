@@ -1,0 +1,138 @@
+status,bank_date,ledger_date,amount,bank_text,ledger_text,rule_or_reason
+matched,2026-10-02,2026-10-01,3564.31,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-02,2026-10-02,1923.71,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-02,2026-10-01,2235.67,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-02,2026-10-02,825.72,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-02,2026-10-01,1429.69,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-02,2026-10-02,1295.79,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-02,2026-10-01,3550.93,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-02,2026-10-02,2012.86,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-02,2026-10-02,3880.86,CASH DEPOSIT STORE CENTRE,Cash deposit Store Centre,rule 1: reference + amount
+matched,2026-10-02,2026-10-02,3232.46,CASH DEPOSIT STORE EAST,Cash deposit Store East,rule 1: reference + amount
+matched,2026-10-02,2026-10-02,1988.21,CASH DEPOSIT STORE NORTH,Cash deposit Store North,rule 1: reference + amount
+matched,2026-10-02,2026-10-02,4885.21,CASH DEPOSIT STORE SOUTH,Cash deposit Store South,rule 1: reference + amount
+matched,2026-10-06,2026-10-05,3657.68,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-06,2026-10-05,942.52,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-06,2026-10-05,2939.10,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-06,2026-10-05,1756.57,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-07,2026-10-06,1621.86,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-07,2026-10-06,3746.51,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-07,2026-10-06,2645.23,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-07,2026-10-06,2643.92,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-08,2026-10-07,3622.65,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-08,2026-10-07,1375.10,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-08,2026-10-07,3800.66,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-08,2026-10-07,1935.30,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-09,2026-10-08,3713.99,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-09,2026-10-09,2345.07,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-09,2026-10-08,1924.25,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-09,2026-10-09,2205.61,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-09,2026-10-08,2270.48,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-09,2026-10-09,3787.57,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-09,2026-10-08,3778.17,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-09,2026-10-09,3750.85,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-09,2026-10-09,4413.64,CASH DEPOSIT STORE CENTRE,Cash deposit Store Centre,rule 1: reference + amount
+matched,2026-10-09,2026-10-09,2031.92,CASH DEPOSIT STORE EAST,Cash deposit Store East,rule 1: reference + amount
+matched,2026-10-09,2026-10-09,5014.34,CASH DEPOSIT STORE NORTH,Cash deposit Store North,rule 1: reference + amount
+matched,2026-10-09,2026-10-09,2195.30,CASH DEPOSIT STORE SOUTH,Cash deposit Store South,rule 1: reference + amount
+matched,2026-10-13,2026-10-12,1305.57,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-13,2026-10-12,1697.97,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-13,2026-10-12,2182.61,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-13,2026-10-12,3086.17,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-3390.03,SUPPLIER SAMPLE LOGISTICS GMBH,Supplier Sample Logistics GmbH,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-5309.25,SUPPLIER EXAMPLE ENERGY AG,Supplier Example Energy AG,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-5406.85,SUPPLIER FICTIONAL OFFICE FURNITURE BV,Supplier Fictional Office Furniture BV,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-1116.22,SUPPLIER TEST RENT D.O.O.,Supplier Test Rent d.o.o.,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-9310.66,SUPPLIER DUMMY TELECOM SA,Supplier Dummy Telecom SA,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-8254.26,SUPPLIER TEST RENT D.O.O.,Supplier Test Rent d.o.o.,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-7915.07,SUPPLIER DUMMY TELECOM SA,Supplier Dummy Telecom SA,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-1201.15,SUPPLIER SAMPLE LOGISTICS GMBH,Supplier Sample Logistics GmbH,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-8604.36,SUPPLIER MOCK PACKAGING SP. Z O.O.,Supplier Mock Packaging Sp. z o.o.,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-4754.97,SUPPLIER SAMPLE LOGISTICS GMBH,Supplier Sample Logistics GmbH,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-2244.36,SUPPLIER PLACEHOLDER CLEANING KFT.,Supplier Placeholder Cleaning Kft.,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-2677.30,SUPPLIER TEST RENT D.O.O.,Supplier Test Rent d.o.o.,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-7862.06,SUPPLIER TEST RENT D.O.O.,Supplier Test Rent d.o.o.,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-7622.37,SUPPLIER SAMPLE LOGISTICS GMBH,Supplier Sample Logistics GmbH,rule 1: reference + amount
+matched,2026-10-14,2026-10-13,1116.80,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-14,2026-10-13,1772.52,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-14,2026-10-13,1355.93,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-14,2026-10-13,2667.79,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-14,2026-10-13,-1289.06,SUPPLIER DEMO PAPER SUPPLY S.R.O.,Supplier Demo Paper Supply s.r.o.,rule 1: reference + amount
+matched,2026-10-14,2026-10-13,-6826.36,SUPPLIER MOCK PACKAGING SP. Z O.O.,Supplier Mock Packaging Sp. z o.o.,rule 1: reference + amount
+matched,2026-10-14,2026-10-13,-9422.73,SUPPLIER FICTIONAL OFFICE FURNITURE BV,Supplier Fictional Office Furniture BV,rule 1: reference + amount
+matched,2026-10-14,2026-10-13,-6480.39,SUPPLIER DEMO PAPER SUPPLY S.R.O.,Supplier Demo Paper Supply s.r.o.,rule 1: reference + amount
+matched,2026-10-14,2026-10-13,-8583.40,SUPPLIER DEMO PAPER SUPPLY S.R.O.,Supplier Demo Paper Supply s.r.o.,rule 1: reference + amount
+matched,2026-10-14,2026-10-13,-3779.60,SUPPLIER PLACEHOLDER CLEANING KFT.,Supplier Placeholder Cleaning Kft.,rule 1: reference + amount
+matched,2026-10-15,2026-10-14,3456.18,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-15,2026-10-14,2251.15,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-15,2026-10-14,1357.42,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-15,2026-10-14,2443.90,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-15,2026-10-15,-5695.99,NET PAYROLL SEPTEMBER 2026,Net payroll September 2026,rule 1: reference + amount
+matched,2026-10-16,2026-10-15,1135.09,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-16,2026-10-16,2167.64,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-16,2026-10-15,2449.41,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-16,2026-10-16,1129.66,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-16,2026-10-15,3883.38,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-16,2026-10-16,1646.15,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-16,2026-10-15,2325.86,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-16,2026-10-16,2142.82,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-16,2026-10-16,3658.19,CASH DEPOSIT STORE CENTRE,Cash deposit Store Centre,rule 1: reference + amount
+matched,2026-10-16,2026-10-16,2847.64,CASH DEPOSIT STORE EAST,Cash deposit Store East,rule 1: reference + amount
+matched,2026-10-16,2026-10-16,1572.72,CASH DEPOSIT STORE NORTH,Cash deposit Store North,rule 1: reference + amount
+matched,2026-10-16,2026-10-16,5572.56,CASH DEPOSIT STORE SOUTH,Cash deposit Store South,rule 1: reference + amount
+matched,2026-10-20,2026-10-19,880.89,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-20,2026-10-19,1305.67,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-20,2026-10-19,2973.32,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-20,2026-10-19,1100.47,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-21,2026-10-20,920.46,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-21,2026-10-20,1444.98,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-21,2026-10-20,2033.25,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-21,2026-10-20,2424.86,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-22,2026-10-21,3742.19,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-22,2026-10-21,2636.61,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-22,2026-10-21,1292.14,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-22,2026-10-21,3822.42,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-23,2026-10-22,3190.98,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-23,2026-10-23,2457.08,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-23,2026-10-22,999.28,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-23,2026-10-23,1930.55,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-23,2026-10-22,2451.37,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-23,2026-10-23,2919.12,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-23,2026-10-22,3983.76,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-23,2026-10-23,3986.54,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-23,2026-10-23,3925.72,CASH DEPOSIT STORE CENTRE,Cash deposit Store Centre,rule 1: reference + amount
+matched,2026-10-23,2026-10-23,5043.76,CASH DEPOSIT STORE EAST,Cash deposit Store East,rule 1: reference + amount
+matched,2026-10-23,2026-10-23,4614.57,CASH DEPOSIT STORE NORTH,Cash deposit Store North,rule 1: reference + amount
+matched,2026-10-23,2026-10-23,3734.11,CASH DEPOSIT STORE SOUTH,Cash deposit Store South,rule 1: reference + amount
+matched,2026-10-27,2026-10-26,2761.60,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-27,2026-10-26,2118.99,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-27,2026-10-26,1426.21,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-27,2026-10-26,3428.05,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-28,2026-10-27,2330.29,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-28,2026-10-27,1102.15,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-28,2026-10-27,2839.72,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-28,2026-10-27,2668.13,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-29,2026-10-28,924.06,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-29,2026-10-28,2533.02,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-29,2026-10-28,3089.78,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-29,2026-10-28,2275.50,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-30,2026-10-29,1441.28,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-30,2026-10-30,3870.26,CARD SETTLEMENT STORE CENTRE,Card settlement Store Centre,rule 1: reference + amount
+matched,2026-10-30,2026-10-29,2984.37,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-30,2026-10-30,3642.46,CARD SETTLEMENT STORE EAST,Card settlement Store East,rule 1: reference + amount
+matched,2026-10-30,2026-10-29,2318.10,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-30,2026-10-30,2471.86,CARD SETTLEMENT STORE NORTH,Card settlement Store North,rule 1: reference + amount
+matched,2026-10-30,2026-10-29,2356.83,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-30,2026-10-30,906.27,CARD SETTLEMENT STORE SOUTH,Card settlement Store South,rule 1: reference + amount
+matched,2026-10-30,2026-10-30,2535.19,CASH DEPOSIT STORE CENTRE,Cash deposit Store Centre,rule 1: reference + amount
+matched,2026-10-30,2026-10-30,1794.36,CASH DEPOSIT STORE EAST,Cash deposit Store East,rule 1: reference + amount
+matched,2026-10-30,2026-10-30,3295.60,CASH DEPOSIT STORE NORTH,Cash deposit Store North,rule 1: reference + amount
+matched,2026-10-30,2026-10-30,4440.53,CASH DEPOSIT STORE SOUTH,Cash deposit Store South,rule 1: reference + amount
+matched,2026-10-13,2026-10-13,-9057.75,SUPPLIER PLACEHOLDER CLEANING KFT.,Supplier Placeholder Cleaning Kft.,rule 2: amount + date window
+matched,2026-10-13,2026-10-13,-2555.89,SUPPLIER DUMMY TELECOM SA,Supplier Dummy Telecom SA,rule 2: amount + date window
+matched,2026-10-13,2026-10-13,-7163.90,SUPPLIER DUMMY TELECOM SA,Supplier Dummy Telecom SA,rule 2: amount + date window
+matched,2026-10-13,2026-10-13,-980.20,SUPPLIER PLACEHOLDER CLEANING KFT.,Supplier Placeholder Cleaning Kft.,rule 2: amount + date window
+open (bank),2026-10-15,,-3.84,SEPA TRANSFER FEES,,Bank fee not yet booked in the ledger
+open (bank),2026-10-22,,250.00,TRANSFER RECEIVED,,Unidentified receipt: ask the bank for the sender
+open (bank),2026-10-30,,-12.50,ACCOUNT MAINTENANCE FEE,,Bank fee not yet booked in the ledger
+open (ledger),,2026-10-30,-1465.90,,Supplier Test Rent d.o.o. (November rent),"Payment booked, not yet debited by the bank (in transit)"

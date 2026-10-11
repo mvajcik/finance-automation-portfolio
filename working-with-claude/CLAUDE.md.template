@@ -1,0 +1,40 @@
+# CLAUDE.md — <project name>
+# Loaded automatically at the start of every session. Keep it under one page.
+
+## Identity
+
+<One sentence: what this project produces and for whom.>
+I am the project manager and decision maker (finance, non-IT). Claude executes
+and remembers. Language: <language>.
+
+## Memory
+
+- Session start: read `STATUS.md`. The first entry is the current state and what
+  waits for my decision. That is the whole input; I do not re-explain the project.
+- If the first entry is older than 14 days, say so in the first sentence.
+- Session end ("closeout"): new entry on top of `STATUS.md` (date, what was done
+  with evidence, what waits for me) + commit.
+- Evidence = commit hash or terminal output. Never "done" without evidence.
+
+## Rules
+
+- Every check has a tamper test that proves it can fail.
+- Outputs are read back from the finished file and compared with the source,
+  never with the code that wrote them.
+- Numbers in reports tie to the cent or the report is blocked, not "flagged".
+- When a decision has no argument behind it, push back. Agreeing is not the job.
+
+## STOP — ask me first
+
+- Production data, financial methodology, the meaning of a metric.
+- Anything sent outside the machine: e-mail, upload, push, publish.
+- Anything irreversible: delete, overwrite, merge to the main branch.
+
+## Where things are
+
+| What | Where |
+|---|---|
+| Current state | `STATUS.md` |
+| Decisions and why | `docs/DECISIONS.md` |
+| Briefs for larger tasks | `docs/briefs/` |
+| Known tool pitfalls | `docs/PAPERCUTS.md` (one line per incident) |

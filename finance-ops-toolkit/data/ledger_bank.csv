@@ -1,0 +1,135 @@
+date,amount,reference,description,category,store
+2026-10-01,3564.31,CARD-CENTRE-01OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-01,2235.67,CARD-EAST-01OCT,Card settlement Store East,Card receipts,Store East
+2026-10-01,1429.69,CARD-NORTH-01OCT,Card settlement Store North,Card receipts,Store North
+2026-10-01,3550.93,CARD-SOUTH-01OCT,Card settlement Store South,Card receipts,Store South
+2026-10-02,1923.71,CARD-CENTRE-02OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-02,825.72,CARD-EAST-02OCT,Card settlement Store East,Card receipts,Store East
+2026-10-02,1295.79,CARD-NORTH-02OCT,Card settlement Store North,Card receipts,Store North
+2026-10-02,2012.86,CARD-SOUTH-02OCT,Card settlement Store South,Card receipts,Store South
+2026-10-02,3880.86,CASH-CENTRE-02OCT,Cash deposit Store Centre,Cash receipts,Store Centre
+2026-10-02,3232.46,CASH-EAST-02OCT,Cash deposit Store East,Cash receipts,Store East
+2026-10-02,1988.21,CASH-NORTH-02OCT,Cash deposit Store North,Cash receipts,Store North
+2026-10-02,4885.21,CASH-SOUTH-02OCT,Cash deposit Store South,Cash receipts,Store South
+2026-10-05,3657.68,CARD-CENTRE-05OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-05,942.52,CARD-EAST-05OCT,Card settlement Store East,Card receipts,Store East
+2026-10-05,2939.10,CARD-NORTH-05OCT,Card settlement Store North,Card receipts,Store North
+2026-10-05,1756.57,CARD-SOUTH-05OCT,Card settlement Store South,Card receipts,Store South
+2026-10-06,1621.86,CARD-CENTRE-06OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-06,3746.51,CARD-EAST-06OCT,Card settlement Store East,Card receipts,Store East
+2026-10-06,2645.23,CARD-NORTH-06OCT,Card settlement Store North,Card receipts,Store North
+2026-10-06,2643.92,CARD-SOUTH-06OCT,Card settlement Store South,Card receipts,Store South
+2026-10-07,3622.65,CARD-CENTRE-07OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-07,1375.10,CARD-EAST-07OCT,Card settlement Store East,Card receipts,Store East
+2026-10-07,3800.66,CARD-NORTH-07OCT,Card settlement Store North,Card receipts,Store North
+2026-10-07,1935.30,CARD-SOUTH-07OCT,Card settlement Store South,Card receipts,Store South
+2026-10-08,3713.99,CARD-CENTRE-08OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-08,1924.25,CARD-EAST-08OCT,Card settlement Store East,Card receipts,Store East
+2026-10-08,2270.48,CARD-NORTH-08OCT,Card settlement Store North,Card receipts,Store North
+2026-10-08,3778.17,CARD-SOUTH-08OCT,Card settlement Store South,Card receipts,Store South
+2026-10-09,2345.07,CARD-CENTRE-09OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-09,2205.61,CARD-EAST-09OCT,Card settlement Store East,Card receipts,Store East
+2026-10-09,3787.57,CARD-NORTH-09OCT,Card settlement Store North,Card receipts,Store North
+2026-10-09,3750.85,CARD-SOUTH-09OCT,Card settlement Store South,Card receipts,Store South
+2026-10-09,4413.64,CASH-CENTRE-09OCT,Cash deposit Store Centre,Cash receipts,Store Centre
+2026-10-09,2031.92,CASH-EAST-09OCT,Cash deposit Store East,Cash receipts,Store East
+2026-10-09,5014.34,CASH-NORTH-09OCT,Cash deposit Store North,Cash receipts,Store North
+2026-10-09,2195.30,CASH-SOUTH-09OCT,Cash deposit Store South,Cash receipts,Store South
+2026-10-12,1305.57,CARD-CENTRE-12OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-12,1697.97,CARD-EAST-12OCT,Card settlement Store East,Card receipts,Store East
+2026-10-12,2182.61,CARD-NORTH-12OCT,Card settlement Store North,Card receipts,Store North
+2026-10-12,3086.17,CARD-SOUTH-12OCT,Card settlement Store South,Card receipts,Store South
+2026-10-13,1116.80,CARD-CENTRE-13OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-13,1772.52,CARD-EAST-13OCT,Card settlement Store East,Card receipts,Store East
+2026-10-13,1355.93,CARD-NORTH-13OCT,Card settlement Store North,Card receipts,Store North
+2026-10-13,2667.79,CARD-SOUTH-13OCT,Card settlement Store South,Card receipts,Store South
+2026-10-13,-1289.06,INV-D01,Supplier Demo Paper Supply s.r.o.,Goods,HQ
+2026-10-13,-3390.03,INV-D02,Supplier Sample Logistics GmbH,Logistics,HQ
+2026-10-13,-5309.25,INV-D03,Supplier Example Energy AG,Energy,HQ
+2026-10-13,-5406.85,INV-D04,Supplier Fictional Office Furniture BV,Other,HQ
+2026-10-13,-6826.36,INV-D05,Supplier Mock Packaging Sp. z o.o.,Goods,HQ
+2026-10-13,-9057.75,INV-D06,Supplier Placeholder Cleaning Kft.,Services,HQ
+2026-10-13,-1116.22,INV-D07,Supplier Test Rent d.o.o.,Rent,HQ
+2026-10-13,-9310.66,INV-D08,Supplier Dummy Telecom SA,Services,HQ
+2026-10-13,-9422.73,INV-D09,Supplier Fictional Office Furniture BV,Other,HQ
+2026-10-13,-8254.26,INV-D10,Supplier Test Rent d.o.o.,Rent,HQ
+2026-10-13,-7915.07,INV-D11,Supplier Dummy Telecom SA,Services,HQ
+2026-10-13,-2555.89,INV-D12,Supplier Dummy Telecom SA,Services,HQ
+2026-10-13,-6480.39,INV-D13,Supplier Demo Paper Supply s.r.o.,Goods,HQ
+2026-10-13,-1201.15,INV-D14,Supplier Sample Logistics GmbH,Logistics,HQ
+2026-10-13,-8604.36,INV-D15,Supplier Mock Packaging Sp. z o.o.,Goods,HQ
+2026-10-13,-4754.97,INV-D16,Supplier Sample Logistics GmbH,Logistics,HQ
+2026-10-13,-8583.40,INV-D17,Supplier Demo Paper Supply s.r.o.,Goods,HQ
+2026-10-13,-7163.90,INV-D18,Supplier Dummy Telecom SA,Services,HQ
+2026-10-13,-2244.36,INV-D19,Supplier Placeholder Cleaning Kft.,Services,HQ
+2026-10-13,-2677.30,INV-D20,Supplier Test Rent d.o.o.,Rent,HQ
+2026-10-13,-3779.60,INV-D21,Supplier Placeholder Cleaning Kft.,Services,HQ
+2026-10-13,-7862.06,INV-D22,Supplier Test Rent d.o.o.,Rent,HQ
+2026-10-13,-7622.37,INV-D23,Supplier Sample Logistics GmbH,Logistics,HQ
+2026-10-13,-980.20,INV-D24,Supplier Placeholder Cleaning Kft.,Services,HQ
+2026-10-14,3456.18,CARD-CENTRE-14OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-14,2251.15,CARD-EAST-14OCT,Card settlement Store East,Card receipts,Store East
+2026-10-14,1357.42,CARD-NORTH-14OCT,Card settlement Store North,Card receipts,Store North
+2026-10-14,2443.90,CARD-SOUTH-14OCT,Card settlement Store South,Card receipts,Store South
+2026-10-15,1135.09,CARD-CENTRE-15OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-15,2449.41,CARD-EAST-15OCT,Card settlement Store East,Card receipts,Store East
+2026-10-15,3883.38,CARD-NORTH-15OCT,Card settlement Store North,Card receipts,Store North
+2026-10-15,2325.86,CARD-SOUTH-15OCT,Card settlement Store South,Card receipts,Store South
+2026-10-15,-5695.99,PAYROLL-2026-09,Net payroll September 2026,Payroll,HQ
+2026-10-16,2167.64,CARD-CENTRE-16OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-16,1129.66,CARD-EAST-16OCT,Card settlement Store East,Card receipts,Store East
+2026-10-16,1646.15,CARD-NORTH-16OCT,Card settlement Store North,Card receipts,Store North
+2026-10-16,2142.82,CARD-SOUTH-16OCT,Card settlement Store South,Card receipts,Store South
+2026-10-16,3658.19,CASH-CENTRE-16OCT,Cash deposit Store Centre,Cash receipts,Store Centre
+2026-10-16,2847.64,CASH-EAST-16OCT,Cash deposit Store East,Cash receipts,Store East
+2026-10-16,1572.72,CASH-NORTH-16OCT,Cash deposit Store North,Cash receipts,Store North
+2026-10-16,5572.56,CASH-SOUTH-16OCT,Cash deposit Store South,Cash receipts,Store South
+2026-10-19,880.89,CARD-CENTRE-19OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-19,1305.67,CARD-EAST-19OCT,Card settlement Store East,Card receipts,Store East
+2026-10-19,2973.32,CARD-NORTH-19OCT,Card settlement Store North,Card receipts,Store North
+2026-10-19,1100.47,CARD-SOUTH-19OCT,Card settlement Store South,Card receipts,Store South
+2026-10-20,920.46,CARD-CENTRE-20OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-20,1444.98,CARD-EAST-20OCT,Card settlement Store East,Card receipts,Store East
+2026-10-20,2033.25,CARD-NORTH-20OCT,Card settlement Store North,Card receipts,Store North
+2026-10-20,2424.86,CARD-SOUTH-20OCT,Card settlement Store South,Card receipts,Store South
+2026-10-21,3742.19,CARD-CENTRE-21OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-21,2636.61,CARD-EAST-21OCT,Card settlement Store East,Card receipts,Store East
+2026-10-21,1292.14,CARD-NORTH-21OCT,Card settlement Store North,Card receipts,Store North
+2026-10-21,3822.42,CARD-SOUTH-21OCT,Card settlement Store South,Card receipts,Store South
+2026-10-22,3190.98,CARD-CENTRE-22OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-22,999.28,CARD-EAST-22OCT,Card settlement Store East,Card receipts,Store East
+2026-10-22,2451.37,CARD-NORTH-22OCT,Card settlement Store North,Card receipts,Store North
+2026-10-22,3983.76,CARD-SOUTH-22OCT,Card settlement Store South,Card receipts,Store South
+2026-10-23,2457.08,CARD-CENTRE-23OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-23,1930.55,CARD-EAST-23OCT,Card settlement Store East,Card receipts,Store East
+2026-10-23,2919.12,CARD-NORTH-23OCT,Card settlement Store North,Card receipts,Store North
+2026-10-23,3986.54,CARD-SOUTH-23OCT,Card settlement Store South,Card receipts,Store South
+2026-10-23,3925.72,CASH-CENTRE-23OCT,Cash deposit Store Centre,Cash receipts,Store Centre
+2026-10-23,5043.76,CASH-EAST-23OCT,Cash deposit Store East,Cash receipts,Store East
+2026-10-23,4614.57,CASH-NORTH-23OCT,Cash deposit Store North,Cash receipts,Store North
+2026-10-23,3734.11,CASH-SOUTH-23OCT,Cash deposit Store South,Cash receipts,Store South
+2026-10-26,2761.60,CARD-CENTRE-26OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-26,2118.99,CARD-EAST-26OCT,Card settlement Store East,Card receipts,Store East
+2026-10-26,1426.21,CARD-NORTH-26OCT,Card settlement Store North,Card receipts,Store North
+2026-10-26,3428.05,CARD-SOUTH-26OCT,Card settlement Store South,Card receipts,Store South
+2026-10-27,2330.29,CARD-CENTRE-27OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-27,1102.15,CARD-EAST-27OCT,Card settlement Store East,Card receipts,Store East
+2026-10-27,2839.72,CARD-NORTH-27OCT,Card settlement Store North,Card receipts,Store North
+2026-10-27,2668.13,CARD-SOUTH-27OCT,Card settlement Store South,Card receipts,Store South
+2026-10-28,924.06,CARD-CENTRE-28OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-28,2533.02,CARD-EAST-28OCT,Card settlement Store East,Card receipts,Store East
+2026-10-28,3089.78,CARD-NORTH-28OCT,Card settlement Store North,Card receipts,Store North
+2026-10-28,2275.50,CARD-SOUTH-28OCT,Card settlement Store South,Card receipts,Store South
+2026-10-29,1441.28,CARD-CENTRE-29OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-29,2984.37,CARD-EAST-29OCT,Card settlement Store East,Card receipts,Store East
+2026-10-29,2318.10,CARD-NORTH-29OCT,Card settlement Store North,Card receipts,Store North
+2026-10-29,2356.83,CARD-SOUTH-29OCT,Card settlement Store South,Card receipts,Store South
+2026-10-30,3870.26,CARD-CENTRE-30OCT,Card settlement Store Centre,Card receipts,Store Centre
+2026-10-30,3642.46,CARD-EAST-30OCT,Card settlement Store East,Card receipts,Store East
+2026-10-30,2471.86,CARD-NORTH-30OCT,Card settlement Store North,Card receipts,Store North
+2026-10-30,906.27,CARD-SOUTH-30OCT,Card settlement Store South,Card receipts,Store South
+2026-10-30,2535.19,CASH-CENTRE-30OCT,Cash deposit Store Centre,Cash receipts,Store Centre
+2026-10-30,1794.36,CASH-EAST-30OCT,Cash deposit Store East,Cash receipts,Store East
+2026-10-30,3295.60,CASH-NORTH-30OCT,Cash deposit Store North,Cash receipts,Store North
+2026-10-30,4440.53,CASH-SOUTH-30OCT,Cash deposit Store South,Cash receipts,Store South
+2026-10-30,-1465.90,INV-D99,Supplier Test Rent d.o.o. (November rent),Rent,HQ

@@ -1,0 +1,496 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
+  <CstmrCdtTrfInitn>
+    <GrpHdr>
+      <MsgId>DEMO-PAY-0001</MsgId>
+      <CreDtTm>2026-10-13T08:00:00</CreDtTm>
+      <NbOfTxs>24</NbOfTxs>
+      <CtrlSum>131808.19</CtrlSum>
+      <InitgPty>
+        <Nm>Demo Retail s.r.o.</Nm>
+      </InitgPty>
+    </GrpHdr>
+    <PmtInf>
+      <PmtInfId>DEMO-PAY-0001-1</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>24</NbOfTxs>
+      <CtrlSum>131808.19</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl>
+          <Cd>SEPA</Cd>
+        </SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>2026-10-13</ReqdExctnDt>
+      <Dbtr>
+        <Nm>Demo Retail s.r.o.</Nm>
+      </Dbtr>
+      <DbtrAcct>
+        <Id>
+          <IBAN>SK3112000000198742637541</IBAN>
+        </Id>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId>
+          <BIC>DEMOSKBXXXX</BIC>
+        </FinInstnId>
+      </DbtrAgt>
+      <ChrgBr>SLEV</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-001</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">1289.06</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Demo Paper Supply s.r.o.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>CZ6508000000192000145399</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D01</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-002</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">3390.03</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Sample Logistics GmbH</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>AT611904300234573201</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D02</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-003</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">5309.25</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Example Energy AG</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>DE89370400440532013000</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D03</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-004</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">5406.85</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Fictional Office Furniture BV</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>NL91ABNA0417164300</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D04</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-005</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">6826.36</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Mock Packaging Sp. z o.o.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>PL61109010140000071219812874</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D05</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-006</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">9057.75</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Placeholder Cleaning Kft.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>HU42117730161111101800000000</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D06</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-007</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">1116.22</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Test Rent d.o.o.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>SI56263300012039086</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D07</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-008</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">9310.66</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Dummy Telecom SA</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>BE68539007547034</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D08</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-009</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">9422.73</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Fictional Office Furniture BV</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>NL91ABNA0417164300</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D09</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-010</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">8254.26</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Test Rent d.o.o.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>SI56263300012039086</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D10</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-011</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">7915.07</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Dummy Telecom SA</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>BE68539007547034</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D11</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-012</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">2555.89</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Dummy Telecom SA</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>BE68539007547034</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D12</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-013</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">6480.39</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Demo Paper Supply s.r.o.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>CZ6508000000192000145399</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D13</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-014</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">1201.15</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Sample Logistics GmbH</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>AT611904300234573201</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D14</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-015</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">8604.36</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Mock Packaging Sp. z o.o.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>PL61109010140000071219812874</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D15</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-016</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">4754.97</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Sample Logistics GmbH</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>AT611904300234573201</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D16</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-017</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">8583.40</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Demo Paper Supply s.r.o.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>CZ6508000000192000145399</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D17</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-018</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">7163.90</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Dummy Telecom SA</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>BE68539007547034</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D18</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-019</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">2244.36</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Placeholder Cleaning Kft.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>HU42117730161111101800000000</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D19</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-020</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">2677.30</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Test Rent d.o.o.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>SI56263300012039086</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D20</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-021</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">3779.60</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Placeholder Cleaning Kft.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>HU42117730161111101800000000</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D21</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-022</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">7862.06</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Test Rent d.o.o.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>SI56263300012039086</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D22</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-023</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">7622.37</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Sample Logistics GmbH</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>AT611904300234573201</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D23</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId>
+          <EndToEndId>DEMO-PAY-0001-024</EndToEndId>
+        </PmtId>
+        <Amt>
+          <InstdAmt Ccy="EUR">980.20</InstdAmt>
+        </Amt>
+        <Cdtr>
+          <Nm>Placeholder Cleaning Kft.</Nm>
+        </Cdtr>
+        <CdtrAcct>
+          <Id>
+            <IBAN>HU42117730161111101800000000</IBAN>
+          </Id>
+        </CdtrAcct>
+        <RmtInf>
+          <Ustrd>INV-D24</Ustrd>
+        </RmtInf>
+      </CdtTrfTxInf>
+    </PmtInf>
+  </CstmrCdtTrfInitn>
+</Document>

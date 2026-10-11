@@ -1,0 +1,14 @@
+== (b) Bank reconciliation ==
+  PASS  B1  Statement is complete: opening + lines == closing
+  PASS  B2  Ledger opening balance == bank opening balance
+  PASS  B3  Every line used exactly once (matched or open)
+  PASS  B4  Ledger + open bank items - open ledger items == bank closing (to the cent)
+  PASS  B5  Every open item has a reason
+  STATUS: RECONCILED
+  matched 133 lines · rule 1: reference + amount: 129 · rule 2: amount + date window: 4
+  open item  2026-10-15       -3.84  SEPA TRANSFER FEES                        Bank fee not yet booked in the ledger
+  open item  2026-10-22      250.00  TRANSFER RECEIVED                         Unidentified receipt: ask the bank for the sender
+  open item  2026-10-30      -12.50  ACCOUNT MAINTENANCE FEE                   Bank fee not yet booked in the ledger
+  open item  2026-10-30    -1465.90  Supplier Test Rent d.o.o. (November rent  Payment booked, not yet debited by the bank (in transit)
+  file: bank-reconciliation.csv
+  TAMPER  one ledger line booked 0.01 EUR off -> caught by B5

@@ -1,0 +1,17 @@
+== (a) Payment list -> SEPA XML ==
+  PASS  I1  IBAN checksum (mod-97)
+  PASS  I2  Amount > 0 with max 2 decimals
+  PASS  I3  Currency is EUR
+  PASS  I4  Beneficiary name present, SEPA charset, <= 70 chars
+  PASS  I5  No duplicate payment (IBAN + amount + reference)
+  PASS  I6  List total == approved total
+  PASS  I7  Execution date is a business day
+  PASS  R1  Transaction count: header == block == file == list
+  PASS  R2  Control sum: header == block == sum of payments == list (to the cent)
+  PASS  R3  Every payment in the file matches the list 1:1 (IBAN, amount, currency, name, reference)
+  PASS  R4  Debtor account is the company account
+  PASS  R5  Every creditor IBAN passes mod-97
+  PASS  R6  Execution date in the file == approved execution date
+  STATUS: RELEASED
+  file: sepa-payments.xml
+  TAMPER  +0.01 EUR on one payment in the finished XML -> caught by R2, R3

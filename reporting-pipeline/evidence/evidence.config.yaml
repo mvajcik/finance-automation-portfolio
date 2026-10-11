@@ -1,0 +1,6 @@
+# Evidence — zásuvné moduly (komponenty + DuckDB zdroj). Stránky: pages/, zdroje: sources/.
+plugins:
+  components:
+    "@evidence-dev/core-components": {}
+  datasources:
+    "@evidence-dev/duckdb": {}

@@ -1,0 +1,6 @@
+# Evidence zdroj = DB behu motora (make demo → warehouse/papiernictvo2.duckdb). Evidence nič nepočíta nanovo:
+# číta marty a tabuľky behu (run_meta, check_results, bp_*), tie isté, z ktorých vznikol prehlad.xlsx.
+name: papiernictvo2
+type: duckdb
+options:
+  filename: ../../../warehouse/papiernictvo2.duckdb

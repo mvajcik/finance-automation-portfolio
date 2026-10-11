@@ -1,0 +1,7 @@
+# vyrobí generátor a beh — v repe je recept, nie koláč
+profiles/*/data/
+exports/
+warehouse/
+evidence/node_modules/
+evidence/.evidence/
+evidence/build/

@@ -1,0 +1,133 @@
+{
+  "_meta": "Etalón generátora papiernictvo2 (čisté dáta): výsledovka 2026 YTD a 2025 z denníka generátora.",
+  "ytd_pl_by_row": {
+    "Tržby": 1496289.32,
+    "Náklady na predaný tovar": -883495.75,
+    "Hrubá marža": 612793.57,
+    "Personál": -259657.92,
+    "Nájom": -113700.0,
+    "Energie": -15439.62,
+    "Marketing": -17955.47,
+    "Služby": -29070.38,
+    "Ostatné": -16925.66,
+    "EBITDA": 160044.52,
+    "Odpisy": -34290.0,
+    "EBIT": 125754.52,
+    "Úroky a finančné": -5148.0,
+    "Zisk pred zdanením": 120606.52,
+    "Daň z príjmov": -25327.37,
+    "Čistý zisk": 95279.15
+  },
+  "pl_y1_by_row": {
+    "Tržby": 1973598.32,
+    "Náklady na predaný tovar": -1174616.37,
+    "Hrubá marža": 798981.95,
+    "Personál": -343727.34,
+    "Nájom": -130800.0,
+    "Energie": -18612.75,
+    "Marketing": -23683.19,
+    "Služby": -38246.03,
+    "Ostatné": -22441.68,
+    "EBITDA": 221470.96,
+    "Odpisy": -45720.0,
+    "EBIT": 175750.96,
+    "Úroky a finančné": -8502.0,
+    "Zisk pred zdanením": 167248.96,
+    "Daň z príjmov": -35122.28,
+    "Čistý zisk": 132126.68
+  },
+  "ytd_ebitda_by_cc": {
+    "Centrála": -118328.64,
+    "Predajňa Centrum": 88976.72,
+    "Predajňa Sídlisko": 61585.0,
+    "Predajňa OC": 91785.93,
+    "Predajňa Mesto": 36025.51
+  },
+  "ytd_net_profit": 95279.15,
+  "rows": {
+    "pokladna_riadky": 331661,
+    "dennik_riadky": 31758,
+    "faktury": 1741,
+    "banka_riadky": 6448,
+    "mzdy_riadky": 273,
+    "sklad_pohyby": 9566
+  },
+  "ytd_plan_by_row": {
+    "Tržby": 1515434.63,
+    "Náklady na predaný tovar": -898260.51,
+    "Hrubá marža": 617174.12,
+    "Personál": -259635.41,
+    "Nájom": -98100.0,
+    "Energie": -13529.75,
+    "Marketing": -18185.22,
+    "Služby": -29016.93,
+    "Ostatné": -16985.11,
+    "EBITDA": 181721.7,
+    "Odpisy": -34290.0,
+    "EBIT": 147431.7,
+    "Úroky a finančné": -6552.0,
+    "Zisk pred zdanením": 140879.7,
+    "Daň z príjmov": -29584.74,
+    "Čistý zisk": 111294.96
+  },
+  "fy_plan_by_row": {
+    "Tržby": 2131486.17,
+    "Náklady na predaný tovar": -1268585.65,
+    "Hrubá marža": 862900.52,
+    "Personál": -360913.68,
+    "Nájom": -130800.0,
+    "Energie": -18612.75,
+    "Marketing": -25577.84,
+    "Služby": -38246.03,
+    "Ostatné": -23794.8,
+    "EBITDA": 264955.42,
+    "Odpisy": -45720.0,
+    "EBIT": 219235.42,
+    "Úroky a finančné": -8502.0,
+    "Zisk pred zdanením": 210733.42,
+    "Daň z príjmov": -44254.02,
+    "Čistý zisk": 166479.4
+  },
+  "fy_est_by_row": {
+    "Tržby": 2122954.0,
+    "Náklady na predaný tovar": -1257329.16,
+    "Hrubá marža": 865624.84,
+    "Personál": -361713.52,
+    "Nájom": -154200.0,
+    "Energie": -20522.62,
+    "Marketing": -25473.56,
+    "Služby": -38305.86,
+    "Ostatné": -24113.47,
+    "EBITDA": 241295.81,
+    "Odpisy": -45720.0,
+    "EBIT": 195575.81,
+    "Úroky a finančné": -6656.49,
+    "Zisk pred zdanením": 188919.32,
+    "Daň z príjmov": -39673.06,
+    "Čistý zisk": 149246.26
+  },
+  "fy_ebitda_by_cc": {
+    "Centrála": -163672.04,
+    "Predajňa Centrum": 129488.58,
+    "Predajňa Sídlisko": 88071.02,
+    "Predajňa OC": 134968.32,
+    "Predajňa Mesto": 52439.93
+  },
+  "variance_top_vs_ly": {
+    "Predajňa OC · Nájom": -15600.0,
+    "Predajňa Mesto · Hrubá marža": 2734.59,
+    "Predajňa OC · Hrubá marža": 20918.58,
+    "Predajňa Sídlisko · Hrubá marža": 5737.69
+  },
+  "variance_top": {
+    "Predajňa OC · Nájom": -15600.0,
+    "Predajňa Mesto · Hrubá marža": -3903.5,
+    "Predajňa OC · Hrubá marža": 3625.7,
+    "Predajňa Sídlisko · Hrubá marža": -3286.23
+  },
+  "variance_top_count": 4,
+  "ro_anchored": {
+    "ro|skok_nakladu|Energie|Q1": -1779.06
+  },
+  "ro_anchored_count": 1
+}

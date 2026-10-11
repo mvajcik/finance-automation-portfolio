@@ -1,0 +1,54 @@
+[
+  {
+    "id": "E1",
+    "what": "faktúra dodávateľa v knihe faktúr, ale nezaúčtovaná v denníku",
+    "where": "FD202600345"
+  },
+  {
+    "id": "E2",
+    "what": "mzda zamestnanca v mzdovom exporte iná než v účtovníctve (521)",
+    "where": [
+      "2026-06",
+      "S02"
+    ]
+  },
+  {
+    "id": "E3",
+    "what": "úhrada z banky bez faktúry v knihe faktúr",
+    "where": "2026-07"
+  },
+  {
+    "id": "E4",
+    "what": "výdaj zo skladu bez zásoby — záporný stav",
+    "where": [
+      "2026-03",
+      "S04",
+      "Knihy"
+    ]
+  },
+  {
+    "id": "E5",
+    "what": "predvaha ručne upravená — nesedí s denníkom",
+    "where": [
+      "2026-08",
+      "S01",
+      "518100"
+    ]
+  },
+  {
+    "id": "E6",
+    "what": "export pokladne orezaný — riadok SPOLU nesedí so súčtom bločkov",
+    "where": [
+      "S03",
+      "2026-02"
+    ]
+  },
+  {
+    "id": "E7",
+    "what": "chýba pripísanie kartových platieb jedného dňa v banke",
+    "where": [
+      "2026-09",
+      "S01"
+    ]
+  }
+]
