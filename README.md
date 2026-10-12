@@ -64,15 +64,24 @@ file, the row and the amount:
 
 ## Try it
 
-Requires Python 3.11+ and `make`.
+Requires Python 3.11+, `git` and `make`. The block can be pasted into a terminal as it is:
 
 ```bash
-git clone <this repo>
+git clone https://github.com/mvajcik/finance-automation-portfolio.git
 cd finance-automation-portfolio
-make demo        # runs every tool on the fictional data and prints the verdicts
-make test        # all checks and tamper tests (about 2 minutes; `make test-fast` skips the pipeline)
-make odoo-demo   # the Odoo 17 Community demo (needs Docker; own containers on port 8071)
+make demo
 ```
+
+`make demo` runs every tool on the fictional data and prints the verdicts. The first run also creates a
+virtual environment, installs the packages and generates the data.
+
+Further commands, run from the same folder:
+
+| Command | What it does |
+|---|---|
+| `make test` | all checks and tamper tests (about 2 minutes) |
+| `make test-fast` | the same without the reporting pipeline (seconds) |
+| `make odoo-demo` | the Odoo 17 Community demo (needs Docker; own containers on port 8071) |
 
 ## About the data
 
