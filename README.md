@@ -70,7 +70,7 @@ Every path below ends with the same command, `make demo`, and the same result. P
 |---|---|---|
 | Only a web browser (Windows, Mac, anything) | [A. Binder](#a-in-the-browser-no-account-binder) | nothing, no account |
 | A GitHub account | [B. Codespaces](#b-in-the-browser-with-a-github-account-codespaces) | nothing |
-| A Mac or Linux and you are fine with a terminal | [C. On your computer](#c-on-your-mac-or-linux) | Python 3.11+, `git`, `make` |
+| A Mac or Linux and you are fine with a terminal | [C. On your computer](#c-on-your-mac-or-linux) | Python 3.12+, `git`, `make` |
 | Windows and you want it on your computer | [D. Windows with WSL](#d-on-windows-with-wsl) | WSL (Ubuntu) |
 
 On Windows the easy way is A or B. The demo does not run in plain PowerShell or Command Prompt.
@@ -92,7 +92,7 @@ Binder is a free public service: it can be slow or busy, and the session disappe
 
 ### C. On your Mac or Linux
 
-Requires Python 3.11 or newer, `git` and `make`. On a Mac, `git` and `make` come with the Xcode Command Line
+Requires Python 3.12 or newer, `git` and `make`. On a Mac, `git` and `make` come with the Xcode Command Line
 Tools (`xcode-select --install`); the `python3` that comes with macOS is too old, install a current one from
 [python.org](https://www.python.org/downloads/). The block can be pasted into a terminal as it is:
 
@@ -136,7 +136,7 @@ issued. Both are the expected result.
 
 [![demo](https://github.com/mvajcik/finance-automation-portfolio/actions/workflows/demo.yml/badge.svg)](https://github.com/mvajcik/finance-automation-portfolio/actions/workflows/demo.yml)
 
-On every change, `make demo` runs automatically on Linux and macOS (Python 3.11 and 3.14, together with
+On every change, `make demo` runs automatically on Linux and macOS (Python 3.12 and 3.14, together with
 `make test`) and on Windows inside WSL Ubuntu. Paths A and B were run by hand in a browser.
 
 ### Further commands

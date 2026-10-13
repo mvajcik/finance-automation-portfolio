@@ -4,7 +4,7 @@ PY := $(CURDIR)/.venv/bin/python
 
 venv: .venv/.ok
 .venv/.ok: requirements.txt reporting-pipeline/requirements.txt
-	@python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else "Python 3.11 or newer is required, python3 here is " + sys.version.split()[0])'
+	@python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 12) else "Python 3.12 or newer is required, python3 here is " + sys.version.split()[0])'
 	python3 -m venv .venv
 	"$(PY)" -m pip install -q -r requirements.txt -r reporting-pipeline/requirements.txt
 	touch $@
