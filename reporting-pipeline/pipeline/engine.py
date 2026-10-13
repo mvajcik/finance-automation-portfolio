@@ -27,7 +27,7 @@ import json                     # noqa: E402
 import re                       # noqa: E402
 from pathlib import Path        # noqa: E402
 
-ROOT = Path(_HERE_S).resolve().parent               # koreň repa (kotva B zmluvy: tools/golden_nezavisly.py)
+ROOT = Path(_HERE_S).resolve().parent               # koreň repa (kotva B zmluvy: tools/golden_independent_papiernictvo2.py)
 
 _spec = importlib.util.spec_from_file_location("zl_checks_engine", Path(_HERE_S) / "checks.py")
 _checks = importlib.util.module_from_spec(_spec)
@@ -37,20 +37,20 @@ _spec_bp = importlib.util.spec_from_file_location("zl_boardpack_engine", Path(_H
 _bp = importlib.util.module_from_spec(_spec_bp)
 _spec_bp.loader.exec_module(_bp)
 
-VERDICTS = ("SEDÍ", "SEDÍ S VÝNIMKAMI", "NESEDÍ")
+VERDICTS = ("TIES", "TIES WITH EXCEPTIONS", "DOES NOT TIE")
 
 
 def sk_eur(v: float, sign: bool = False) -> str:
     """Suma po slovensky: medzera na tisíce, bez desatinných, znamienko mínus (−)."""
-    s = f"{abs(v):,.0f}".replace(",", "\u00a0")
+    s = f"{abs(v):,.0f}"
     pre = "−" if v < 0 else ("+" if sign and v > 0 else "")
-    return f"{pre}{s} €"
+    return f"{pre}€{s}"
 
 
 def sk_pct(v: float) -> str:
     """Percento po slovensky: desatinná čiarka, medzera pred %, znamienko."""
-    s = f"{abs(v) * 100:.1f}".replace(".", ",")
-    return f"{'−' if v < 0 else '+'}{s} %"
+    s = f"{abs(v) * 100:.1f}"
+    return f"{'−' if v < 0 else '+'}{s}%"
 
 
 # ------------------------------------------------------------------ profil
@@ -126,19 +126,19 @@ def _read_gl_file(g: Path, spec: dict, gl_rows: list, gl_cells: list, issues: li
     rows = ws.iter_rows(values_only=True)
     head = list(next(rows, []))
     if head != spec["header"]:
-        issues.append(f"{g.name}: hlavička {head} ≠ profil {spec['header']}")
+        issues.append(f"{g.name}: header {head} ≠ profile {spec['header']}")
         return
     for i, r in enumerate(rows, start=2):
         r = (list(r) + [None] * 6)[:6]
         gl_rows.append((g.name, i, str(r[0]), str(r[1]), str(r[2])))
-        for col, v in (("Obrat MD", r[4]), ("Obrat D", r[5])):
+        for col, v in (("Debit turnover", r[4]), ("Credit turnover", r[5])):
             gl_cells.append((g.name, i, col, *_cell(v)))
 
 
 _GL_TABLES = """
 CREATE TABLE gl AS SELECT r.ym, r.cc, r.account,
-  (SELECT val FROM gl_cells c WHERE c.file = r.file AND c.line = r.line AND c.col = 'Obrat MD') AS debit,
-  (SELECT val FROM gl_cells c WHERE c.file = r.file AND c.line = r.line AND c.col = 'Obrat D') AS credit
+  (SELECT val FROM gl_cells c WHERE c.file = r.file AND c.line = r.line AND c.col = 'Debit turnover') AS debit,
+  (SELECT val FROM gl_cells c WHERE c.file = r.file AND c.line = r.line AND c.col = 'Credit turnover') AS credit
 FROM gl_raw r"""
 
 
@@ -151,12 +151,12 @@ def _read_csv_export(f: Path, spec: dict, issues: list):
     try:
         raw = b.decode(enc)
     except UnicodeDecodeError as e:
-        issues.append(f"{f.name}: nedá sa prečítať v kódovaní {enc} (bajt {e.start}) — iný export alebo poškodený súbor")
+        issues.append(f"{f.name}: cannot be read in encoding {enc} (byte {e.start}) — a different export or a damaged file")
         return [], {}, None
     if enc.lower() in ("cp1250", "windows-1250") and any(x > 127 for x in b):
         try:
             b.decode("utf-8")
-            issues.append(f"{f.name}: súbor je v UTF-8, profil čaká {enc} — texty by sa rozsypali")
+            issues.append(f"{f.name}: file is in UTF-8, the profile expects {enc} — the texts would be garbled")
         except UnicodeDecodeError:
             pass
     lines = raw.splitlines()
@@ -166,10 +166,10 @@ def _read_csv_export(f: Path, spec: dict, issues: list):
     try:
         start = lines.index(head) if spec.get("skip_until_header") else 0
     except ValueError:
-        issues.append(f"{f.name}: hlavička {spec['header']} sa v súbore nenašla")
+        issues.append(f"{f.name}: header {spec['header']} not found in the file")
         return [], meta, footer
     if not spec.get("skip_until_header") and lines[:1] != [head]:
-        issues.append(f"{f.name}: hlavička {lines[:1]} ≠ profil {spec['header']}")
+        issues.append(f"{f.name}: header {lines[:1]} ≠ profile {spec['header']}")
         return [], meta, footer
     for ln in lines[:start] + lines:
         for key, label in spec.get("meta", {}).items():
@@ -184,7 +184,7 @@ def _read_csv_export(f: Path, spec: dict, issues: list):
         if any(r[0] == lab for lab in spec.get("meta", {}).values()):
             continue
         if len(r) != len(spec["header"]):
-            issues.append(f"{f.name} r{i}: {len(r)} polí ≠ {len(spec['header'])} podľa profilu")
+            issues.append(f"{f.name} r{i}: {len(r)} fields ≠ {len(spec['header'])} per the profile")
         rows.append((f.name, i, *((r + [None] * len(spec["header"]))[:len(spec["header"])])))
     return rows, meta, footer
 
@@ -197,7 +197,7 @@ def _xlsx_table(f: Path, spec: dict, issues: list):
     want = spec.get("header") or spec.get("header_first")
     hi = next((i for i, r in enumerate(rows) if list(r[:len(want)]) == want), None)
     if hi is None:
-        issues.append(f"{f.name}: hlavička {want} sa v hárku {spec['sheet']} nenašla")
+        issues.append(f"{f.name}: header {want} not found in sheet {spec['sheet']}")
         return [], []
     head = [str(x) for x in rows[hi]]
     out = []
@@ -281,7 +281,7 @@ def load_full(con, inp: Path, profile: dict) -> list:
         rows = []
         for sh in ins["dims"]["sheets"]:
             if sh not in wb.sheetnames:
-                issues.append(f"{f.name}: chýba hárok {sh}")
+                issues.append(f"{f.name}: sheet {sh} is missing")
                 continue
             for i, r in enumerate(list(wb[sh].iter_rows(values_only=True))[1:], start=2):
                 r = [None if v is None else str(v) for v in (list(r) + [None] * 4)[:4]]
@@ -289,7 +289,7 @@ def load_full(con, inp: Path, profile: dict) -> list:
         _bulk(con, "raw_dims", ["TEXT", "INT", "TEXT", "TEXT", "TEXT", "TEXT"], rows)
     # SQL vrstvy
     con.execute("CREATE TABLE pl_map (account TEXT, row TEXT)")
-    accs = [r[0] for r in con.execute("SELECT DISTINCT md FROM raw_journal UNION SELECT DISTINCT d FROM raw_journal "
+    accs = [r[0] for r in con.execute("SELECT DISTINCT dr FROM raw_journal UNION SELECT DISTINCT cr FROM raw_journal "
                                       "UNION SELECT DISTINCT ucet FROM raw_plan").fetchall() if r[0]]
     pm = [(a, _checks.resolve_account(a, profile["pl_mapping"])) for a in accs]
     con.executemany("INSERT INTO pl_map VALUES (?, ?)", [x for x in pm if x[1]] or [("-", "-")])
@@ -335,16 +335,16 @@ def _marts_from_pl_base(con, profile: dict) -> dict:
             for s in shops:
                 t[(s, sub)] = sum(t[(s, p)] for p in parts)
         for r in profile["pl_rows"]:
-            t[("Spolu", r)] = sum(t[(s, r)] for s in shops)
+            t[("Total", r)] = sum(t[(s, r)] for s in shops)
         return t
 
     ytd, ytd_prev = pl(y2, m_as_of), pl(y1, m_as_of)
     rev = {(ym, s): (v or 0.0) for ym, s, v in con.execute(
-        "SELECT ym, shop, amount FROM pl_base WHERE row = 'Tržby'").fetchall()}
+        "SELECT ym, shop, amount FROM pl_base WHERE row = 'Revenue'").fetchall()}
     months = months_of(profile["period"])
     plan = {(s, m): a for s, m, a in con.execute("SELECT shop, month, amount FROM plan").fetchall()}
     plan_ytd = {s: sum(plan.get((s, m), 0.0) or 0.0 for m in range(1, int(m_as_of) + 1)) for s in shops}
-    wages_row = profile.get("wages_row", "Mzdy")
+    wages_row = profile.get("wages_row", "Payroll")
     res = {
         "pos_rows": con.execute("SELECT count(*) FROM pos_raw").fetchone()[0],
         "revenue_net_y1": sum(v for (ym, _), v in rev.items() if ym.startswith(y1)),
@@ -352,11 +352,11 @@ def _marts_from_pl_base(con, profile: dict) -> dict:
         "revenue_net_y2_by_shop": {s: sum(v for (ym, s2), v in rev.items() if s2 == s and ym.startswith(y2))
                                    for s in shops},
         "revenue_net_dec_y2": sum(v for (ym, _), v in rev.items() if ym == f"{y2}-12"),
-        "ytd_revenue_net": ytd[("Spolu", "Tržby")],
-        "ytd_ebitda_total": ytd[("Spolu", "EBITDA")],
+        "ytd_revenue_net": ytd[("Total", "Revenue")],
+        "ytd_ebitda_total": ytd[("Total", "EBITDA")],
         "ytd_ebitda_by_shop": {s: ytd[(s, "EBITDA")] for s in shops},
-        "ytd_wages_total": -ytd.get(("Spolu", wages_row), 0.0),
-        "ytd_pl_by_row": {r: ytd[("Spolu", r)] for r in profile["pl_rows"]},
+        "ytd_wages_total": -ytd.get(("Total", wages_row), 0.0),
+        "ytd_pl_by_row": {r: ytd[("Total", r)] for r in profile["pl_rows"]},
     }
     return {"ytd": ytd, "ytd_prev": ytd_prev, "rev": rev, "months": months, "shops": shops,
             "plan_ytd": plan_ytd, "results": res, "y1": y1, "y2": y2, "as_of": as_of}
@@ -367,16 +367,16 @@ def board_findings(con, profile: dict, m: dict) -> list:
     """Zistenia pre board — pravidlá s prahmi z profilu, žiadne natvrdo písané firmy."""
     b = profile["board"]
     out = []
-    rows = [r for r in profile["pl_rows"] if r not in profile["pl_subtotals"] and r != "Tržby"]
+    rows = [r for r in profile["pl_rows"] if r not in profile["pl_subtotals"] and r != "Revenue"]
     r1 = b["ebitda_vs_revenue"]
     for s in m["shops"]:
-        rv0, rv1 = m["ytd_prev"][(s, "Tržby")], m["ytd"][(s, "Tržby")]
+        rv0, rv1 = m["ytd_prev"][(s, "Revenue")], m["ytd"][(s, "Revenue")]
         e0, e1 = m["ytd_prev"][(s, "EBITDA")], m["ytd"][(s, "EBITDA")]
         if not rv0 and not rv1:
             continue                    # nákladové stredisko bez tržieb (centrála) — pravidlo sa naň nevzťahuje
         if not rv0 or not e0:
             out.append({"rule": "ebitda_vs_revenue", "key": s,
-                        "text": f"{s}: medziročné porovnanie nemožné — nulový základ minulého roka"})
+                        "text": f"{s}: year-on-year comparison not possible — last year's base is zero"})
             continue
         ry, ey = rv1 / rv0 - 1, e1 / abs(e0) - (1 if e0 > 0 else -1)
         if ry > r1["min_revenue_yoy"] and ey < r1["max_ebitda_yoy"]:
@@ -386,8 +386,8 @@ def board_findings(con, profile: dict, m: dict) -> list:
             deltas = {r: m["ytd"][(s, r)] - m["ytd_prev"][(s, r)] * k for r in rows}
             drv = min(deltas, key=deltas.get)
             out.append({"rule": "ebitda_vs_revenue", "key": s,
-                        "text": f"{s}: tržby {sk_pct(ry)}, ale EBITDA {sk_pct(ey)} medziročne — hlavný dôvod: "
-                                f"{drv} {sk_eur(deltas[drv], True)} nad rámec rastu tržieb"})
+                        "text": f"{s}: revenue {sk_pct(ry)}, but EBITDA {sk_pct(ey)} year on year — main reason: "
+                                f"{drv} {sk_eur(deltas[drv], True)} beyond revenue growth"})
     r2 = b["month_concentration"]
     mon = {}
     ebitda_parts = [r for r in profile["pl_subtotals"].get("EBITDA", []) if r not in profile["pl_subtotals"]]
@@ -398,18 +398,18 @@ def board_findings(con, profile: dict, m: dict) -> list:
             mon[ym] = mon.get(ym, 0.0) + (v or 0.0)
     total = sum(mon.values())
     if total <= 0 and mon:
-        out.append({"rule": "month_concentration", "key": "strata",
-                    "text": f"YTD EBITDA {sk_eur(total)} — firma je v strate, koncentrácia mesiacov sa nepočíta"})
+        out.append({"rule": "month_concentration", "key": "loss",
+                    "text": f"YTD EBITDA {sk_eur(total)} — the company is loss-making, month concentration is not calculated"})
     if total > 0:
         n = len(mon)
         limit = r2["min_multiple_of_average"] / n          # 3× priemer: 12 mes. → 25 %, 6 mes. → 50 %
-        span = "ročnej" if n == 12 else f"YTD ({n} mes.)"
+        span = "full-year" if n == 12 else f"YTD ({n} mo.)"
         for ym, v in sorted(mon.items()):
             if v / total >= limit:
                 out.append({"rule": "month_concentration", "key": ym,
-                            "text": f"{ym}: {f'{v / total * 100:.1f}'.replace('.', ',')} % {span} EBITDA v jednom mesiaci "
-                                    f"({f'{v / total * n:.1f}'.replace('.', ',')}× priemer) — "
-                                    f"slabý {ym[5:]}. mesiac ohrozí celý rok"})
+                            "text": f"{ym}: {v / total * 100:.1f}% of {span} EBITDA in a single month "
+                                    f"({v / total * n:.1f}× average) — "
+                                    f"a weak month {ym[5:]} puts the whole year at risk"})
     r3 = b["category_decline"]
     q = {}
     for cat, y, qq, v in con.execute(
@@ -426,7 +426,7 @@ def board_findings(con, profile: dict, m: dict) -> list:
         if len(tail) == n and all(x is not None and x < 0 for x in tail):
             qs = ", ".join(f"Q{last_q - n + 1 + i} {sk_pct(x)}" for i, x in enumerate(tail))
             out.append({"rule": "category_decline", "key": cat,
-                        "text": f"{cat}: medziročný pokles {n} štvrťroky po sebe ({qs})"})
+                        "text": f"{cat}: year-on-year decline {n} quarters in a row ({qs})"})
     return out
 
 
@@ -454,12 +454,12 @@ def apply_exceptions(results: list, exc: list, as_of: str) -> tuple:
             ex = exc[idx] if idx is not None else None
             if ex and hits[idx] == 1 and as_of <= ex["valid_until"]:
                 covered += 1
-                lines.append(("VÝNIMKA", cid, f"{it} — {ex['reason']} (platí do {ex['valid_until']})"))
+                lines.append(("EXCEPTION", cid, f"{it} — {ex['reason']} (valid until {ex['valid_until']})"))
                 continue
             if ex and hits[idx] > 1:
-                it += f" — výnimka '{ex['match']}' je príliš široká (sedí na {hits[idx]} nálezov), nekryje"
+                it += f" — exception '{ex['match']}' is too broad (matches {hits[idx]} findings), it covers nothing"
             elif ex:
-                it += f" — výnimka expirovala {ex['valid_until']}"
+                it += f" — exception expired {ex['valid_until']}"
             left.append(it)
         if left:
             hard += 1
@@ -472,7 +472,7 @@ def apply_exceptions(results: list, exc: list, as_of: str) -> tuple:
 def write_outputs(out: Path, profile: dict, verdict: str, lines: list, m: dict | None,
                   findings: list, truth_used: bool, outside: tuple = None, contract_note: str = None,
                   panel: dict = None) -> dict:
-    """Zapíše prehlad.xlsx + report.md. Vráti očakávané čísla hárkov pre spätné
+    """Zapíše overview.xlsx + report.md. Vráti očakávané čísla hárkov pre spätné
     načítanie (sheet, riadok, stĺpec) → hodnota. `panel` = riadky
     kontrolného panelu, chybné riadky a zdroje z `panel_model()` → hárky Kontrolný panel + Chybné riadky
     (overuje ich control_panel_readback, nie xlsx_readback)."""
@@ -481,7 +481,7 @@ def write_outputs(out: Path, profile: dict, verdict: str, lines: list, m: dict |
     wb = Workbook()
     wb.properties.created = wb.properties.modified = dt.datetime(2026, 1, 1)
     ws = wb.active
-    ws.title = "Prehľad"
+    ws.title = "Overview"
     expected = {}
     headers = {}                    # hlavičky dátových hárkov (pre spätné načítanie)
     texts = []                      # texty Prehľadu v poradí zápisu (pre spätné načítanie)
@@ -491,110 +491,110 @@ def write_outputs(out: Path, profile: dict, verdict: str, lines: list, m: dict |
         _append(row)
         texts.extend(str(v) for v in row if v is not None and not isinstance(v, (int, float)))
     ws_append = put
-    nv = list(profile["not_verified"]) + ([] if truth_used else ["etalón neaplikovaný na túto dodávku"])
+    nv = list(profile["not_verified"]) + ([] if truth_used else ["reference not applied to this delivery"])
     if outside:
-        nv.append(f"{outside[0]} riadkov predvahy mimo výsledovky (triedy mimo {'/'.join(profile['account_scope'])}, "
-                  f"obraty {outside[1]:,.2f} €) — do výsledovky nevstupujú a neoverovali sa")
-    ws_append([profile["company"], f"stav k {profile['period']['as_of']}"])
-    ws_append(["Verdikt", verdict])
+        nv.append(f"{outside[0]} trial balance rows outside the P&L (classes other than {'/'.join(profile['account_scope'])}, "
+                  f"turnover €{outside[1]:,.2f}) — they do not enter the P&L and were not checked")
+    ws_append([profile["company"], f"as of {profile['period']['as_of']}"])
+    ws_append(["Verdict", verdict])
     if contract_note:
-        ws_append(["Zmluva reportu", contract_note])
-    md = [f"# {profile['company']} — prehľad k {profile['period']['as_of']}", "", f"**Verdikt: {verdict}**", ""]
+        ws_append(["Report contract", contract_note])
+    md = [f"# {profile['company']} — overview as of {profile['period']['as_of']}", "", f"**Verdict: {verdict}**", ""]
     if m is not None:
         ytd = m["ytd"]
-        ws_append(["YTD EBITDA (€)", round(ytd[("Spolu", "EBITDA")], 2)])
-        ws_append(["YTD tržby (€)", round(ytd[("Spolu", "Tržby")], 2)])
-        expected[("Prehľad", "YTD EBITDA (€)", "B")] = ytd[("Spolu", "EBITDA")]
-        expected[("Prehľad", "YTD tržby (€)", "B")] = ytd[("Spolu", "Tržby")]
-        md += [f"**YTD EBITDA: {ytd[('Spolu', 'EBITDA')]:,.2f} €** · YTD tržby: {ytd[('Spolu', 'Tržby')]:,.2f} €", ""]
-        exc_lines = [d for st, _, d in lines if st == "VÝNIMKA"]
+        ws_append(["EBITDA year to date (€)", round(ytd[("Total", "EBITDA")], 2)])
+        ws_append(["Revenue year to date (€)", round(ytd[("Total", "Revenue")], 2)])
+        expected[("Overview", "EBITDA year to date (€)", "B")] = ytd[("Total", "EBITDA")]
+        expected[("Overview", "Revenue year to date (€)", "B")] = ytd[("Total", "Revenue")]
+        md += [f"**EBITDA year to date: €{ytd[('Total', 'EBITDA')]:,.2f}** · Revenue year to date: €{ytd[('Total', 'Revenue')]:,.2f}", ""]
+        exc_lines = [d for st, _, d in lines if st == "EXCEPTION"]
         if exc_lines:
             ws_append([])
-            ws_append(["Schválené výnimky"])
-            md += ["## Schválené výnimky", ""]
+            ws_append(["Approved exceptions"])
+            md += ["## Approved exceptions", ""]
             for d in exc_lines:
                 ws_append(["•", d])
                 md.append(f"- {d}")
             md.append("")
         ws_append([])
-        ws_append(["Zistenia pre board"])
-        md += ["## Zistenia pre board", ""]
-        for f in findings or [{"text": "stroj nenašiel zistenie nad prahmi profilu"}]:
+        ws_append(["Findings for the board"])
+        md += ["## Findings for the board", ""]
+        for f in findings or [{"text": "the machine found no finding above the profile thresholds"}]:
             ws_append(["•", f["text"]])
             md.append(f"- {f['text']}")
         md.append("")
         pk = m.get("pack")
         if pk:
-            ebitda = pk["rows"][("Spolu", profile["board_pack"]["ebitda_row"])]
+            ebitda = pk["rows"][("Total", profile["board_pack"]["ebitda_row"])]
             ws_append([])
-            ws_append(["Odhad EBITDA roka (€)", round(ebitda["fy_est"], 2)])
-            ws_append(["Plán EBITDA roka (€)", round(ebitda["fy_plan"], 2)])
-            expected[("Prehľad", "Odhad EBITDA roka (€)", "B")] = ebitda["fy_est"]
-            expected[("Prehľad", "Plán EBITDA roka (€)", "B")] = ebitda["fy_plan"]
-            ws_append(["Metóda odhadu", pk["method"]])
+            ws_append(["Full-year EBITDA forecast (€)", round(ebitda["fy_est"], 2)])
+            ws_append(["Full-year EBITDA plan (€)", round(ebitda["fy_plan"], 2)])
+            expected[("Overview", "Full-year EBITDA forecast (€)", "B")] = ebitda["fy_est"]
+            expected[("Overview", "Full-year EBITDA plan (€)", "B")] = ebitda["fy_plan"]
+            ws_append(["Forecast method", pk["method"]])
             md += ["## Board pack", "", f"*{pk['method']}*", ""]
             final = {c["key"]: c for c in pk["comments"]}
-            for title, items in (("Odhad roka", pk["fy"]), ("Najväčšie odchýlky voči plánu", pk["variance"]),
-                                 ("Riziká a príležitosti", [x for x in pk["ro"] if x["group"] != "citlivosť"]),
-                                 ("Citlivosť odhadu na metódu (položky sa prekrývajú — nesčítavať)",
-                                  [x for x in pk["ro"] if x["group"] == "citlivosť"])):
+            for title, items in (("Full-year forecast", pk["fy"]), ("Largest variances vs plan", pk["variance"]),
+                                 ("Risks and opportunities", [x for x in pk["ro"] if x["group"] != "sensitivity"]),
+                                 ("Forecast sensitivity to the method (items overlap — do not add them up)",
+                                  [x for x in pk["ro"] if x["group"] == "sensitivity"])):
                 ws_append([])
                 ws_append([title])
                 md += [f"### {title}", ""]
                 for it in items or [{"key": None}]:
                     c = final.get(it["key"])
-                    txt = c["final"] if c else "stroj nenašiel položku nad prahmi profilu"
+                    txt = c["final"] if c else "the machine found no item above the profile thresholds"
                     ws_append(["•", txt])
                     md.append(f"- {c['final_md'] if c else txt}")
                 md.append("")
             if pk["comment_warnings"]:
                 ws_append([])
-                ws_append(["Komentáre — upozornenia"])
-                md += ["### Komentáre — upozornenia", ""]
+                ws_append(["Comments — warnings"])
+                md += ["### Comments — warnings", ""]
                 for w_ in pk["comment_warnings"]:
                     ws_append(["⚠", w_])
                     md.append(f"- ⚠ {w_}")
                 md.append("")
     else:
-        ws_append(["Čísla pre board", "NEVYDANÉ — kontroly nesedia, viď hárok Kontroly"])
-        md += ["**Čísla pre board NEVYDANÉ — kontroly nesedia (protokol nižšie).**", ""]
+        ws_append(["Figures for the board", "NOT ISSUED — the checks do not tie, see the Checks sheet"])
+        md += ["**Figures for the board NOT ISSUED — the checks do not tie (check log below).**", ""]
     ws_append([])
-    ws_append(["Čo som neoveroval"])
-    md += ["## Čo som neoveroval", ""]
+    ws_append(["What was not checked"])
+    md += ["## What was not checked", ""]
     for x in nv:
         ws_append(["•", x])
         md.append(f"- {x}")
     md.append("")
 
     if m is not None:
-        shops = m["shops"] + ["Spolu"]
+        shops = m["shops"] + ["Total"]
         w = wb.create_sheet("P&L YTD")
-        w.append(["Riadok"] + shops)
-        headers["P&L YTD"] = ["Riadok"] + shops
+        w.append(["Line"] + shops)
+        headers["P&L YTD"] = ["Line"] + shops
         for r in profile["pl_rows"]:
             w.append([r] + [round(m["ytd"][(s, r)], 2) for s in shops])
             for s in shops:
                 expected[("P&L YTD", r, s)] = m["ytd"][(s, r)]
-        month_sheet = f"Mesiace x {profile.get('entity_label', 'predajne')}"
+        month_sheet = f"Months x {profile.get('entity_label', 'stores')}"
         w = wb.create_sheet(month_sheet)
-        w.append(["Mesiac"] + shops)
-        headers[month_sheet] = ["Mesiac"] + shops
+        w.append(["Month"] + shops)
+        headers[month_sheet] = ["Month"] + shops
         for ym in m["months"]:
             vals = [m["rev"].get((ym, s), 0.0) for s in m["shops"]]
             w.append([ym] + [round(v, 2) for v in vals] + [round(sum(vals), 2)])
             for s, v in zip(shops, vals + [sum(vals)]):
                 expected[(month_sheet, ym, s)] = v
         if "plan" in profile["inputs"]:
-            w = wb.create_sheet("Plán vs skutočnosť")
-            w.append(["Predajňa", "Plán YTD", "Skutočnosť YTD", "Rozdiel", "Plnenie"])
-            headers["Plán vs skutočnosť"] = ["Predajňa", "Plán YTD", "Skutočnosť YTD", "Rozdiel", "Plnenie"]
+            w = wb.create_sheet("Plan vs actual")
+            w.append(["Store", "Plan YTD", "Actual YTD", "Variance", "Achievement"])
+            headers["Plan vs actual"] = ["Store", "Plan YTD", "Actual YTD", "Variance", "Achievement"]
             for s in m["shops"]:
-                p, a = m["plan_ytd"][s], m["ytd"][(s, "Tržby")]
+                p, a = m["plan_ytd"][s], m["ytd"][(s, "Revenue")]
                 row = [s, round(p, 2), round(a, 2), round(a - p, 2), round(a / p, 4) if p else None]
                 w.append(row)
-                for col, v in zip(["Plán YTD", "Skutočnosť YTD", "Rozdiel", "Plnenie"], row[1:]):
+                for col, v in zip(["Plan YTD", "Actual YTD", "Variance", "Achievement"], row[1:]):
                     if v is not None:
-                        expected[("Plán vs skutočnosť", s, col)] = v
+                        expected[("Plan vs actual", s, col)] = v
         for name, head, rows in m.get("extra_sheets", []):
             w = wb.create_sheet(name)
             w.append(head)
@@ -606,33 +606,33 @@ def write_outputs(out: Path, profile: dict, verdict: str, lines: list, m: dict |
                     expected[(name, r[0], col)] = v if isinstance(v, str) else float(v)
         if m.get("pack"):
             _write_pack_sheets(wb, profile, m, expected, headers)
-        md += ["## Výsledovka YTD (€)", "", "| Riadok | " + " | ".join(shops) + " |",
+        md += ["## P&L YTD (€)", "", "| Line | " + " | ".join(shops) + " |",
                "|---|" + "---:|" * len(shops)]
         for r in profile["pl_rows"]:
             md.append(f"| {r} | " + " | ".join(f"{m['ytd'][(s, r)]:,.2f}" for s in shops) + " |")
         md.append("")
-    w = wb.create_sheet("Kontroly")
-    w.append(["Stav", "Kontrola", "Detail"])
-    md += ["## Kontroly", "", "| Stav | Kontrola | Detail |", "|---|---|---|"]
+    w = wb.create_sheet("Checks")
+    w.append(["Status", "Check", "Detail"])
+    md += ["## Checks", "", "| Status | Check | Detail |", "|---|---|---|"]
     for st, cid, d in lines:
         w.append([st, cid, d])
         md.append(f"| {st} | {cid} | {d.replace('|', '/')} |")
     if panel:
         _write_panel_sheets(wb, profile, verdict, panel)
-        md += ["", "## Kontrolný panel", "", "| Semafor | Oblasť | Kontrola | Nálezov |", "|---|---|---|---:|"]
+        md += ["", "## Control panel", "", "| Status | Area | Check | Findings |", "|---|---|---|---:|"]
         md += [f"| {r['light']} | {r['group']} | {r['cid']} | {r['n']} |" for r in panel["rows"]]
         md.append("")
     for w in wb.worksheets:                      # čitateľnosť: formát čísel, šírky stĺpcov
         for row in w.iter_rows():
             for c in row:
                 if isinstance(c.value, float):
-                    pct = (w.title == "Plán vs skutočnosť" and c.column == 5) or \
+                    pct = (w.title == "Plan vs actual" and c.column == 5) or \
                         (m is not None and (w.title, c.column) in m.get("pct_cols", ()))   # podiel → board vidí %
                     c.number_format = "0.0%" if pct else "#,##0.00"
         for col in w.columns:
             width = max((len(str(c.value)) for c in col if c.value is not None), default=8)
             w.column_dimensions[col[0].column_letter].width = min(max(width + 2, 10), 90)
-    wb.save(out / "prehlad.xlsx")
+    wb.save(out / "overview.xlsx")
     (out / "report.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     return expected, texts, headers
 
@@ -653,45 +653,45 @@ def _write_pack_sheets(wb, profile: dict, m: dict, expected: dict, headers: dict
                 expected[(name, r[0], col)] = v if isinstance(v, str) else float(v)
 
     bp = pk["rows"]
-    head = ["Riadok", "YTD skutočnosť", "YTD plán", "Rozdiel voči plánu", "YTD minulý rok",
-            "Rozdiel voči minulému roku", "Odhad roka", "Plán roka", "Odhad − plán roka", "Minulý rok celý"]
+    head = ["Line", "Actual YTD", "Plan YTD", "Variance vs plan", "Last year YTD",
+            "Variance vs last year", "Full-year forecast", "Full-year plan", "Forecast − plan", "Last year full"]
     sheet("Board pack", head, [
         [r, x["ytd_act"], x["ytd_plan"], x["ytd_act"] - x["ytd_plan"], x["ytd_ly"], x["ytd_act"] - x["ytd_ly"],
          x["fy_est"], x["fy_plan"], x["fy_est"] - x["fy_plan"], x["fy_ly"]]
-        for r in profile["pl_rows"] for x in [bp[("Spolu", r)]]])
-    shops = m["shops"] + ["Spolu"]
-    sheet("Odhad roka", ["Riadok"] + shops, [[r] + [bp[(s, r)]["fy_est"] for s in shops] for r in profile["pl_rows"]])
-    sheet("Odchýlky", ["Stredisko · riadok", "YTD skutočnosť", "YTD plán", "Vplyv na EBITDA voči plánu",
-                       "Vplyv voči minulému roku", "Príčina"],
+        for r in profile["pl_rows"] for x in [bp[("Total", r)]]])
+    shops = m["shops"] + ["Total"]
+    sheet("Full-year forecast", ["Line"] + shops, [[r] + [bp[(s, r)]["fy_est"] for s in shops] for r in profile["pl_rows"]])
+    sheet("Variances", ["Cost centre · line", "Actual YTD", "Plan YTD", "EBITDA impact vs plan",
+                        "Impact vs last year", "Cause"],
           [[f"{v['shop']} · {v['row']}", v["act"], v["plan"], v["d_plan"], v["d_ly"], v["cause"]] for v in pk["variance"]])
-    sheet("Riziká a príležitosti", ["Kľúč", "Typ", "Vplyv na EBITDA", "Popis"],       # kľúč = stabilné meno (zmluva)
+    sheet("Risks and opportunities", ["Key", "Type", "EBITDA impact", "Description"],       # kľúč = stabilné meno (zmluva)
           [[x["key"], x["kind"], x["number"], x["text"]] for x in pk["ro"]])
-    sheet("Komentáre", ["Kľúč", "Číslo", "Komentár stroja", "Komentár kontrolóra", "Platný komentár", "Stav"],
+    sheet("Comments", ["Key", "Number", "Machine comment", "Controller comment", "Valid comment", "Status"],
           [[c["key"], c["number"], c["auto"], c["kontrolor"], c["final"], c["status"]] for c in pk["comments"]])
 
 
 def write_comment_template(out: Path, pack: dict) -> None:
-    """Šablóna pre kontrolóra: prepíše stĺpec „Komentár kontrolóra" a uloží ako profiles/<firma>/komentare.xlsx (vstup motora)."""
+    """Šablóna pre kontrolóra: prepíše stĺpec „Komentár kontrolóra" a uloží ako profiles/<firma>/comments.xlsx (vstup motora)."""
     from openpyxl import Workbook
     wb = Workbook()
     wb.properties.created = wb.properties.modified = dt.datetime(2026, 1, 1)
     ws = wb.active
-    ws.title = "Komentáre"
-    ws.append(["Kľúč", "Číslo pri písaní", "Komentár kontrolóra", "Komentár stroja (pre porovnanie)"])
+    ws.title = "Comments"
+    ws.append(["Key", "Number when written", "Controller comment", "Machine comment (for comparison)"])
     for c in pack["comments"]:
         ws.append([c["key"], round(c["number"], 2), c["kontrolor"] or None, c["auto"]])
     for col, wd in zip("ABCD", (34, 16, 90, 90)):
         ws.column_dimensions[col].width = wd
-    wb.save(out / "komentare_sablona.xlsx")
+    wb.save(out / "comments_template.xlsx")
 
 
 # ------------------------------------------------------------------ kontrolný panel + pivotka
-PANEL_LIGHT = {"PASS": "🟢 PASS", "FAIL": "🔴 FAIL", "VÝNIMKA": "🟡 VÝNIMKA"}
-PANEL_HEAD = ["Semafor", "Oblasť", "Kontrola", "Výsledok", "Nálezov", "Chybné riadky"]
-ERR_HEAD = ["#", "Kontrola", "Súbory (miesto detekcie)", "Riadok", "Nález", "Otvoriť 1", "Otvoriť 2", "Otvoriť 3"]
-PANEL_FOOTNOTE = ("Nad hotovým súborom bežia ešte xlsx_readback, control_panel_readback a pivot_pl_match — ich FAIL súbory zmaže;"
-                  " tento súbor existuje = prešli (výsledok na obrazovke behu a v logu).")
-SRC_HEAD = ["Zdroj", "Súbory očakávané", "Súbory prišli", "Riadky načítané", "Nečitateľné riadky", "Semafor"]
+PANEL_LIGHT = {"PASS": "🟢 PASS", "FAIL": "🔴 FAIL", "EXCEPTION": "🟡 EXCEPTION"}
+PANEL_HEAD = ["Status", "Area", "Check", "Result", "Findings", "Failed rows"]
+ERR_HEAD = ["#", "Check", "Files (where detected)", "Row", "Finding", "Open 1", "Open 2", "Open 3"]
+PANEL_FOOTNOTE = ("On the finished file xlsx_readback, control_panel_readback and pivot_pl_match also run — their FAIL deletes the files;"
+                  " this file exists = they passed (result on the run screen and in the log).")
+SRC_HEAD = ["Source", "Files expected", "Files received", "Rows read", "Unreadable rows", "Status"]
 _ERR_RE = re.compile(r"([A-Za-z0-9_\-]+\.(?:csv|xlsx))(?:\s+r(\d+))?")
 
 
@@ -737,7 +737,7 @@ def panel_model(con, profile: dict, inp: Path, out: Path, results: list, lines: 
     st = {}
     for s, cid, d in lines:
         cur = st.get(cid)
-        st[cid] = (s, d) if cur is None or (s == "FAIL") or (s == "VÝNIMKA" and cur[0] == "PASS") else cur
+        st[cid] = (s, d) if cur is None or (s == "FAIL") or (s == "EXCEPTION" and cur[0] == "PASS") else cur
     items_of = {cid: (items or ([detail] if not ok else [])) for cid, ok, detail, items in results}
     rows, err, ungrouped = [], [], []
     files = {p.name for p in Path(inp).iterdir() if p.is_file()} if Path(inp).is_dir() else set()
@@ -774,8 +774,8 @@ def _write_panel_sheets(wb, profile: dict, verdict: str, panel: dict) -> None:
     """Hárky Kontrolný panel (semafor po skupinách + zdroje) a Chybné riadky (preklik sem z panelu, odtiaľ na súbor)."""
     from openpyxl.styles import Font, PatternFill
     from openpyxl.worksheet.hyperlink import Hyperlink
-    w = wb.create_sheet("Kontrolný panel")
-    e = wb.create_sheet("Chybné riadky")
+    w = wb.create_sheet("Control panel")
+    e = wb.create_sheet("Failed rows")
     e.append(ERR_HEAD)
     first_row = {}
     for i, x in enumerate(panel["err"], start=1):
@@ -785,27 +785,27 @@ def _write_panel_sheets(wb, profile: dict, verdict: str, panel: dict) -> None:
             e.cell(e.max_row, 6 + k).hyperlink = h
             e.cell(e.max_row, 6 + k).font = Font(color="0563C1", underline="single")
     if not panel["err"]:
-        e.append([None, None, None, None, "žiadne nálezy — všetky kontroly prešli"])
-    w.append(["Kontrolný panel", profile["company"], f"stav k {profile['period']['as_of']}", f"Verdikt: {verdict}"])
+        e.append([None, None, None, None, "no findings — all checks passed"])
+    w.append(["Control panel", profile["company"], f"as of {profile['period']['as_of']}", f"Verdict: {verdict}"])
     w.append([])
     w.append(PANEL_HEAD)
-    fill = {"PASS": "C6EFCE", "FAIL": "FFC7CE", "VÝNIMKA": "FFEB9C"}
+    fill = {"PASS": "C6EFCE", "FAIL": "FFC7CE", "EXCEPTION": "FFEB9C"}
     last = None
     for r in panel["rows"]:
         if r["group"] != last:
             w.append([None, r["group"]])
             w.cell(w.max_row, 2).font = Font(bold=True)
             last = r["group"]
-        w.append([r["light"], r["group"], r["cid"], r["detail"], r["n"], "→ chybné riadky" if r["n"] else None])
+        w.append([r["light"], r["group"], r["cid"], r["detail"], r["n"], "→ failed rows" if r["n"] else None])
         w.cell(w.max_row, 1).fill = PatternFill("solid", fgColor=fill[r["status"]])
         if r["n"]:
             c = w.cell(w.max_row, 6)
-            c.hyperlink = Hyperlink(ref=c.coordinate, location=f"'Chybné riadky'!A{first_row[r['cid']]}")
+            c.hyperlink = Hyperlink(ref=c.coordinate, location=f"'Failed rows'!A{first_row[r['cid']]}")
             c.font = Font(color="0563C1", underline="single")
     w.append([])
     w.append([PANEL_FOOTNOTE])
     w.append([])
-    w.append(["Vstupy — čo prišlo"])
+    w.append(["Inputs — what arrived"])
     w.cell(w.max_row, 1).font = Font(bold=True)
     w.append(SRC_HEAD)
     for s in panel["sources"]:
@@ -813,7 +813,7 @@ def _write_panel_sheets(wb, profile: dict, verdict: str, panel: dict) -> None:
         w.cell(w.max_row, 6).fill = PatternFill("solid", fgColor=fill["PASS" if s["light"] == PANEL_LIGHT["PASS"] else "FAIL"])
     if panel["ungrouped"]:
         w.append([])
-        w.append(["⚠ kontroly bez skupiny v profile (panel ich nezobrazuje):", ", ".join(panel["ungrouped"])])
+        w.append(["⚠ checks without a group in the profile (the panel does not show them):", ", ".join(panel["ungrouped"])])
     for col, wd in zip("ABCDEF", (12, 28, 26, 100, 10, 18)):
         w.column_dimensions[col].width = wd
     for col, wd in zip("ABCDEFGH", (6, 24, 44, 8, 110, 26, 26, 26)):
@@ -821,45 +821,45 @@ def _write_panel_sheets(wb, profile: dict, verdict: str, panel: dict) -> None:
 
 
 PIVOT_NOTE = [
-    ["Pivotka — plochá tabuľka faktov pre kontingenčnú tabuľku"],
-    ["Hárok Fakty je tabuľka Excelu s menom Fakty: jeden riadok = mesiac × stredisko × účet × druh (skutočnosť / plán)."],
-    ["Kontingenčná tabuľka: klikni do tabuľky Fakty → Vložiť → Kontingenčná tabuľka → riadky: Riadok výsledovky,"
-     " stĺpce: Mesiac, hodnoty: Suma (€), filter: Druh."],
-    ["Znamienko ako vo výsledovke: výnosy +, náklady −. Skutočnosť = účtovný denník, plán = súbor plánu;"
-     " prevodník účet → riadok je ten istý (profil)."],
-    ["Hárky Pivot skutočnosť a Pivot plán sú tie isté fakty zoskupené strojom (riadok × mesiac bežného roka),"
-     " aby bolo s čím porovnať tvoju kontingenčnú tabuľku."],
-    ["Natívnu kontingenčnú tabuľku stroj nevyrába — vložíš si ju 2 klikmi z tabuľky Fakty."],
+    ["Pivot — a flat table of facts for a pivot table"],
+    ["The Facts sheet is an Excel table named Facts: one row = month × cost centre × account × kind (actual / plan)."],
+    ["Pivot table: click into the Facts table → Insert → PivotTable → rows: P&L line,"
+     " columns: Month, values: Amount (€), filter: Kind."],
+    ["Sign as in the P&L: income +, costs −. Actual = the journal, plan = the plan file;"
+     " the account → line mapping is the same (profile)."],
+    ["The Pivot actual and Pivot plan sheets are the same facts grouped by the machine (line × month of the current year),"
+     " so that you have something to compare your pivot table with."],
+    ["The machine does not build a native pivot table — you insert it in 2 clicks from the Facts table."],
 ]
 
 
 def write_pivot(out: Path, profile: dict, m: dict) -> tuple:
-    """pivotka.xlsx: Fakty (tabuľka Excelu) + Pivot skutočnosť / Pivot plán (riadok výsledovky × mesiac bežného roka,
+    """pivot.xlsx: Fakty (tabuľka Excelu) + Pivot skutočnosť / Pivot plán (riadok výsledovky × mesiac bežného roka,
     medzisúčty z profilu) + Návod. Vráti (očakávania pre spätné načítanie, hlavičky)."""
     from openpyxl import Workbook
     from openpyxl.worksheet.table import Table, TableStyleInfo
     wb = Workbook()
     wb.properties.created = wb.properties.modified = dt.datetime(2026, 1, 1)
     ws = wb.active
-    ws.title = "Fakty"
-    head = ["Kľúč", "Druh", "Mesiac", "Rok", "Kód strediska", "Stredisko", "Účet", "Názov účtu", "Riadok výsledovky",
-            "Suma (€)", "Zápisov"]
+    ws.title = "Facts"
+    head = ["Key", "Kind", "Month", "Year", "Cost centre code", "Cost centre", "Account", "Account name", "P&L line",
+            "Amount (€)", "Postings"]
     ws.append(head)
-    expected, headers = {}, {"Fakty": head}
+    expected, headers = {}, {"Facts": head}
     for kind, ym, cc, shop, acc, name, row, amount, n in m["facts"]:
         key = f"{kind} {ym} {cc} {acc}"
         ws.append([key, kind, ym, int(ym[:4]), cc, shop, acc, name, row, round(amount, 2), int(n)])
         for col, v in zip(head[1:], (kind, ym, int(ym[:4]), cc, shop, acc, name, row, amount, int(n))):
-            expected[("Fakty", key, col)] = v if isinstance(v, str) else float(v)
-    ws.add_table(Table(displayName="Fakty", ref=f"A1:{chr(64 + len(head))}{ws.max_row}",
+            expected[("Facts", key, col)] = v if isinstance(v, str) else float(v)
+    ws.add_table(Table(displayName="Facts", ref=f"A1:{chr(64 + len(head))}{ws.max_row}",
                        tableStyleInfo=TableStyleInfo(name="TableStyleMedium2", showRowStripes=True)))
     y2, am = m["y2"], int(m["as_of"][5:])
     base = [r for r in profile["pl_rows"] if r not in profile["pl_subtotals"]]
-    for title, kind, months in (("Pivot skutočnosť", "skutočnosť", range(1, am + 1)), ("Pivot plán", "plán", range(1, 13))):
+    for title, kind, months in (("Pivot actual", "actual", range(1, am + 1)), ("Pivot plan", "plan", range(1, 13))):
         w = wb.create_sheet(title)
         cols = [f"{y2}-{mo:02d}" for mo in months]
-        w.append(["Riadok"] + cols + ["Spolu"])
-        headers[title] = ["Riadok"] + cols + ["Spolu"]
+        w.append(["Line"] + cols + ["Total"])
+        headers[title] = ["Line"] + cols + ["Total"]
         t = {(r, c): 0.0 for r in base for c in cols}
         for k, ym, _, _, _, _, row, amount, _ in m["facts"]:
             if k == kind and (row, ym) in t:
@@ -870,9 +870,9 @@ def write_pivot(out: Path, profile: dict, m: dict) -> tuple:
         for r in profile["pl_rows"]:
             vals = [t[(r, c)] for c in cols]
             w.append([r] + [round(v, 2) for v in vals] + [round(sum(vals), 2)])
-            for c, v in zip(cols + ["Spolu"], vals + [sum(vals)]):
+            for c, v in zip(cols + ["Total"], vals + [sum(vals)]):
                 expected[(title, r, c)] = v
-    n = wb.create_sheet("Návod")
+    n = wb.create_sheet("Guide")
     for line in PIVOT_NOTE:
         n.append(line)
     n.column_dimensions["A"].width = 120
@@ -881,11 +881,11 @@ def write_pivot(out: Path, profile: dict, m: dict) -> tuple:
             for c in row:
                 if isinstance(c.value, float):
                     c.number_format = "#,##0.00"
-        if w.title != "Návod":
+        if w.title != "Guide":
             for col in w.columns:
                 width = max((len(str(c.value)) for c in col if c.value is not None), default=8)
                 w.column_dimensions[col[0].column_letter].width = min(max(width + 2, 10), 40)
-    wb.save(out / "pivotka.xlsx")
+    wb.save(out / "pivot.xlsx")
     return expected, headers
 
 
@@ -898,8 +898,8 @@ def write_pivot(out: Path, profile: dict, m: dict) -> tuple:
 def _retail_checks():
     def pl_ct(c, p, x):
         m = x["m"]
-        return (c, {k: m["ytd"][("Spolu", k)] for k in p["control_totals"]}, p["control_totals"],
-                m["y2"], m["as_of"], 0.01, tuple(["Tržby"] + list(p["pl_subtotals"])),
+        return (c, {k: m["ytd"][("Total", k)] for k in p["control_totals"]}, p["control_totals"],
+                m["y2"], m["as_of"], 0.01, tuple(["Revenue"] + list(p["pl_subtotals"])),
                 x.setdefault("pl_ct_full", []))
     return {
         "inputs_contract": ("pre", lambda c, p, x: (x["files"], expected_files(p), tuple(x["header_issues"]))),
@@ -930,14 +930,14 @@ def build_marts_full(con, profile: dict) -> dict:
     m["results"].update({
         "pl_y1_by_row": {r: t[r] for r in profile["pl_rows"]},
         "ytd_ebitda_by_cc": {s: m["ytd"][(s, "EBITDA")] for s in m["shops"]},
-        "ytd_net_profit": m["ytd"][("Spolu", "Čistý zisk")],
-        "rows": {"pokladna_riadky": q("SELECT count(*) FROM stg_pos"), "dennik_riadky": q("SELECT count(*) FROM stg_journal"),
-                 "faktury": q("SELECT count(*) FROM stg_invoices"), "banka_riadky": q("SELECT count(*) FROM stg_bank"),
-                 "mzdy_riadky": q("SELECT count(*) FROM stg_payroll"), "sklad_pohyby": q("SELECT count(*) FROM stg_stock_moves")},
+        "ytd_net_profit": m["ytd"][("Total", "Net profit")],
+        "rows": {"pos_rows": q("SELECT count(*) FROM stg_pos"), "journal_rows": q("SELECT count(*) FROM stg_journal"),
+                 "invoices": q("SELECT count(*) FROM stg_invoices"), "bank_rows": q("SELECT count(*) FROM stg_bank"),
+                 "payroll_rows": q("SELECT count(*) FROM stg_payroll"), "stock_moves": q("SELECT count(*) FROM stg_stock_moves")},
     })
     if profile.get("board_pack"):   # čísla board packu zo SQL (40_boardpack.sql) — do etalónu a výstupu
         bp = _bp.rows_of(con)
-        m["results"].update({f"{k}_by_row": {r: bp[("Spolu", r)][src] for r in profile["pl_rows"]}
+        m["results"].update({f"{k}_by_row": {r: bp[("Total", r)][src] for r in profile["pl_rows"]}
                              for k, src in (("ytd_plan", "ytd_plan"), ("fy_plan", "fy_plan"), ("fy_est", "fy_est"))})
         bpc = profile["board_pack"]
         var = {f"{s} · {r}": d for s, r, d in con.execute(
@@ -957,7 +957,7 @@ def build_marts_full(con, profile: dict) -> dict:
     if profile.get("pivot"):        # pivotka: fakty z martu mart_facts (50_pivot.sql) — len čítané, nie počítané tu
         m["facts"] = [tuple(r) for r in con.execute(
             "SELECT kind, ym, cc, shop, account, account_name, row, CAST(amount AS DOUBLE), postings "
-            "FROM mart_facts ORDER BY kind, ym, cc, account").fetchall()]
+            "FROM mart_facts ORDER BY kind DESC, ym, cc, account").fetchall()]   # plan pred actual — poradie riadkov ako doteraz
     return m
 
 
@@ -1050,10 +1050,10 @@ def _contract_state(profile_dir: Path, profile: dict, inp: Path):
             if name.endswith(".py"):
                 f = (ROOT / name).resolve()
                 if f.parent != (ROOT / "tools").resolve():      # kód kotvy len z tools/ repa
-                    raise ValueError(f"skript kotvy mimo tools/: {name}")
+                    raise ValueError(f"anchor script outside tools/: {name}")
                 bad_imp = anchor_imports_forbidden(f)
                 if bad_imp:                                      # kotva, ktorá počíta kódom motora, nie je kotva
-                    raise ValueError(f"skript kotvy importuje kód motora alebo DuckDB: {', '.join(bad_imp)}")
+                    raise ValueError(f"anchor script imports engine code or DuckDB: {', '.join(bad_imp)}")
                 import importlib.util
                 spec = importlib.util.spec_from_file_location("zl_anchor_live", f)
                 mod = importlib.util.module_from_spec(spec)
@@ -1063,7 +1063,7 @@ def _contract_state(profile_dir: Path, profile: dict, inp: Path):
                 f = profile_dir / name
                 anchors[name] = json.loads(f.read_text(encoding="utf-8")) if f.is_file() else None
         except Exception as e:  # noqa: BLE001 — kotva, ktorá sa nedá spočítať = neplatná, menovite
-            print(f"   · kotva {name} sa nedala získať: {type(e).__name__}: {e}")
+            print(f"   · anchor {name} could not be obtained: {type(e).__name__}: {e}")
             anchors[name] = None
     return c, anchors
 
@@ -1085,7 +1085,7 @@ def persist_run(con, profile: dict, verdict: str, lines: list, note: str, m: dic
                 panel: dict | None = None) -> None:
     """Do DB behu zapíše to, čo nie je v SQL martoch: verdikt a protokol kontrol (run_meta, check_results), zistenia boardu,
     riziká a komentáre board packu (Python) — Evidence číta len DB. Pri NESEDÍ ostávajú marty v DB (SQL vrstva je viditeľná),
-    ale Evidence podľa run_meta.verdict čísla boardu nezobrazí — rovnaké pravidlo ako prehlad.xlsx."""
+    ale Evidence podľa run_meta.verdict čísla boardu nezobrazí — rovnaké pravidlo ako overview.xlsx."""
     con.execute("CREATE OR REPLACE TABLE run_meta AS SELECT ?::VARCHAR AS company, ?::VARCHAR AS as_of, ?::VARCHAR AS verdict, "
                 "?::VARCHAR AS contract_note, ?::VARCHAR AS model, ?::VARCHAR AS git_commit, now()::VARCHAR AS run_at",
                 [profile["company"], profile["period"]["as_of"], verdict, note, profile["model"], _git_head()])
@@ -1149,22 +1149,22 @@ def run(profile_dir: Path, inp: Path, out: Path, truth_path: Path | None = None,
         db.parent.mkdir(parents=True, exist_ok=True)
         for f in (db, Path(str(db) + ".wal")):
             f.unlink(missing_ok=True)
-    for f in ("prehlad.xlsx", "report.md", "komentare_sablona.xlsx", "pivotka.xlsx"):   # starý výstup nikdy neprežije beh
+    for f in ("overview.xlsx", "report.md", "comments_template.xlsx", "pivot.xlsx"):   # starý výstup nikdy neprežije beh
         (out / f).unlink(missing_ok=True)
     pf = profile_dir / "profile.json"
     if not pf.is_file() or not inp.is_dir():
-        print(f"ENGINE: STOP — chýba profil ({pf}) alebo dodávka ({inp}), beh KONČÍ")
+        print(f"ENGINE: STOP — profile ({pf}) or delivery ({inp}) is missing, the run ENDS")
         return 2
     profile = json.loads(pf.read_text(encoding="utf-8"))
     ok, detail, items = CHECKS["profile_contract"](profile, {k: (list(v["checks"]), v["required"])
                                                             for k, v in MODELS.items()})
     print(f"[{'PASS' if ok else 'FAIL'}] profile_contract — {detail}")
     if not ok:
-        print("ENGINE: STOP — profil porušil kontrakt motora, beh KONČÍ (VERDIKT: NESEDÍ)")
+        print("ENGINE: STOP — the profile broke the engine contract, the run ENDS (VERDICT: DOES NOT TIE)")
         return 1
     model = MODELS[profile["model"]]
     exc = json.loads((profile_dir / profile["exceptions"]).read_text(encoding="utf-8"))["exceptions"]
-    print(f"== profilový motor — {profile['company']} · model {profile['model']} · dodávka {inp.name} ==")
+    print(f"== profile-driven engine — {profile['company']} · model {profile['model']} · delivery {inp.name} ==")
     con = duckdb.connect(str(db)) if db is not None else duckdb.connect()
     ctx = {"files": sorted(p.name for p in inp.iterdir() if p.is_file() and not p.name.startswith(".")),
            "months": months_of(profile["period"])}
@@ -1200,47 +1200,47 @@ def run(profile_dir: Path, inp: Path, out: Path, truth_path: Path | None = None,
     if verdict != VERDICTS[2] and profile.get("board_pack"):   # board pack len pri SEDÍ (čísla sa inak nevydajú)
         m["pack"] = _bp.build(con, profile, profile_dir, findings, m["bp_ro"])
         for w_ in m["pack"]["comment_warnings"]:
-            print(f"[KOMENTÁR] {w_}")
+            print(f"[COMMENT] {w_}")
     contract = json.loads((profile_dir / profile["contract"]).read_text(encoding="utf-8")) \
         if profile.get("contract") else None
-    note = ("žiadna — report nie je určený na odoslanie (profil nemá zmluvu)" if contract is None
-            else "overuje sa" if verdict == VERDICTS[0] else f"ODOSLANIE ZAMIETNUTÉ — verdikt {verdict}")
+    note = ("none — the report is not meant for release (the profile has no contract)" if contract is None
+            else "being verified" if verdict == VERDICTS[0] else f"RELEASE REFUSED — verdict {verdict}")
 
     def emit(verdict, lines, note, quiet=False):
         panel = panel_model(con, profile, inp, out, results, lines, verdict) if profile.get("control_panel") else None
         ctx["panel"] = panel
         exp, texts, heads = write_outputs(out, profile, verdict, lines, m if verdict != VERDICTS[2] else None,
                                           findings, truth_used, model["outside"](con, profile), note, panel)
-        ok, detail, _ = CHECKS["xlsx_readback"](out / "prehlad.xlsx", exp, texts, expected_headers=heads)
+        ok, detail, _ = CHECKS["xlsx_readback"](out / "overview.xlsx", exp, texts, expected_headers=heads)
         if not quiet or not ok:
             print(f"[{'PASS' if ok else 'FAIL'}] xlsx_readback — {detail}")
         if ok and panel is not None:      # panel z HOTOVÉHO súboru = protokol kontrol; kontrola bez skupiny = FAIL
-            ok, detail, _ = CHECKS["control_panel_readback"](out / "prehlad.xlsx", panel, results)
+            ok, detail, _ = CHECKS["control_panel_readback"](out / "overview.xlsx", panel, results)
             if not quiet or not ok:
                 print(f"[{'PASS' if ok else 'FAIL'}] control_panel_readback — {detail}")
-        (out / "pivotka.xlsx").unlink(missing_ok=True)
+        (out / "pivot.xlsx").unlink(missing_ok=True)
         if ok and verdict != VERDICTS[2] and profile.get("pivot") and "facts" in m:   # pivotka len pri vydaných číslach
             exp_p, heads_p = write_pivot(out, profile, m)
-            ok, detail, _ = CHECKS["xlsx_readback"](out / "pivotka.xlsx", exp_p, None, unchecked_sheets=("Návod",),
+            ok, detail, _ = CHECKS["xlsx_readback"](out / "pivot.xlsx", exp_p, None, unchecked_sheets=("Guide",),
                                                    expected_headers=heads_p, main_sheet=None)
             if not quiet or not ok:
-                print(f"[{'PASS' if ok else 'FAIL'}] xlsx_readback — pivotka: {detail}")
+                print(f"[{'PASS' if ok else 'FAIL'}] xlsx_readback — pivot: {detail}")
             if ok:
-                ok, detail, _ = CHECKS["pivot_pl_match"](out / "pivotka.xlsx", m["ytd"], m.get("bp_rows"), profile)
+                ok, detail, _ = CHECKS["pivot_pl_match"](out / "pivot.xlsx", m["ytd"], m.get("bp_rows"), profile)
                 if not quiet or not ok:
                     print(f"[{'PASS' if ok else 'FAIL'}] pivot_pl_match — {detail}")
         if not ok:
-            for f in ("prehlad.xlsx", "report.md", "pivotka.xlsx"):
+            for f in ("overview.xlsx", "report.md", "pivot.xlsx"):
                 (out / f).unlink(missing_ok=True)
-            print("ENGINE: STOP — hotový výstup nesedí s výpočtom, súbory zmazané.")
+            print("ENGINE: STOP — the finished output does not tie to the calculation, files deleted.")
         if ok and verdict != VERDICTS[2] and m.get("pack"):
             write_comment_template(out, m["pack"])
         else:
-            (out / "komentare_sablona.xlsx").unlink(missing_ok=True)
+            (out / "comments_template.xlsx").unlink(missing_ok=True)
         return ok
 
     if not emit(verdict, lines, note):
-        persist_run(con, profile, VERDICTS[2], lines, "výstup zamietnutý spätným načítaním", m, panel=ctx.get("panel"))
+        persist_run(con, profile, VERDICTS[2], lines, "output rejected by the readback", m, panel=ctx.get("panel"))
         return 1
     if contract is not None and verdict == VERDICTS[0]:          # §4.1: len SEDÍ
         # zmluva reportu: čísla z HOTOVÉHO súboru vs. kotvy mimo motora
@@ -1248,38 +1248,38 @@ def run(profile_dir: Path, inp: Path, out: Path, truth_path: Path | None = None,
         rc_args = (contract, anchors, delivery_fingerprint(inp), {r[0]: r[1] for r in results},
                    _gl_detail(con, m["y2"]), profile["period"]["as_of"])
         full = []
-        if not run_check("report_contract", out / "prehlad.xlsx", *rc_args, full):
+        if not run_check("report_contract", out / "overview.xlsx", *rc_args, full):
             for it in full:                           # plné hodnoty len na obrazovku, nie do súboru
                 print(f"   · {it}")
             verdict, lines = apply_exceptions(results, exc, profile["period"]["as_of"])
             findings = []
             m.pop("pack", None)             # zmluva nesplnená → board pack sa nevydá (ako zistenia)
-            if not emit(verdict, lines, "ODOSLANIE ZAMIETNUTÉ — zmluva reportu nesplnená (pozri Kontroly)"):
+            if not emit(verdict, lines, "RELEASE REFUSED — report contract not met (see Checks)"):
                 return 1
-            print(f"VERDIKT: {verdict} — zmluva reportu nesplnená, vydaný len protokol ({out / 'prehlad.xlsx'})")
-            persist_run(con, profile, verdict, lines, "ODOSLANIE ZAMIETNUTÉ — zmluva reportu nesplnená", m, panel=ctx.get("panel"))
+            print(f"VERDICT: {verdict} — report contract not met, only the check log was issued ({out / 'overview.xlsx'})")
+            persist_run(con, profile, verdict, lines, "RELEASE REFUSED — report contract not met", m, panel=ctx.get("panel"))
             return 1
         verdict, lines = apply_exceptions(results, exc, profile["period"]["as_of"])
         sig = contract.get("signed") or {}
         if sig and sig.get("sha256") == contract_signature(profile_dir, contract):
-            note = f"ODOSLANIE POVOLENÉ — {results[-1][2]} · zmluvu podpísal {sig.get('by')} {sig.get('date')}"
+            note = f"RELEASE ALLOWED — {results[-1][2]} · contract signed by {sig.get('by')} {sig.get('date')}"
         elif sig:
-            note = (f"PODPIS NEPLATNÝ — zmluva alebo kotvy sa po podpise zmenili; ODOSLANIE AŽ PO NOVOM PODPISE KONTROLÓRA"
+            note = (f"SIGNATURE INVALID — the contract or the anchors changed after signing; RELEASE ONLY AFTER A NEW CONTROLLER SIGNATURE"
                     f" — {results[-1][2]}")
         else:
-            note = f"ZMLUVA SPLNENÁ, ODOSLANIE AŽ PO PODPISE KONTROLÓRA — {results[-1][2]}"
+            note = f"CONTRACT MET, RELEASE ONLY AFTER THE CONTROLLER SIGNS — {results[-1][2]}"
         if not emit(verdict, lines, note, quiet=True):
             return 1
-        ok, detail, _ = CHECKS["report_contract"](out / "prehlad.xlsx", *rc_args)   # finálny súbor znova
+        ok, detail, _ = CHECKS["report_contract"](out / "overview.xlsx", *rc_args)   # finálny súbor znova
         if not ok:
-            for f in ("prehlad.xlsx", "report.md", "pivotka.xlsx"):
+            for f in ("overview.xlsx", "report.md", "pivot.xlsx"):
                 (out / f).unlink(missing_ok=True)
-            print(f"ENGINE: STOP — finálny výstup porušil zmluvu ({detail}); súbory zmazané.")
+            print(f"ENGINE: STOP — the final output broke the contract ({detail}); files deleted.")
             return 1
-    print(f"ZMLUVA: {note}")
+    print(f"CONTRACT: {note}")
     for f in findings:
         print(f"[BOARD] {f['text']}")
-    print(f"VERDIKT: {verdict} — výstup {out / 'prehlad.xlsx'}")
+    print(f"VERDICT: {verdict} — output {out / 'overview.xlsx'}")
     persist_run(con, profile, verdict, lines, note, m, findings, panel=ctx.get("panel"))
     return 1 if verdict == VERDICTS[2] else 0
 
@@ -1290,16 +1290,16 @@ def main() -> int:
     ap.add_argument("--input", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--truth")
-    ap.add_argument("--db", help="súbor DuckDB s vrstvami raw/stg/core/mart (viditeľná SQL vrstva, stavia sa nanovo)")
+    ap.add_argument("--db", help="DuckDB file with the raw/stg/core/mart layers (visible SQL layer, rebuilt on every run)")
     a = ap.parse_args()
     try:
         return run(Path(a.profile), Path(a.input), Path(a.out), Path(a.truth) if a.truth else None,
                    Path(a.db) if a.db else None)
     except Exception as e:  # noqa: BLE001 — výnimka = menovitý STOP, nie traceback bez verdiktu
         out = Path(a.out)
-        for f in ("prehlad.xlsx", "report.md", "pivotka.xlsx"):
+        for f in ("overview.xlsx", "report.md", "pivot.xlsx"):
             (out / f).unlink(missing_ok=True)
-        print(f"ENGINE: STOP — výnimka v behu ({type(e).__name__}: {e}); výstup zmazaný, VERDIKT: NESEDÍ")
+        print(f"ENGINE: STOP — exception during the run ({type(e).__name__}: {e}); output deleted, VERDICT: DOES NOT TIE")
         return 1
 
 

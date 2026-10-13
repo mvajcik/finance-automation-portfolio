@@ -1,10 +1,10 @@
 {
   "_meta": {
-    "anchor": "A — generátor (interné dáta, nezávislé od motora)",
-    "contract": "profiles/papiernictvo2/zmluva.json",
-    "delivery": "cisty",
+    "anchor": "A — generator (internal data, independent of the engine)",
+    "contract": "profiles/papiernictvo2/contract.json",
+    "delivery": "clean",
     "as_of": "2026-09",
-    "delivery_sha256": "6e8ce2d6ba43fd6bf75c4df7d7699b2693ba16c5993830451c87c3e2d8ac9686"
+    "delivery_sha256": "7d814b0a17114bea33a9affc22bbef9336b5a5cca8bd5be7ff8ab7474a473ac4"
   },
   "values": {
     "P01": 1496289.32,

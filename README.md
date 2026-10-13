@@ -47,12 +47,11 @@ ledger, the bank statement and the payroll tape, to the cent:
 ## Reporting pipeline in two pictures
 
 Nine kinds of source files, 21 months, about 380,000 rows for a fictional stationery
-chain. When every check passes, the board pack is issued (labels are in Slovak:
-*Tržby* = revenue, *Odhad roka* = full-year forecast):
+chain. When every check passes, the board pack is issued:
 
 ![Board pack](docs/img/pipeline-board-pack.png)
 
-**See the output:** one-page management summary [in English](examples/reporting-pipeline/management-summary-en.pdf) / [po slovensky](examples/reporting-pipeline/management-summary-sk.pdf) · full detail: [board-pack.pdf](examples/reporting-pipeline/board-pack.pdf) · [board-pack.xlsx](examples/reporting-pipeline/board-pack.xlsx)
+**See the output:** [one-page management summary](examples/reporting-pipeline/management-summary.pdf) · full detail: [board-pack.pdf](examples/reporting-pipeline/board-pack.pdf) · [board-pack.xlsx](examples/reporting-pipeline/board-pack.xlsx)
 
 When the delivery contains errors (here 7 were planted on purpose), there is no
 board pack. Instead, the control panel names each failed reconciliation, the
@@ -60,7 +59,7 @@ file, the row and the amount:
 
 ![Control panel with caught errors](docs/img/pipeline-control-panel.png)
 
-**See the output:** one page on what failed and where [in English](examples/reporting-pipeline/errors-summary-en.pdf) / [po slovensky](examples/reporting-pipeline/errors-summary-sk.pdf) · full detail: [control-panel-with-errors.pdf](examples/reporting-pipeline/control-panel-with-errors.pdf) · all example files: [`examples/`](examples/)
+**See the output:** [one page on what failed and where](examples/reporting-pipeline/errors-summary.pdf) · full detail: [control-panel-with-errors.pdf](examples/reporting-pipeline/control-panel-with-errors.pdf) · all example files: [`examples/`](examples/)
 
 ## Try it
 
@@ -121,16 +120,16 @@ tool. It takes about a minute. The lines that matter:
 
 ```text
 TOOLKIT: 4/4 tools PASS, every live tamper caught
-   kontroly PASS: 29, FAIL: 0
-   VERDIKT: SEDÍ — výstup exports/papiernictvo2/prehlad.xlsx
-   kontroly FAIL: 13
-   VERDIKT: NESEDÍ — výstup exports/papiernictvo2_chyby/prehlad.xlsx
+   checks PASS: 29, FAIL: 0
+   VERDICT: TIES — output exports/papiernictvo2/overview.xlsx
+   checks FAIL: 13
+   VERDICT: DOES NOT TIE — output exports/papiernictvo2_errors/overview.xlsx
 ######## demo finished: every step above ended as expected ########
 ```
 
-*SEDÍ* = ties out: the clean delivery passed all 29 checks and the board pack was issued. *NESEDÍ* = does not
-tie out: the second delivery has 7 errors planted on purpose, the checks caught them and no board pack was
-issued. Both are the expected result.
+TIES: the clean delivery passed all 29 checks and the board pack was issued. DOES NOT TIE: the second delivery
+has 7 errors planted on purpose, the checks caught them and no board pack was issued. Both are the expected
+result.
 
 ### How this is tested
 
@@ -157,5 +156,6 @@ Run from the same folder:
 - IBANs in the finance ops toolkit are official example IBANs from the SWIFT IBAN
   Registry; the reporting pipeline generator uses obviously fake ones (zeros and nines).
 - Names of suppliers and employees are invented and intentionally read as fake.
-- The reporting pipeline keeps its original Slovak labels; this README and the
-  finance-ops-toolkit are in English.
+- All outputs are in English. The fictional company is Slovak, so account numbers follow the Slovak chart of
+  accounts and a few names are Slovak (*Papiernictvo* = stationery shop). Comments inside the reporting pipeline
+  code are in Slovak.

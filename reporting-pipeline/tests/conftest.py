@@ -14,6 +14,6 @@ def tmpdir(tmp_path):
 
 
 def pytest_sessionstart(session):
-    data = ROOT / "profiles" / "papiernictvo2" / "data" / "cisty"
+    data = ROOT / "profiles" / "papiernictvo2" / "data" / "clean"
     if not data.is_dir():
         subprocess.run([sys.executable, str(ROOT / "tools" / "gen_papiernictvo2.py")], check=True)

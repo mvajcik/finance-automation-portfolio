@@ -7,8 +7,8 @@ select p.ord, b.shop, b.row, p.is_subtotal,
        round(b.ytd_ly, 2) as ytd_ly, round(b.ytd_act - b.ytd_ly, 2) as d_ly,
        round(b.fy_est, 2) as fy_est, round(b.fy_plan, 2) as fy_plan, round(b.fy_est - b.fy_plan, 2) as d_fy, round(b.fy_ly, 2) as fy_ly
 from bp_rows b join pl_rows p using (row), run_meta r
-where r.verdict <> 'NESEDÍ'
-order by case when b.shop = 'Spolu' then 1 else 0 end, b.shop, p.ord
+where r.verdict <> 'DOES NOT TIE'
+order by case when b.shop = 'Total' then 1 else 0 end, b.shop, p.ord
 )
 select *, false as placeholder from q
 union all

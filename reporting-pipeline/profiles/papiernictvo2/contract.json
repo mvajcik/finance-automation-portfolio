@@ -1,0 +1,363 @@
+{
+  "_meta": {
+    "purpose": "Report contract in machine-readable form — check report_contract: 17 figures from the finished overview.xlsx must agree with two anchors outside the engine.",
+    "status": "SIGNED (demo signature) — a change to the content or to the anchors = the signature is no longer valid",
+    "anchors": "golden_generator.json = anchor A (generator, bound to the delivery and the period); tools/golden_independent_papiernictvo2.py = anchor B, computed live on the delivery"
+  },
+  "document": "profiles/papiernictvo2/CONTRACT.md",
+  "report": "overview.xlsx",
+  "tolerance": {
+    "eur": 1.0,
+    "pct_display": 0.05
+  },
+  "anchors": [
+    "golden_generator.json",
+    "tools/golden_independent_papiernictvo2.py"
+  ],
+  "points": [
+    {
+      "id": "P01",
+      "label": "Revenue — actual YTD",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "Revenue",
+        "col": "Actual YTD"
+      },
+      "source": {
+        "text": "journal_2026-01..09.csv · accounts of the line (contract §2)"
+      },
+      "checks": [
+        "pl_control_total",
+        "pos_gl_match",
+        "boardpack_consistency"
+      ],
+      "also": [
+        {
+          "sheet": "P&L YTD",
+          "row": "Revenue",
+          "col": "Total"
+        },
+        {
+          "sheet": "Overview",
+          "label": "Revenue year to date (€)"
+        }
+      ]
+    },
+    {
+      "id": "P02",
+      "label": "Revenue — plan YTD",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "Revenue",
+        "col": "Plan YTD"
+      },
+      "source": {
+        "text": "plan_2026.xlsx · months 01–09"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ]
+    },
+    {
+      "id": "P03",
+      "label": "Revenue — full-year forecast",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "Revenue",
+        "col": "Full-year forecast"
+      },
+      "source": {
+        "text": "journal 01–09 + forecast 10–12 (plan_2026.xlsx × pace 07–09)"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ],
+      "also": [
+        {
+          "sheet": "Full-year forecast",
+          "row": "Revenue",
+          "col": "Total"
+        }
+      ]
+    },
+    {
+      "id": "P04",
+      "label": "Revenue — full-year plan",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "Revenue",
+        "col": "Full-year plan"
+      },
+      "source": {
+        "text": "plan_2026.xlsx · 01–12"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ]
+    },
+    {
+      "id": "P05",
+      "label": "EBITDA — actual YTD",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "EBITDA",
+        "col": "Actual YTD"
+      },
+      "source": {
+        "text": "journal_2026-01..09.csv · accounts of the line (contract §2)"
+      },
+      "checks": [
+        "pl_control_total",
+        "boardpack_consistency"
+      ],
+      "also": [
+        {
+          "sheet": "P&L YTD",
+          "row": "EBITDA",
+          "col": "Total"
+        },
+        {
+          "sheet": "Overview",
+          "label": "EBITDA year to date (€)"
+        }
+      ]
+    },
+    {
+      "id": "P06",
+      "label": "EBITDA — plan YTD",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "EBITDA",
+        "col": "Plan YTD"
+      },
+      "source": {
+        "text": "plan_2026.xlsx · months 01–09"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ]
+    },
+    {
+      "id": "P07",
+      "label": "EBITDA — full-year forecast",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "EBITDA",
+        "col": "Full-year forecast"
+      },
+      "source": {
+        "text": "journal 01–09 + forecast 10–12 (plan_2026.xlsx × pace 07–09)"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ],
+      "also": [
+        {
+          "sheet": "Full-year forecast",
+          "row": "EBITDA",
+          "col": "Total"
+        },
+        {
+          "sheet": "Overview",
+          "label": "Full-year EBITDA forecast (€)"
+        }
+      ]
+    },
+    {
+      "id": "P08",
+      "label": "EBITDA — full-year plan",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "EBITDA",
+        "col": "Full-year plan"
+      },
+      "source": {
+        "text": "plan_2026.xlsx · 01–12"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ],
+      "also": [
+        {
+          "sheet": "Overview",
+          "label": "Full-year EBITDA plan (€)"
+        }
+      ]
+    },
+    {
+      "id": "P09",
+      "label": "Net profit — actual YTD",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "Net profit",
+        "col": "Actual YTD"
+      },
+      "source": {
+        "text": "journal_2026-01..09.csv · accounts of the line (contract §2)"
+      },
+      "checks": [
+        "pl_control_total",
+        "boardpack_consistency"
+      ],
+      "also": [
+        {
+          "sheet": "P&L YTD",
+          "row": "Net profit",
+          "col": "Total"
+        }
+      ]
+    },
+    {
+      "id": "P10",
+      "label": "Net profit — plan YTD",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "Net profit",
+        "col": "Plan YTD"
+      },
+      "source": {
+        "text": "plan_2026.xlsx · months 01–09"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ]
+    },
+    {
+      "id": "P11",
+      "label": "Net profit — full-year forecast",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "Net profit",
+        "col": "Full-year forecast"
+      },
+      "source": {
+        "text": "journal 01–09 + forecast 10–12 (plan_2026.xlsx × pace 07–09)"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ],
+      "also": [
+        {
+          "sheet": "Full-year forecast",
+          "row": "Net profit",
+          "col": "Total"
+        }
+      ]
+    },
+    {
+      "id": "P12",
+      "label": "Net profit — full-year plan",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Board pack",
+        "row": "Net profit",
+        "col": "Full-year plan"
+      },
+      "source": {
+        "text": "plan_2026.xlsx · 01–12"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ]
+    },
+    {
+      "id": "P13",
+      "label": "Largest variance: Store OC · Rent vs plan",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Variances",
+        "row": "Store OC · Rent",
+        "col": "EBITDA impact vs plan"
+      },
+      "source": {
+        "text": "journal_2026-01..09.csv · S03 · 518100 vs plan_2026.xlsx"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ]
+    },
+    {
+      "id": "P14",
+      "label": "Risk: energy — winter spike over the rest of the year",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Risks and opportunities",
+        "row": "ro|cost_spike|Energy|Q1",
+        "col": "EBITDA impact"
+      },
+      "source": {
+        "text": "journal 2025 and 2026 · 502 · plan_2026.xlsx"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ]
+    },
+    {
+      "id": "P15",
+      "label": "Forecast sensitivity: stationery — seasonal share",
+      "unit": "eur",
+      "locate": {
+        "sheet": "Risks and opportunities",
+        "row": "sensitivity|category_mix|Stationery",
+        "col": "EBITDA impact"
+      },
+      "source": {
+        "text": "pos_*.csv · category Stationery · journal (gross margin)"
+      },
+      "checks": [
+        "stg_parse_contract",
+        "pos_gl_match"
+      ]
+    },
+    {
+      "id": "P16",
+      "label": "Toys: year-on-year change in Q3",
+      "unit": "pct",
+      "locate": {
+        "sheet": "Overview",
+        "text_prefix": "Toys:",
+        "after": "Q3"
+      },
+      "source": {
+        "text": "pos_*.csv · category Toys · 07–09/2025 and 07–09/2026 · incl. VAT"
+      },
+      "checks": [
+        "stg_parse_contract",
+        "pos_gl_match"
+      ]
+    },
+    {
+      "id": "P17",
+      "label": "EBITDA — full-year forecast vs full-year plan (%, sentence in the Overview)",
+      "unit": "pct",
+      "locate": {
+        "sheet": "Overview",
+        "text_prefix": "EBITDA 2026 — forecast",
+        "after": "vs plan"
+      },
+      "source": {
+        "text": "(P07 − P08) ÷ |P08| — the full-year forecast sentence in the Overview"
+      },
+      "checks": [
+        "boardpack_consistency"
+      ]
+    }
+  ],
+  "signed": {
+    "by": "controller (demo)",
+    "date": "2026-09-27",
+    "sha256": "ddc7204c1b8afeb1fce5429410eaaead7e84a2e6074ba5267c63daa0d72e8f52",
+    "how": "fingerprint of the contract content and the anchors (tools/sign_contract.py)"
+  }
+}

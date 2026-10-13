@@ -5,4 +5,4 @@ select seq, check_id, files, line, text from panel_errors order by seq
 )
 select *, false as placeholder from q
 union all
-select 0, '—', NULL, NULL, 'žiadne nálezy — všetky kontroly prešli', true where not exists (select 1 from q)
+select 0, '—', NULL, NULL, 'no findings — all checks passed', true where not exists (select 1 from q)

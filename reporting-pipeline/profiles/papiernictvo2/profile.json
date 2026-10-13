@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "purpose": "Profil fiktívnej demo firmy (robustné vstupy, plná výsledovka) pre profilový motor, model retail_full. Načítanie a kontroly sú v motore, transformácie dát v sql/papiernictvo2/*.sql; medzisúčty výsledovky (EBITDA, EBIT …) definuje tento profil (pl_subtotals).",
-    "company": "Papiernictvo DEMO s.r.o. (fiktívna)"
+    "purpose": "Profile of the fictional demo company (robust inputs, full P&L) for the profile-driven engine, model retail_full. Loading and checks are in the engine, data transformations in sql/papiernictvo2/*.sql; the P&L subtotals (EBITDA, EBIT …) are defined by this profile (pl_subtotals).",
+    "company": "Papiernictvo DEMO s.r.o. (fictional)"
   },
   "company": "Papiernictvo DEMO s.r.o.",
   "model": "retail_full",
@@ -33,12 +33,12 @@
     "start": "2025-01",
     "months": 21,
     "as_of": "2026-09",
-    "_source": "minulý rok 2025 celý, bežný rok 2026 do septembra; odhad roka = okt–dec 2026"
+    "_source": "last year 2025 in full, current year 2026 to September; full-year forecast = Oct–Dec 2026"
   },
-  "entity_label": "strediská",
+  "entity_label": "cost centres",
   "inputs": {
     "pos": {
-      "pattern": "pokladna_{cc}_{ym}.csv",
+      "pattern": "pos_{cc}_{ym}.csv",
       "per": "month",
       "cost_centers": [
         "S01",
@@ -49,168 +49,168 @@
       "sep": ";",
       "encoding": "utf-8",
       "header": [
-        "doklad",
-        "datum_cas",
-        "pokladna",
-        "kategoria",
-        "mnozstvo",
-        "cena_j_s_dph",
-        "sadzba_dph",
-        "spolu_s_dph",
-        "platba"
+        "receipt",
+        "datetime",
+        "till",
+        "category",
+        "quantity",
+        "unit_price_incl_vat",
+        "vat_rate",
+        "total_incl_vat",
+        "payment"
       ],
       "skip_until_header": true,
-      "footer_prefix": "SPOLU"
+      "footer_prefix": "TOTAL"
     },
     "journal": {
-      "pattern": "dennik_{ym}.csv",
+      "pattern": "journal_{ym}.csv",
       "per": "month",
       "sep": ",",
       "encoding": "utf-8-sig",
       "header": [
-        "Doklad",
-        "Dátum",
-        "MD",
-        "D",
-        "Suma",
-        "Stredisko",
-        "Popis"
+        "Document",
+        "Date",
+        "Dr",
+        "Cr",
+        "Amount",
+        "Cost centre",
+        "Description"
       ]
     },
     "gl": {
-      "pattern": "predvaha_{ym}.xlsx",
+      "pattern": "trial_balance_{ym}.xlsx",
       "per": "month",
-      "sheet": "Predvaha",
+      "sheet": "Trial balance",
       "header": [
-        "Obdobie",
-        "Stredisko",
-        "Účet",
-        "Názov účtu",
-        "Obrat MD",
-        "Obrat D"
+        "Period",
+        "Cost centre",
+        "Account",
+        "Account name",
+        "Debit turnover",
+        "Credit turnover"
       ]
     },
     "invoices": {
-      "pattern": "faktury_{ym}.xlsx",
+      "pattern": "invoices_{ym}.xlsx",
       "per": "month",
-      "sheet": "Došlé faktúry",
+      "sheet": "Received invoices",
       "header": [
-        "Číslo",
-        "Dodávateľ",
-        "IČO",
-        "Dátum vystavenia",
-        "Splatnosť",
-        "Účet",
-        "Stredisko",
+        "Number",
+        "Supplier",
+        "Company ID",
+        "Issue date",
+        "Due date",
+        "Account",
+        "Cost centre",
         "Text",
-        "Základ",
-        "DPH",
-        "Spolu"
+        "Net",
+        "VAT",
+        "Total"
       ]
     },
     "payroll": {
-      "pattern": "mzdy_{ym}.csv",
+      "pattern": "payroll_{ym}.csv",
       "per": "month",
       "sep": ";",
       "encoding": "cp1250",
       "header": [
-        "os_cislo",
-        "stredisko",
-        "pozicia",
-        "hruba_mzda",
-        "odvody_zamestnavatel",
-        "odvody_zamestnanec",
-        "dan",
-        "cista_mzda"
+        "employee_no",
+        "cost_centre",
+        "position",
+        "gross_pay",
+        "employer_contributions",
+        "employee_contributions",
+        "tax",
+        "net_pay"
       ]
     },
     "bank": {
-      "pattern": "banka_{ym}.csv",
+      "pattern": "bank_{ym}.csv",
       "per": "month",
       "sep": ";",
       "encoding": "utf-8",
       "skip_until_header": true,
       "header": [
-        "Dátum",
-        "Protistrana",
-        "IBAN protistrany",
-        "VS",
-        "Suma",
-        "Mena",
-        "Popis"
+        "Date",
+        "Counterparty",
+        "Counterparty IBAN",
+        "Reference",
+        "Amount",
+        "Currency",
+        "Description"
       ],
       "meta": {
-        "opening": "Počiatočný zostatok",
-        "closing": "Konečný zostatok"
+        "opening": "Opening balance",
+        "closing": "Closing balance"
       }
     },
     "stock_moves": {
-      "pattern": "sklad_pohyby_{ym}.csv",
+      "pattern": "stock_moves_{ym}.csv",
       "per": "month",
       "sep": ";",
       "encoding": "utf-8",
       "header": [
-        "doklad",
-        "datum",
-        "typ",
-        "predajna",
-        "kategoria",
-        "hodnota_nakup"
+        "document",
+        "date",
+        "type",
+        "store",
+        "category",
+        "cost_value"
       ]
     },
     "stock_state": {
-      "pattern": "sklad_stav_{ym}.csv",
+      "pattern": "stock_levels_{ym}.csv",
       "per": "month",
       "sep": ";",
       "encoding": "utf-8",
       "header": [
-        "predajna",
-        "kategoria",
-        "pociatocny_stav",
-        "prijem",
-        "vydaj",
-        "konecny_stav"
+        "store",
+        "category",
+        "opening",
+        "received",
+        "issued",
+        "closing"
       ]
     },
     "plan": {
       "pattern": "plan_{y2}.xlsx",
       "per": "once",
-      "sheet": "Plán 2026",
+      "sheet": "Plan 2026",
       "header_first": [
-        "Účet",
-        "Stredisko"
+        "Account",
+        "Cost centre"
       ]
     },
     "dims": {
-      "pattern": "ciselniky.xlsx",
+      "pattern": "master_data.xlsx",
       "per": "once",
       "sheets": [
-        "Účty",
-        "Strediská",
-        "Kategórie",
-        "Dodávatelia"
+        "Accounts",
+        "Cost centres",
+        "Categories",
+        "Suppliers"
       ]
     }
   },
   "shops": [
     {
-      "name": "Predajňa Centrum",
+      "name": "Store Centrum",
       "cost_center": "S01"
     },
     {
-      "name": "Predajňa Sídlisko",
+      "name": "Store Sídlisko",
       "cost_center": "S02"
     },
     {
-      "name": "Predajňa OC",
+      "name": "Store OC",
       "cost_center": "S03"
     },
     {
-      "name": "Predajňa Mesto",
+      "name": "Store Mesto",
       "cost_center": "S04"
     },
     {
-      "name": "Centrála",
+      "name": "Head office",
       "cost_center": "C00"
     }
   ],
@@ -221,74 +221,74 @@
   ],
   "account_pattern": "[0-9]{3,6}",
   "pl_mapping": {
-    "604": "Tržby",
-    "504": "Náklady na predaný tovar",
-    "521": "Personál",
-    "524": "Personál",
-    "518100": "Nájom",
-    "502": "Energie",
+    "604": "Revenue",
+    "504": "Cost of goods sold",
+    "521": "Staff",
+    "524": "Staff",
+    "518100": "Rent",
+    "502": "Energy",
     "518500": "Marketing",
-    "511": "Služby",
-    "518200": "Služby",
-    "518300": "Služby",
-    "518400": "Služby",
-    "501": "Ostatné",
-    "568": "Ostatné",
-    "551": "Odpisy",
-    "562": "Úroky a finančné",
-    "591": "Daň z príjmov"
+    "511": "Services",
+    "518200": "Services",
+    "518300": "Services",
+    "518400": "Services",
+    "501": "Other",
+    "568": "Other",
+    "551": "Depreciation",
+    "562": "Interest and financial",
+    "591": "Income tax"
   },
   "pl_rows": [
-    "Tržby",
-    "Náklady na predaný tovar",
-    "Hrubá marža",
-    "Personál",
-    "Nájom",
-    "Energie",
+    "Revenue",
+    "Cost of goods sold",
+    "Gross margin",
+    "Staff",
+    "Rent",
+    "Energy",
     "Marketing",
-    "Služby",
-    "Ostatné",
+    "Services",
+    "Other",
     "EBITDA",
-    "Odpisy",
+    "Depreciation",
     "EBIT",
-    "Úroky a finančné",
-    "Zisk pred zdanením",
-    "Daň z príjmov",
-    "Čistý zisk"
+    "Interest and financial",
+    "Profit before tax",
+    "Income tax",
+    "Net profit"
   ],
   "pl_subtotals": {
-    "Hrubá marža": [
-      "Tržby",
-      "Náklady na predaný tovar"
+    "Gross margin": [
+      "Revenue",
+      "Cost of goods sold"
     ],
     "EBITDA": [
-      "Tržby",
-      "Náklady na predaný tovar",
-      "Personál",
-      "Nájom",
-      "Energie",
+      "Revenue",
+      "Cost of goods sold",
+      "Staff",
+      "Rent",
+      "Energy",
       "Marketing",
-      "Služby",
-      "Ostatné"
+      "Services",
+      "Other"
     ],
     "EBIT": [
       "EBITDA",
-      "Odpisy"
+      "Depreciation"
     ],
-    "Zisk pred zdanením": [
+    "Profit before tax": [
       "EBIT",
-      "Úroky a finančné"
+      "Interest and financial"
     ],
-    "Čistý zisk": [
-      "Zisk pred zdanením",
-      "Daň z príjmov"
+    "Net profit": [
+      "Profit before tax",
+      "Income tax"
     ]
   },
   "control_totals": {
-    "Tržby": [
+    "Revenue": [
       "60"
     ],
-    "Hrubá marža": [
+    "Gross margin": [
       "60",
       "504"
     ],
@@ -315,7 +315,7 @@
       "64",
       "551"
     ],
-    "Zisk pred zdanením": [
+    "Profit before tax": [
       "50",
       "51",
       "52",
@@ -327,12 +327,12 @@
       "58",
       "6"
     ],
-    "Čistý zisk": [
+    "Net profit": [
       "5",
       "6"
     ]
   },
-  "_control_totals_policy": "Účtová politika demo firmy: EBITDA = výnosy 60/61/64 − náklady 50–54 − poplatky za karty 568 (prevádzkové); EBIT = EBITDA − odpisy 551; zisk pred zdanením = všetky výnosy a náklady okrem dane 59; čistý zisk = triedy 5 a 6.",
+  "_control_totals_policy": "Accounting policy of the demo company: EBITDA = income 60/61/64 − costs 50–54 − card fees 568 (operating); EBIT = EBITDA − depreciation 551; profit before tax = all income and costs except tax 59; net profit = classes 5 and 6.",
   "board": {
     "ebitda_vs_revenue": {
       "min_revenue_yoy": 0.0,
@@ -345,18 +345,18 @@
       "consecutive_quarters": 3
     }
   },
-  "_board_pack": "Board pack: čísla v sql/papiernictvo2/40_boardpack.sql; odhad zvyšku roka = plán × tempo posledných N mesiacov; riziká a príležitosti = pravidlá s prahmi nižšie (€ vplyv na EBITDA); komentáre kontrolóra v komentare.xlsx (vstup, motor ho nezapisuje; šablónu vyrobí každý beh do výstupu).",
+  "_board_pack": "Board pack: figures in sql/papiernictvo2/40_boardpack.sql; rest-of-year forecast = plan × pace of the last N months; risks and opportunities = rules with the thresholds below (€ impact on EBITDA); controller comments in comments.xlsx (an input, the engine does not write it; every run produces a template in the output).",
   "board_pack": {
     "runrate_months": 3,
     "tax_rate": 0.21,
-    "tax_row": "Daň z príjmov",
+    "tax_row": "Income tax",
     "tax_cost_center": "C00",
-    "pbt_row": "Zisk pred zdanením",
+    "pbt_row": "Profit before tax",
     "ebitda_row": "EBITDA",
     "headline_rows": [
-      "Tržby",
+      "Revenue",
       "EBITDA",
-      "Čistý zisk"
+      "Net profit"
     ],
     "variance_top": 8,
     "variance_min_eur": 1000.0,
@@ -368,50 +368,50 @@
       "cost_spike_repeat": {
         "min_yoy": 0.2,
         "exclude": [
-          "Náklady na predaný tovar"
+          "Cost of goods sold"
         ]
       },
       "category_trend": {
         "consecutive_quarters": 3
       }
     },
-    "comments_file": "komentare.xlsx",
+    "comments_file": "comments.xlsx",
     "variance_rows": [
-      "Hrubá marža",
-      "Personál",
-      "Nájom",
-      "Energie",
+      "Gross margin",
+      "Staff",
+      "Rent",
+      "Energy",
       "Marketing",
-      "Služby",
-      "Ostatné"
+      "Services",
+      "Other"
     ]
   },
   "not_verified": [
-    "vecná správnosť zaúčtovania na účet — kontroly overujú párovanie zdrojov a súčty; stredisko a mesiac faktúr sa párujú s knihou faktúr",
-    "DPH — sadzby na bločkoch sa neoverujú voči kategórii; overuje sa tržba bez DPH (604) a súčet s DPH po dňoch a spôsobe platby",
-    "odpisy (551) — bez registra majetku sa neoverujú; daň z príjmov (591) je priebežný odhad 21 % zo zisku, neoverovaný voči priznaniu (overená je len úhrada preddavku 341 z banky — okrem posledného mesiaca obdobia, jeho úhrada príde až po období)",
-    "pravosť prvotných dokladov — falošný bloček zapísaný do pokladne aj SPOLU, alebo fiktívna faktúra dodávateľa z číselníka zaúčtovaná aj uhradená, prejde: párovanie zdroj ↔ zdroj z princípu nevidí zdroj sfalšovaný na začiatku",
-    "kategória tovaru na bločku — jediný zdroj je pokladňa; presun tržieb medzi kategóriami s rovnakou sadzbou DPH sa neoverí",
-    "manko a odpis zásob — výdaj zo skladu bez predaja zapísaný konzistentne v sklade, denníku aj predvahe prejde",
-    "tolerancia 0,05 € na deň v párovaní tržieb bez DPH (zaokrúhlenie DPH na bločkoch) — za obdobie spolu najviac ~100 €",
-    "stav bankového účtu voči skutočnej banke — overuje sa výpis sám so sebou a s účtovníctvom",
-    "úhrady počiatočných záväzkov k 31.12.2024 sa párujú len so súvahou 321 (kniha faktúr začína v 2025)",
-    "hodnoty plánu — len tvar (plán je zámer, nie fakt)",
-    "výnimky sú vypnuté do rozhodnutia vedenia — každý nález znamená NESEDÍ"
+    "whether a posting is on the right account in substance — the checks verify the reconciliation of sources and totals; the cost centre and month of invoices are matched to the invoice register",
+    "VAT — the rates on receipts are not checked against the category; what is checked is revenue excl. VAT (604) and the total incl. VAT by day and payment method",
+    "depreciation (551) — not checked without a fixed asset register; income tax (591) is an interim estimate of 21% of profit, not checked against the tax return (only the payment of the advance 341 from the bank is checked — except for the last month of the period, whose payment arrives after the period)",
+    "authenticity of source documents — a fake receipt entered in the POS and in TOTAL, or a fictitious invoice from a supplier in the master data that is posted and paid, will pass: source ↔ source reconciliation by design cannot see a source falsified at the start",
+    "goods category on the receipt — the POS is the only source; a shift of revenue between categories with the same VAT rate is not detected",
+    "shortage and stock write-off — a stock issue without a sale recorded consistently in stock, journal and trial balance will pass",
+    "tolerance of €0.05 a day in the reconciliation of revenue excl. VAT (VAT rounding on receipts) — at most ~€100 for the whole period",
+    "bank account balance against the real bank — the statement is checked against itself and against the books",
+    "payments of opening liabilities as at 2024-12-31 are matched only to balance sheet account 321 (the invoice register starts in 2025)",
+    "plan values — shape only (a plan is an intention, not a fact)",
+    "exceptions are switched off until management decides — every finding means DOES NOT TIE"
   ],
-  "exceptions": "vynimky.json",
-  "contract": "zmluva.json",
-  "_pivot": "Pivotka: exports/<firma>/pivotka.xlsx z martu mart_facts (sql/papiernictvo2/50_pivot.sql) — len pri SEDÍ; overuje xlsx_readback + pivot_pl_match (fakty po účtoch == výsledovka po riadkoch na cent).",
+  "exceptions": "exceptions.json",
+  "contract": "contract.json",
+  "_pivot": "Pivot: exports/<company>/pivot.xlsx from the mart_facts mart (sql/papiernictvo2/50_pivot.sql) — only when the verdict is TIES; verified by xlsx_readback + pivot_pl_match (facts by account == P&L by line, to the cent).",
   "pivot": true,
-  "_control_panel": "Kontrolný panel: každá kontrola behu v presne jednej skupine; kontrola bez skupiny = FAIL (control_panel_readback). Zdroje = čo prišlo (súbory, riadky, nečitateľné) z tabuliek stg. Kontroly nad hotovým súborom (xlsx_readback, control_panel_readback, pivot_pl_match) na paneli nie sú — ich FAIL súbor zmaže.",
+  "_control_panel": "Control panel: every check of the run is in exactly one group; a check without a group = FAIL (control_panel_readback). Sources = what arrived (files, rows, unreadable) from the stg tables. Checks on the finished file (xlsx_readback, control_panel_readback, pivot_pl_match) are not on the panel — their FAIL deletes the file.",
   "control_panel": {
     "groups": {
-      "Vstupy — tvar a úplnosť": ["inputs_contract", "stg_parse_contract", "numeric_contract", "full_duplicate_keys", "full_coverage"],
-      "Párovania zdroj ↔ zdroj": ["pos_control_total", "journal_tb_match", "pos_gl_match", "bank_balance", "bank_gl_match", "bank_ap_match", "payroll_gl_match", "ap_gl_match", "stock_consistency", "card_settlement", "liability_settlement", "loan_schedule"],
-      "Účtovná logika a výsledovka": ["posting_policy", "account_mapping_complete", "pl_control_total", "boardpack_consistency"],
-      "Výstup a etalón": ["profile_contract", "exceptions_contract", "truth_meter", "report_contract"]
+      "Inputs — shape and completeness": ["inputs_contract", "stg_parse_contract", "numeric_contract", "full_duplicate_keys", "full_coverage"],
+      "Reconciliations source ↔ source": ["pos_control_total", "journal_tb_match", "pos_gl_match", "bank_balance", "bank_gl_match", "bank_ap_match", "payroll_gl_match", "ap_gl_match", "stock_consistency", "card_settlement", "liability_settlement", "loan_schedule"],
+      "Accounting logic and P&L": ["posting_policy", "account_mapping_complete", "pl_control_total", "boardpack_consistency"],
+      "Output and reference": ["profile_contract", "exceptions_contract", "truth_meter", "report_contract"]
     },
-    "_check_sources": "Zdroje kontroly pre preklik z nálezu bez mena súboru: mesiac (a stredisko) z textu nálezu × tieto vstupy.",
+    "_check_sources": "Sources of a check for the link from a finding that names no file: the month (and cost centre) from the finding text × these inputs.",
     "check_sources": {
       "stg_parse_contract": ["pos", "journal", "invoices", "payroll", "bank", "stock_moves", "stock_state", "plan"],
       "numeric_contract": ["gl"],
@@ -434,81 +434,81 @@
       "pl_control_total": ["gl"]
     },
     "sources": {
-      "pos": {"label": "Pokladňa — bločky", "table": "stg_pos"},
-      "journal": {"label": "Účtovný denník", "table": "stg_journal"},
-      "gl": {"label": "Predvaha", "table": "gl_raw"},
-      "invoices": {"label": "Faktúry dodávateľov", "table": "stg_invoices"},
-      "payroll": {"label": "Mzdy", "table": "stg_payroll"},
-      "bank": {"label": "Banka", "table": "stg_bank"},
-      "stock_moves": {"label": "Sklad — pohyby", "table": "stg_stock_moves"},
-      "stock_state": {"label": "Sklad — stavy", "table": "stg_stock_state"},
-      "plan": {"label": "Plán", "table": "stg_plan"},
-      "dims": {"label": "Číselníky", "table": "raw_dims"}
+      "pos": {"label": "POS — receipts", "table": "stg_pos"},
+      "journal": {"label": "Journal", "table": "stg_journal"},
+      "gl": {"label": "Trial balance", "table": "gl_raw"},
+      "invoices": {"label": "Supplier invoices", "table": "stg_invoices"},
+      "payroll": {"label": "Payroll", "table": "stg_payroll"},
+      "bank": {"label": "Bank", "table": "stg_bank"},
+      "stock_moves": {"label": "Stock — movements", "table": "stg_stock_moves"},
+      "stock_state": {"label": "Stock — levels", "table": "stg_stock_state"},
+      "plan": {"label": "Plan", "table": "stg_plan"},
+      "dims": {"label": "Master data", "table": "raw_dims"}
     }
   },
   "bank_internal": [
     {
-      "counterparty_prefix": "Kartové centrum DEMO",
+      "counterparty_prefix": "Card Centre DEMO",
       "accounts": [
         "315"
       ]
     },
     {
-      "counterparty_prefix": "Vklad hotovosti ",
+      "counterparty_prefix": "Cash deposit ",
       "accounts": [
         "211"
       ]
     },
     {
-      "counterparty_prefix": "Výplaty miezd ",
+      "counterparty_prefix": "Payroll payout ",
       "accounts": [
         "331"
       ]
     },
     {
-      "counterparty_prefix": "Poisťovne a daňový úrad DEMO",
+      "counterparty_prefix": "Insurers and Tax Office DEMO",
       "accounts": [
         "336",
         "342"
       ]
     },
     {
-      "counterparty_prefix": "Banka DEMO — úver",
+      "counterparty_prefix": "Bank DEMO — loan",
       "accounts": [
         "562",
         "461"
       ]
     },
     {
-      "counterparty_prefix": "Daňový úrad DEMO — DPH",
+      "counterparty_prefix": "Tax Office DEMO — VAT",
       "accounts": [
         "343"
       ]
     },
     {
-      "counterparty_prefix": "Daňový úrad DEMO — daň z príjmov",
+      "counterparty_prefix": "Tax Office DEMO — income tax",
       "accounts": [
         "341"
       ]
     },
     {
-      "counterparty_prefix": "Spoločník DEMO",
+      "counterparty_prefix": "Shareholder DEMO",
       "accounts": [
         "428"
       ]
     },
     {
-      "counterparty_prefix": "Úhrada záväzkov k 31.12.2024",
+      "counterparty_prefix": "Payment of liabilities as at 2024-12-31",
       "accounts": [
         "321"
       ]
     }
   ],
-  "_bank_internal": "Explicitný zoznam pohybov banky, ktoré nie sú úhradou faktúry: protistrana a účty, ktoré smie proti 221 použiť. Všetko ostatné musí byť úhrada faktúry z knihy.",
+  "_bank_internal": "Explicit list of bank movements that are not an invoice payment: the counterparty and the accounts it may use against 221. Everything else must be the payment of an invoice from the register.",
   "bank_direct_pl_allowed": [
     "562"
   ],
-  "_posting_policy": "Účtová politika — povolené predkontácie: typ dokladu (PS počiatočné stavy, PK pokladňa, FD došlá faktúra, BV bankový výpis, MZ mzdy, ID výdajka skladu, OD odpisy, DZ daň) × MD × D. Zápis mimo zoznamu = FAIL. Nový typ zápisu = rozhodnutie o účtovej politike, nie ticho. DZ 341/591 = záporný mesačný odhad dane (strata v mesiaci) — nie je v každej dodávke, preto vymenovaný ručne.",
+  "_posting_policy": "Accounting policy — allowed posting patterns: document type (PS opening balances, PK POS, FD received invoice, BV bank statement, MZ payroll, ID stock issue note, OD depreciation, DZ tax) × Dr × Cr. A posting outside the list = FAIL. A new type of posting = a decision on accounting policy, not something that passes silently. DZ 341/591 = negative monthly tax estimate (a loss in the month) — not in every delivery, so it is listed by hand.",
   "posting_policy": [
     [
       "BV",
@@ -716,7 +716,7 @@
       "461"
     ]
   ],
-  "_settlement_accounts": "Záväzky hradené z banky v nasledujúcom mesiaci: 'accrual' = úhrada == záväzok za predchádzajúci mesiac (záporný mesačný odhad dane sa neplatí a neprenáša), 'balance' = úhrada == zostatok ku koncu predchádzajúceho mesiaca s prenosom nároku (DPH). DPH za firmu, ostatné po strediskách.",
+  "_settlement_accounts": "Liabilities paid from the bank in the following month: 'accrual' = payment == liability for the previous month (a negative monthly tax estimate is neither paid nor carried forward), 'balance' = payment == balance at the end of the previous month with the claim carried forward (VAT). VAT for the company as a whole, the others by cost centre.",
   "settlement_accounts": {
     "331": {
       "scope": "cc",
@@ -739,7 +739,7 @@
       "rule": "balance"
     }
   },
-  "_loan_contract": "Údaje úverovej zmluvy (fiktívna, BEST GUESS): účet úveru, účet úrokov, ročná sadzba, mesačná splátka istiny.",
+  "_loan_contract": "Loan agreement data (fictional, BEST GUESS): loan account, interest account, annual rate, monthly principal repayment.",
   "loan_contract": {
     "account": "461",
     "interest_account": "562",

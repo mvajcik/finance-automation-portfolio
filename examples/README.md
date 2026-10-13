@@ -2,14 +2,14 @@
 
 Outputs of `make demo`, committed so they can be opened without running
 anything. The PDFs are print-outs of those outputs (the workbook sheets and the
-`summary_*.html` pages); the conversion to PDF is not part of this repository. All data is fictional (generated); file metadata (author,
+`summary.html` pages); the conversion to PDF is not part of this repository. All data is fictional (generated); file metadata (author,
 company, application) has been removed.
 
 | File | What it is |
 |---|---|
-| [`reporting-pipeline/management-summary-en.pdf`](reporting-pipeline/management-summary-en.pdf) · [`…-sk.pdf`](reporting-pipeline/management-summary-sk.pdf) | **Start here.** One page for a manager, in English and in Slovak: result vs plan, full-year forecast, the three largest variances, what still waits for the finance manager |
-| [`reporting-pipeline/errors-summary-en.pdf`](reporting-pipeline/errors-summary-en.pdf) · [`…-sk.pdf`](reporting-pipeline/errors-summary-sk.pdf) | The same page for a delivery with 7 planted errors: report not released, which check failed, in which file |
-| [`reporting-pipeline/board-pack.pdf`](reporting-pipeline/board-pack.pdf) | Board pack of a clean delivery (verdict *SEDÍ* = ties): summary, P&L, plan vs actual, full-year forecast, variances, risks |
+| [`reporting-pipeline/management-summary.pdf`](reporting-pipeline/management-summary.pdf) | **Start here.** One page for a manager: result vs plan, full-year forecast, the three largest variances, what still waits for the finance manager |
+| [`reporting-pipeline/errors-summary.pdf`](reporting-pipeline/errors-summary.pdf) | The same page for a delivery with 7 planted errors: report not released, which check failed, in which file |
+| [`reporting-pipeline/board-pack.pdf`](reporting-pipeline/board-pack.pdf) | Board pack of a clean delivery (verdict TIES): summary, P&L, plan vs actual, full-year forecast, variances, risks |
 | [`reporting-pipeline/board-pack.xlsx`](reporting-pipeline/board-pack.xlsx) | The same workbook as delivered, including the check log and the control panel |
 | [`reporting-pipeline/control-panel-with-errors.pdf`](reporting-pipeline/control-panel-with-errors.pdf) | A delivery with 7 planted errors: no board pack, the control panel names each failed reconciliation, file, row and amount |
 | [`finance-ops-toolkit/sepa-payments.xml`](finance-ops-toolkit/sepa-payments.xml) | SEPA credit transfer file (pain.001.001.03) generated from the approved payment list |
@@ -22,7 +22,5 @@ company, application) has been removed.
 | [`odoo/camt053-2026-09.xml`](odoo/camt053-2026-09.xml) · [`import-log-202609-001.txt`](odoo/import-log-202609-001.txt) | A fictional CAMT.053 statement and its import: every line matched by rule R1/R2 or an open item with a reason, checks B1–B5, verdict RECONCILED |
 | [`odoo/setup-log.txt`](odoo/setup-log.txt) | The setup run: company, stores, vendors, 70 bills, readback PASS |
 
-The one-page summaries are in English and in Slovak. Labels in the detailed
-reporting pipeline outputs are in Slovak (*Tržby* = revenue, *Odhad roka* =
-full-year forecast, *NESEDÍ* = does not tie). The detailed PDFs are dense
-print-outs of the workbook; the workbook itself is the readable form.
+Everything is in English. The detailed PDFs are print-outs of the workbook sheets, one sheet per page in
+landscape; the one-page summaries are the quick read.

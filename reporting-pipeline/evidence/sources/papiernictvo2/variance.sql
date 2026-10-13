@@ -3,7 +3,7 @@
 with q as (
 select rk, key, shop, row, round(act, 2) as act, round(plan, 2) as plan,
        round(d_plan, 2) as d_plan, round(d_ly, 2) as d_ly, cause
-from (select row_number() over () as rk, * from bp_variance_items) t, run_meta r where r.verdict <> 'NESEDÍ' order by rk
+from (select row_number() over () as rk, * from bp_variance_items) t, run_meta r where r.verdict <> 'DOES NOT TIE' order by rk
 )
 select *, false as placeholder from q
 union all

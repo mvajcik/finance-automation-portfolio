@@ -57,14 +57,14 @@ WITH par AS (SELECT * FROM bp_params),
      fc AS (SELECT g.ym, g.mo, g.shop, g.row,
                    CASE WHEN r.plan_rr <> 0 THEN g.plan * r.act_rr / r.plan_rr
                         ELSE coalesce(r.act_rr, 0) / par.runrate_months END AS amount,
-                   CASE WHEN r.plan_rr <> 0 THEN 'plán × tempo' ELSE 'priemer posledných mesiacov' END AS method
+                   CASE WHEN r.plan_rr <> 0 THEN 'plan × pace' ELSE 'average of recent months' END AS method
             FROM bp_grid g JOIN bp_pace r USING (shop, row), par
             WHERE g.mo > par.as_of_m AND g.row <> par.tax_row),
      pbt AS (SELECT ym, mo, sum(amount) AS amount FROM fc
              WHERE row IN (SELECT s.part FROM pl_struct s, par WHERE s.row = par.pbt_row) GROUP BY 1, 2)
 SELECT ym, mo, shop, row, amount, method FROM fc
 UNION ALL
-SELECT pbt.ym, pbt.mo, par.tax_shop, par.tax_row, -par.tax_rate * pbt.amount, 'sadzba × odhad zisku pred zdanením'
+SELECT pbt.ym, pbt.mo, par.tax_shop, par.tax_row, -par.tax_rate * pbt.amount, 'rate × forecast profit before tax'
 FROM pbt, par;
 
 -- riadky board packu: YTD, plán, minulý rok, odhad roka — základné riadky aj medzisúčty (pl_struct), aj „Spolu"
@@ -82,7 +82,7 @@ WITH par AS (SELECT * FROM bp_params),
      bf AS (SELECT b.*, coalesce(f.rest_fc, 0) AS rest_fc FROM b LEFT JOIN f USING (shop, row)),
      allx AS (SELECT * FROM bf
               UNION ALL
-              SELECT 'Spolu', row, sum(ytd_act), sum(ytd_plan), sum(ytd_ly), sum(rest_plan), sum(rest_ly),
+              SELECT 'Total', row, sum(ytd_act), sum(ytd_plan), sum(ytd_ly), sum(rest_plan), sum(rest_ly),
                      sum(fy_plan), sum(fy_ly), sum(rest_fc) FROM bf GROUP BY row)
 SELECT a.shop, s.row,
        sum(a.ytd_act) AS ytd_act, sum(a.ytd_plan) AS ytd_plan, sum(a.ytd_ly) AS ytd_ly,
@@ -98,4 +98,4 @@ SELECT r.shop, r.row, r.ytd_act, r.ytd_plan, r.ytd_ly,
        r.ytd_act - r.ytd_plan AS d_plan, r.ytd_act - r.ytd_ly AS d_ly,
        row_number() OVER (ORDER BY abs(r.ytd_act - r.ytd_plan) DESC, r.shop, r.row) AS rk
 FROM bp_rows r
-WHERE r.shop <> 'Spolu' AND r.row IN (SELECT row FROM bp_var_rows);
+WHERE r.shop <> 'Total' AND r.row IN (SELECT row FROM bp_var_rows);

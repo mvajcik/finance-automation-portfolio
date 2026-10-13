@@ -1,70 +1,70 @@
 {
   "_meta": {
-    "purpose": "Parametre generátora fiktívnej demo firmy (robustné vstupy, plná výsledovka). Každý parameter má zdroj. BEST GUESS = odhad autora na výmenu za oficiálne údaje (Eurostat NACE 47.61/47.62/47.65, ECB, finančná správa SR).",
-    "company": "Papiernictvo DEMO s.r.o. — fiktívna sieť 4 predajní + centrála; nepripomína žiadnu reálnu firmu",
+    "purpose": "Generator parameters for the fictional demo company (robust inputs, full P&L). Every parameter has a source. BEST GUESS = the author's estimate, to be replaced with official data (Eurostat NACE 47.61/47.62/47.65, ECB, Slovak tax authority).",
+    "company": "Papiernictvo DEMO s.r.o. — fictional chain of 4 stores + head office; does not resemble any real company",
     "status": "BEST GUESS"
   },
   "period": {
     "start": "2025-01",
     "months": 21,
     "as_of": "2026-09",
-    "_source": "minulý rok 2025 celý, bežný rok 2026 do septembra; odhad roka = okt–dec 2026"
+    "_source": "last year 2025 in full, current year 2026 to September; full-year forecast = Oct–Dec 2026"
   },
   "cost_centers": [
     {
       "code": "S01",
-      "name": "Predajňa Centrum",
+      "name": "Store Centrum",
       "daily_gross": 2150,
       "growth_y2": 0.06,
       "staff": {
-        "vedúci": 1,
-        "predavač": 2
+        "store manager": 1,
+        "sales assistant": 2
       }
     },
     {
       "code": "S02",
-      "name": "Predajňa Sídlisko",
+      "name": "Store Sídlisko",
       "daily_gross": 1500,
       "growth_y2": 0.07,
       "staff": {
-        "vedúci": 1,
-        "predavač": 1
+        "store manager": 1,
+        "sales assistant": 1
       }
     },
     {
       "code": "S03",
-      "name": "Predajňa OC",
+      "name": "Store OC",
       "daily_gross": 2900,
       "growth_y2": 0.09,
       "staff": {
-        "vedúci": 1,
-        "predavač": 3
+        "store manager": 1,
+        "sales assistant": 3
       }
     },
     {
       "code": "S04",
-      "name": "Predajňa Mesto",
+      "name": "Store Mesto",
       "daily_gross": 1100,
       "growth_y2": 0.05,
       "staff": {
-        "vedúci": 1,
-        "predavač": 1
+        "store manager": 1,
+        "sales assistant": 1
       }
     },
     {
       "code": "C00",
-      "name": "Centrála",
+      "name": "Head office",
       "daily_gross": 0.0,
       "growth_y2": 0.0,
       "staff": {
-        "konateľ": 1,
-        "účtovníčka": 1
+        "managing director": 1,
+        "accountant": 1
       }
     }
   ],
-  "_cost_centers_source": "BEST GUESS — malá sieť: tržby 1,1–2,9 tis. € s DPH denne na predajňu (~2 mil. € ročne bez DPH), 14 zamestnancov; personál ~17 % tržieb, EBITDA ~9 % (typické pre malý špecializovaný maloobchod — na overenie)",
+  "_cost_centers_source": "BEST GUESS — small chain: revenue of €1,100–2,900 incl. VAT per day per store (~€2 million a year excl. VAT), 14 employees; staff ~17% of revenue, EBITDA ~9% (typical for small specialised retail — to be verified)",
   "categories": {
-    "Papiernictvo": {
+    "Stationery": {
       "share": 0.45,
       "margin": 0.45,
       "vat": 0.23,
@@ -84,7 +84,7 @@
         0.85
       ]
     },
-    "Knihy": {
+    "Books": {
       "share": 0.2,
       "margin": 0.28,
       "vat": 0.05,
@@ -104,7 +104,7 @@
         1.6
       ]
     },
-    "Hračky": {
+    "Toys": {
       "share": 0.2,
       "margin": 0.38,
       "vat": 0.23,
@@ -124,7 +124,7 @@
         2.45
       ]
     },
-    "Darčeky": {
+    "Gifts": {
       "share": 0.15,
       "margin": 0.5,
       "vat": 0.23,
@@ -145,7 +145,7 @@
       ]
     }
   },
-  "_categories_source": "BEST GUESS — share = podiel na TRŽBÁCH (hodnota), nie na riadkoch bločku: papiernictvo 45 %, knihy 20 %, hračky 20 %, darčeky 15 %; DPH SR od 1.1.2025: základná 23 %, knihy 5 % (zákon o DPH, verejné); marža a cena položky odhad odvetvia",
+  "_categories_source": "BEST GUESS — share = share of REVENUE (value), not of receipt lines: stationery 45%, books 20%, toys 20%, gifts 15%; Slovak VAT from 2025-01-01: standard rate 23%, books 5% (VAT Act, public); margin and item price are an industry estimate",
   "weekday": [
     0.95,
     0.95,
@@ -182,7 +182,7 @@
     "2026-09-01",
     "2026-09-15"
   ],
-  "_closed_days_source": "SK štátne sviatky a dni pracovného pokoja 2025–2026 (verejné), dni, keď maloobchod zatvára",
+  "_closed_days_source": "Slovak public holidays and non-working days 2025–2026 (public), days when retail is closed",
   "pos": {
     "lines_per_receipt": [
       0.55,
@@ -197,20 +197,20 @@
       "S03": 3,
       "S04": 1
     },
-    "_source": "BEST GUESS — 1–3 položky na bloček; 2/3 platieb kartou; poplatok za karty 1,1 %"
+    "_source": "BEST GUESS — 1–3 items per receipt; 2/3 of payments by card; card fee 1.1%"
   },
   "stock": {
     "cover_months": 1.4,
     "purchase_every_days": 7,
-    "_source": "BEST GUESS — zásoba ~1,4 mesiaca predaja v nákupných cenách; nákup týždenne"
+    "_source": "BEST GUESS — stock of ~1.4 months of sales at cost; purchasing weekly"
   },
   "payroll": {
     "gross": {
-      "vedúci": 1650,
-      "predavač": 1150,
-      "konateľ": 3400,
-      "účtovníčka": 1700,
-      "nákupca": 1600,
+      "store manager": 1650,
+      "sales assistant": 1150,
+      "managing director": 3400,
+      "accountant": 1700,
+      "buyer": 1600,
       "marketing": 1550
     },
     "raise_y2": 0.05,
@@ -219,7 +219,7 @@
     "employee": 0.144,
     "tax": 0.19,
     "allowance": 497.23,
-    "_source": "BEST GUESS mzdy; odvody SR 2025: zamestnávateľ 36,2 %, zamestnanec 14,4 % (zdravotné +1 p. b. od 1.1.2025, konsolidačný balíček — na overenie oficiálne); daň 19 %, nezdaniteľná časť ~497 €/mes"
+    "_source": "BEST GUESS for pay; Slovak contributions 2025: employer 36.2%, employee 14.4% (health insurance +1 pp from 2025-01-01, consolidation package — to be verified against official sources); tax 19%, tax-free allowance ~€497 a month"
   },
   "services": {
     "rent": {
@@ -265,7 +265,7 @@
       "C00": 120
     },
     "repairs_max": 400,
-    "_source": "BEST GUESS — nájom podľa lokality, energie so sezónnosťou, IT a účtovníctvo externe"
+    "_source": "BEST GUESS — rent by location, energy with seasonality, IT and accounting outsourced"
   },
   "fixed_assets": {
     "depreciation_monthly": {
@@ -275,87 +275,87 @@
       "S04": 380,
       "C00": 610
     },
-    "_source": "BEST GUESS — zariadenie predajní a IT, rovnomerné odpisy"
+    "_source": "BEST GUESS — store fittings and IT, straight-line depreciation"
   },
   "loan": {
     "principal": 180000,
     "rate": 0.052,
     "monthly_repayment": 3000,
-    "_source": "BEST GUESS — investičný úver centrály, 5,2 % p. a."
+    "_source": "BEST GUESS — head-office investment loan, 5.2% p.a."
   },
   "income_tax": {
     "rate": 0.21,
-    "_source": "daň z príjmov PO SR 2025: 21 % (tržby 5 mil. € a menej, nad 100 tis. €) — verejné"
+    "_source": "Slovak corporate income tax 2025: 21% (revenue of €5 million or less, above €100,000) — public"
   },
   "plan_2026": {
     "revenue_ambition": 0.08,
-    "_source": "BEST GUESS — vedenie plánuje tržby +8 % oproti 2025 rovnomerne; náklady podľa 2025 + zmluvy"
+    "_source": "BEST GUESS — management plans revenue +8% on 2025, evenly; costs as in 2025 + contracts"
   },
   "stories": {
     "S1_rent_jump": {
       "cost_center": "S03",
       "from": "2026-04",
       "new_rent": 8200,
-      "what": "OC zdvihlo nájom od apríla 2026, v pláne nie je — EBITDA OC pod plánom"
+      "what": "The shopping centre raised the rent from April 2026 and it is not in the plan — Store OC EBITDA below plan"
     },
     "S2_toys_decline": {
-      "category": "Hračky",
+      "category": "Toys",
       "yoy_by_quarter_y2": [
         -0.12,
         -0.16,
         -0.22
       ],
-      "what": "Hračky klesajú 3 štvrťroky 2026 po sebe — tržby pod plánom, riziko pre Vianoce (odhad roka)"
+      "what": "Toys fall three quarters of 2026 in a row — revenue below plan, a risk for Christmas (full-year forecast)"
     },
     "S3_energy_spike": {
       "from": "2026-01",
       "to": "2026-03",
       "factor": 1.35,
-      "what": "Zimná cena energií 2026 +35 % oproti zmluve — jednorazová odchýlka"
+      "what": "Winter energy price 2026 +35% against the contract — a one-off variance"
     },
     "S4_school_boost": {
-      "category": "Papiernictvo",
+      "category": "Stationery",
       "months": [
         "2026-08",
         "2026-09"
       ],
       "factor": 1.18,
-      "what": "Návrat do školy 2026 nad plán — príležitosť, ak sa udrží v Q4 (zošity, kalendáre)"
+      "what": "Back to school 2026 above plan — an opportunity if it holds in Q4 (exercise books, calendars)"
     }
   },
   "planted_errors": {
     "E1": {
-      "what": "faktúra dodávateľa v knihe faktúr, ale nezaúčtovaná v denníku",
+      "what": "supplier invoice in the invoice register but not posted in the journal",
       "month": "2026-05"
     },
     "E2": {
-      "what": "mzda zamestnanca v mzdovom exporte iná než v účtovníctve (521)",
+      "what": "an employee's pay in the payroll export differs from the books (521)",
       "month": "2026-06",
       "cost_center": "S02"
     },
     "E3": {
-      "what": "úhrada z banky bez faktúry v knihe faktúr",
+      "what": "bank payment without an invoice in the invoice register",
       "month": "2026-07"
     },
     "E4": {
-      "what": "výdaj zo skladu bez zásoby — záporný stav",
+      "what": "stock issue without stock — negative balance",
       "month": "2026-03",
       "cost_center": "S04",
-      "category": "Knihy"
+      "category": "Books"
     },
     "E5": {
-      "what": "predvaha ručne upravená — nesedí s denníkom",
+      "what": "trial balance adjusted by hand — does not tie to the journal",
       "month": "2026-08",
       "cost_center": "S01",
       "account": "518"
     },
     "E6": {
-      "what": "export pokladne orezaný — riadok SPOLU nesedí so súčtom bločkov",
+      "what": "POS export truncated — the TOTAL row does not tie to the sum of receipts",
       "month": "2026-02",
       "cost_center": "S03"
     },
     "E7": {
-      "what": "chýba pripísanie kartových platieb jedného dňa v banke",
+      "what": "one day's card payment settlement is missing in the bank",
       "month": "2026-09",
       "cost_center": "S01"
     }
@@ -364,11 +364,11 @@
     "bank": 45000,
     "equity_411": 5000,
     "payables_321": 38000,
-    "_source": "BEST GUESS — súvaha k 31.12.2024: základné imanie 5 tis. €, nerozdelený zisk = dopočet, záväzky voči dodávateľom za december 2024 splatné v januári"
+    "_source": "BEST GUESS — balance sheet as at 2024-12-31: share capital €5,000, retained earnings = balancing figure, trade payables for December 2024 due in January"
   },
   "dividend": {
     "month": "2025-06",
     "amount": 60000,
-    "_source": "BEST GUESS — výplata dividendy spoločníkovi z nerozdeleného zisku (zrážková daň 7 % zjednodušene mimo)"
+    "_source": "BEST GUESS — dividend paid to the shareholder out of retained earnings (7% withholding tax left out for simplicity)"
   }
 }

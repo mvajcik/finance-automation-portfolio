@@ -1,5 +1,5 @@
 ---
-title: Výsledovka a mesiace
+title: P&L and months
 ---
 
 ```sql run
@@ -19,29 +19,29 @@ select * exclude (ord) from (pivot ${pl} on shop using first(ytd_act) group by r
 select * from papiernictvo2.months where not placeholder
 ```
 
-{#if run[0].verdict === 'NESEDÍ'}
+{#if run[0].verdict === 'DOES NOT TIE'}
 
-> **Čísla NEVYDANÉ** — verdikt {run[0].verdict}. Pozri [kontrolný panel](/kontrolny-panel).
+> **Figures NOT ISSUED** — verdict {run[0].verdict}. See the [control panel](/control-panel).
 
 {:else}
 
-## Výsledovka YTD k {run[0].as_of} (€)
+## P&L YTD as of {run[0].as_of} (€)
 
 <DataTable data={pl_pivot} rows=20>
-  <Column id=row title="Riadok" />
+  <Column id=row title="Line" />
   {#each Object.keys(pl_pivot[0] ?? {}).filter((c) => c !== 'row') as c}
     <Column id={c} title={c} fmt="#,##0" />
   {/each}
 </DataTable>
 
-## Tržby po mesiacoch a strediskách (€)
+## Revenue by month and cost centre (€)
 
-<LineChart data={months} x=ym y=revenue series=shop yFmt="#,##0" title="Tržby bez DPH po mesiacoch" />
+<LineChart data={months} x=ym y=revenue series=shop yFmt="#,##0" title="Revenue excl. VAT by month" />
 
 <DataTable data={months} rows=25>
-  <Column id=ym title="Mesiac" />
-  <Column id=shop title="Stredisko" />
-  <Column id=revenue title="Tržby (€)" fmt="#,##0.00" />
+  <Column id=ym title="Month" />
+  <Column id=shop title="Cost centre" />
+  <Column id=revenue title="Revenue (€)" fmt="#,##0.00" />
 </DataTable>
 
 {/if}

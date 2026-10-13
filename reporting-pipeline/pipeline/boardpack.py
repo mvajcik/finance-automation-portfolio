@@ -6,18 +6,18 @@ komentárov kontrolóra zo súboru profilu (motor ho nikdy nezapisuje)."""
 from pathlib import Path
 
 ROW_FIELDS = ("ytd_act", "ytd_plan", "ytd_ly", "rest_fc", "rest_plan", "rest_ly", "fy_est", "fy_plan", "fy_ly")
-METHOD = ("Odhad zvyšku roka: mesiac = plán mesiaca × (skutočnosť ÷ plán za posledné {n} mesiace) po stredisku a "
-          "riadku; riadok bez plánu = priemer posledných {n} mesiacov; daň = {rate} % × odhad zisku pred zdanením. "
-          "Plán neobsahuje daň z príjmov — plán dane = {rate} % × plán zisku pred zdanením mesiaca.")
+METHOD = ("Rest-of-year forecast: month = month's plan × (actual ÷ plan for the last {n} months) by cost centre and "
+          "line; a line without a plan = average of the last {n} months; tax = {rate}% × forecast profit before tax. "
+          "The plan does not include income tax — plan tax = {rate}% × the month's planned profit before tax.")
 
 
 def eur(v: float, sign: bool = False) -> str:
-    s = f"{abs(v):,.0f}".replace(",", " ")
-    return f"{'−' if round(v) < 0 else ('+' if sign and round(v) > 0 else '')}{s} €"
+    s = f"{abs(v):,.0f}"
+    return f"{'−' if round(v) < 0 else ('+' if sign and round(v) > 0 else '')}€{s}"
 
 
 def pct(v: float) -> str:
-    return f"{'−' if v < 0 else '+'}{f'{abs(v) * 100:.1f}'.replace('.', ',')} %"
+    return f"{'−' if v < 0 else '+'}{abs(v) * 100:.1f}%"
 
 
 def pl_struct(profile: dict) -> list:
@@ -38,18 +38,18 @@ def _cause(series: list, y2: str) -> str:
     """Príčina odchýlky z mesačného priebehu (skutočnosť − plán): skok od mesiaca, štvrťrok, alebo rozložené."""
     n, total = len(series), sum(series)
     if not n or abs(total) < 1:
-        return "bez odchýlky"
+        return "no variance"
     for s in range(1, n - 1):
         pre, post = series[:s], series[s:]
         lvl = sum(post) / len(post)
         if abs(lvl) >= 1 and all(x * lvl > 0 and abs(x) >= 0.5 * abs(lvl) for x in post) \
                 and all(abs(x) <= 0.25 * abs(lvl) for x in pre):
-            return f"od {y2}-{s + 1:02d} mesačne {eur(lvl, True)}"
+            return f"since {y2}-{s + 1:02d}, every month {eur(lvl, True)}"
     qs = [sum(series[i:i + 3]) for i in range(0, n, 3)]
     qi = max(range(len(qs)), key=lambda i: abs(qs[i]))
     if qs[qi] * total > 0 and abs(qs[qi]) >= 0.6 * abs(total):
-        return f"najmä v Q{qi + 1} ({eur(qs[qi], True)})"
-    return f"rozložené počas roka (priemer {eur(total / n, True)} mesačne)"
+        return f"mainly in Q{qi + 1} ({eur(qs[qi], True)})"
+    return f"spread across the year (average {eur(total / n, True)} per month)"
 
 
 def variance_items(con, profile: dict, bp: dict) -> list:
@@ -65,10 +65,10 @@ def variance_items(con, profile: dict, bp: dict) -> list:
             "WHERE g.shop = ? AND s.row = ? AND g.actual IS NOT NULL GROUP BY 1 ORDER BY 1", [shop, row]).fetchall()]
         cause = _cause(ser, y2)
         rel = f" ({pct(d / abs(plan))})" if plan else ""
-        out.append({"key": f"odchylka|{shop}|{row}", "shop": shop, "row": row, "act": act, "plan": plan, "ly": ly,
+        out.append({"key": f"variance|{shop}|{row}", "shop": shop, "row": row, "act": act, "plan": plan, "ly": ly,
                     "d_plan": d, "d_ly": dly, "cause": cause, "number": d, "number_txt": eur(d, True),
-                    "text": f"{shop} · {row}: vplyv na EBITDA {eur(d, True)} voči plánu{rel} — {cause}; "
-                            f"voči minulému roku {eur(dly, True)}."})
+                    "text": f"{shop} · {row}: EBITDA impact {eur(d, True)} vs plan{rel} — {cause}; "
+                            f"vs last year {eur(dly, True)}."})
     return out
 
 
@@ -85,48 +85,48 @@ def ro_items(con, profile: dict, bp: dict) -> list:
     # 1. tempo tržieb: posledné mesiace vs. celý rok (odhad stojí na tempe posledných mesiacov)
     rp = ro.get("revenue_pace")
     if rp:
-        for shop in sorted({s for s, _ in bp if s != "Spolu"}):
-            a, p, _, ay, py = pace.get((shop, "Tržby"), (0, 0, 0, 0, 0))
-            if not p or not py or not bp[(shop, "Tržby")]["ytd_act"]:
+        for shop in sorted({s for s, _ in bp if s != "Total"}):
+            a, p, _, ay, py = pace.get((shop, "Revenue"), (0, 0, 0, 0, 0))
+            if not p or not py or not bp[(shop, "Revenue")]["ytd_act"]:
                 continue
             f_rr, f_ytd = a / p, ay / py
             if abs(f_rr - f_ytd) < rp["min_gap"]:
                 continue
-            gm = bp[(shop, "Hrubá marža")]["ytd_act"] / bp[(shop, "Tržby")]["ytd_act"]
-            delta = bp[(shop, "Tržby")]["rest_plan"] * f_ytd - bp[(shop, "Tržby")]["rest_fc"]
+            gm = bp[(shop, "Gross margin")]["ytd_act"] / bp[(shop, "Revenue")]["ytd_act"]
+            delta = bp[(shop, "Revenue")]["rest_plan"] * f_ytd - bp[(shop, "Revenue")]["rest_fc"]
             impact = delta * gm
             if abs(impact) >= min_eur:
-                out.append({"key": f"citlivost|tempo_trzieb|{shop}", "rule": "revenue_pace", "number": impact,
-                            "group": "citlivosť",
-                            "text": f"{shop}: tržby posledných {rr} mesiacov {pct(f_rr - 1)} voči plánu, za rok "
-                                    f"{pct(f_ytd - 1)}; odhad stojí na tempe posledných mesiacov — s tempom roka by bol "
-                                    f"odhad tržieb {'nižší' if delta < 0 else 'vyšší'} o {eur(abs(delta))} a EBITDA "
-                                    f"{'nižšia' if impact < 0 else 'vyššia'} o {eur(abs(impact))} "
-                                    f"(× hrubá marža {f'{gm * 100:.1f}'.replace('.', ',')} %)."})
+                out.append({"key": f"sensitivity|revenue_pace|{shop}", "rule": "revenue_pace", "number": impact,
+                            "group": "sensitivity",
+                            "text": f"{shop}: revenue of the last {rr} months {pct(f_rr - 1)} vs plan, for the year "
+                                    f"{pct(f_ytd - 1)}; the forecast rests on the pace of the last months — at the year's pace "
+                                    f"the revenue forecast would be {'lower' if delta < 0 else 'higher'} by {eur(abs(delta))} and EBITDA "
+                                    f"{'lower' if impact < 0 else 'higher'} by {eur(abs(impact))} "
+                                    f"(× gross margin {gm * 100:.1f}%)."})
     # 2. nákladový skok, ktorý sa môže zopakovať (napr. energie v zime)
     cs = ro.get("cost_spike_repeat")
     if cs:
         ebitda_parts = [p for r, p in pl_struct(profile) if r == cfg["ebitda_row"]]
-        for row in [r for r in ebitda_parts if r not in cs.get("exclude", []) and r != "Tržby"]:
+        for row in [r for r in ebitda_parts if r not in cs.get("exclude", []) and r != "Revenue"]:
             qrows = con.execute("SELECT (mo - 1) // 3 + 1 AS q, sum(actual), sum(ly) FROM bp_grid "
                                 "WHERE row = ? AND mo <= ? GROUP BY 1 ORDER BY 1", [row, am - rr]).fetchall()
-            a, _, ly, _, _ = (sum(x) for x in zip(*[pace[(s, row)] for s in {s for s, _ in bp if s != "Spolu"}]))
+            a, _, ly, _, _ = (sum(x) for x in zip(*[pace[(s, row)] for s in {s for s, _ in bp if s != "Total"}]))
             rr_yoy = a / ly - 1 if ly else 0.0
             for q, act, lyq in qrows:
                 if not lyq or ((q * 3) > am - rr):
                     continue
                 yoy = act / lyq - 1
                 if yoy >= cs["min_yoy"] and rr_yoy < cs["min_yoy"] / 2:
-                    tot = bp[("Spolu", row)]
+                    tot = bp[("Total", row)]
                     alt = tot["rest_ly"] * (1 + yoy)
                     impact = alt - tot["rest_fc"]
                     if abs(impact) >= min_eur:
-                        out.append({"key": f"ro|skok_nakladu|{row}|Q{q}", "rule": "cost_spike_repeat", "number": impact,
-                                    "group": "riziká a príležitosti",
-                                    "text": f"{row}: v Q{q} {y2} {pct(yoy)} medziročne, posledných {rr} mesiacov "
-                                            f"{pct(rr_yoy)}; ak sa skok zopakuje vo zvyšku roka (minulý rok "
-                                            f"{eur(tot['rest_ly'])} × {f'{1 + yoy:.2f}'.replace('.', ',')}), "
-                                            f"EBITDA {eur(impact, True)} voči odhadu."})
+                        out.append({"key": f"ro|cost_spike|{row}|Q{q}", "rule": "cost_spike_repeat", "number": impact,
+                                    "group": "risks and opportunities",
+                                    "text": f"{row}: in Q{q} {y2} {pct(yoy)} year on year, last {rr} months "
+                                            f"{pct(rr_yoy)}; if the spike repeats in the rest of the year (last year "
+                                            f"{eur(tot['rest_ly'])} × {1 + yoy:.2f}), "
+                                            f"EBITDA {eur(impact, True)} vs forecast."})
     # 3. trend kategórie nad rámec tempa predajní (sezónny podiel kategórie)
     ct = ro.get("category_trend")
     if ct:
@@ -139,7 +139,7 @@ def ro_items(con, profile: dict, bp: dict) -> list:
         tot = lambda y, ms: sum(net.get((c, y, m), 0) for c in cats for m in ms)  # noqa: E731
         catsum = lambda c, y, ms: sum(net.get((c, y, m), 0) for m in ms)  # noqa: E731
         last_q, n = am // 3, ct["consecutive_quarters"]
-        gm = bp[("Spolu", "Hrubá marža")]["ytd_act"] / bp[("Spolu", "Tržby")]["ytd_act"]
+        gm = bp[("Total", "Gross margin")]["ytd_act"] / bp[("Total", "Revenue")]["ytd_act"]
         rest, rrm = list(range(am + 1, 13)), list(range(am - rr + 1, am + 1))
         for c in cats:
             yoy = []
@@ -154,32 +154,32 @@ def ro_items(con, profile: dict, bp: dict) -> list:
             extra = yoy[-1] * (catsum(c, y1, rest) - tot(y1, rest) * share_rr)
             impact = extra * gm
             if abs(impact) >= min_eur:
-                trend = "pokles" if yoy[-1] < 0 else "rast"
-                how = "nadhodnocuje" if impact < 0 else "podhodnocuje"
-                out.append({"key": f"citlivost|mix_kategorie|{c}", "rule": "category_trend", "number": impact,
-                            "group": "citlivosť",
-                            "text": f"{c} ({trend} {pct(yoy[-1])} medziročne v Q{last_q}, {n}. štvrťrok po sebe): "
-                                    f"ak medziročný trend pokračuje, tempo posledných {rr} mesiacov {how} odhad — "
-                                    f"v rovnakých mesiacoch minulého roka mala kategória podiel {pct(share_rr)[1:]} "
-                                    f"tržieb, vo zvyšku roka {pct(share_rest)[1:]}; oprava na podiel zvyšku roka: "
-                                    f"EBITDA {eur(impact, True)} (× hrubá marža)."})
+                trend = "decline" if yoy[-1] < 0 else "growth"
+                how = "overstates" if impact < 0 else "understates"
+                out.append({"key": f"sensitivity|category_mix|{c}", "rule": "category_trend", "number": impact,
+                            "group": "sensitivity",
+                            "text": f"{c} ({trend} {pct(yoy[-1])} year on year in Q{last_q}, {n} quarters in a row): "
+                                    f"if the year-on-year trend continues, the pace of the last {rr} months {how} the forecast — "
+                                    f"in the same months of last year the category had a {pct(share_rr)[1:]} share of "
+                                    f"revenue, in the rest of the year {pct(share_rest)[1:]}; correction to the rest-of-year share: "
+                                    f"EBITDA {eur(impact, True)} (× gross margin)."})
     for x in out:
-        x["kind"] = ("citlivosť odhadu" if x["group"] == "citlivosť" else "riziko" if x["number"] < 0 else "príležitosť")
+        x["kind"] = ("forecast sensitivity" if x["group"] == "sensitivity" else "risk" if x["number"] < 0 else "opportunity")
         x["number_txt"] = eur(x["number"], True)
-    return sorted(out, key=lambda x: (x["group"] == "citlivosť", x["number"]))
+    return sorted(out, key=lambda x: (x["group"] == "sensitivity", x["number"]))
 
 
 def fy_items(profile: dict, bp: dict) -> list:
     y2 = profile["period"]["as_of"][:4]
     out = []
     for row in profile["board_pack"]["headline_rows"]:
-        r = bp[("Spolu", row)]
+        r = bp[("Total", row)]
         d = r["fy_est"] - r["fy_plan"]
         rel = f" ({pct(d / abs(r['fy_plan']))})" if r["fy_plan"] else ""
-        out.append({"key": f"odhad|{row}", "row": row, "number": r["fy_est"], "number_txt": eur(r["fy_est"]),
-                    "text": f"{row} {y2} — odhad {eur(r['fy_est'])}: voči plánu {eur(d, True)}{rel}, "
-                            f"voči minulému roku {eur(r['fy_est'] - r['fy_ly'], True)}; "
-                            f"z toho skutočnosť {eur(r['ytd_act'])} a odhad zvyšku roka {eur(r['rest_fc'])}."})
+        out.append({"key": f"forecast|{row}", "row": row, "number": r["fy_est"], "number_txt": eur(r["fy_est"]),
+                    "text": f"{row} {y2} — forecast {eur(r['fy_est'])}: vs plan {eur(d, True)}{rel}, "
+                            f"vs last year {eur(r['fy_est'] - r['fy_ly'], True)}; "
+                            f"of which actual {eur(r['ytd_act'])} and rest-of-year forecast {eur(r['rest_fc'])}."})
     return out
 
 
@@ -188,7 +188,7 @@ def read_controller_comments(path: Path) -> dict:
     if not path.is_file():
         return {}
     from openpyxl import load_workbook
-    ws = load_workbook(path, read_only=True, data_only=True)["Komentáre"]
+    ws = load_workbook(path, read_only=True, data_only=True)["Comments"]
     out = {}
     for r in list(ws.iter_rows(values_only=True))[1:]:
         if r and r[0] and len(r) > 2 and r[2] and str(r[2]).strip():
@@ -209,8 +209,8 @@ def _numbers_fingerprint(text: str) -> float:
     """Odtlačok čísel vety zistenia boardu = vážený súčet čísel podľa poradia (1·n1 + 2·n2 + …, so znamienkom);
     zmena ktoréhokoľvek čísla aj výmena dvoch čísel zmení odtlačok → komentár kontrolóra zastará."""
     import re
-    nums = re.findall(r"[−-]?\d+(?:[ \u00a0]\d{3})*(?:,\d+)?", text)
-    vals = [float(x.replace("−", "-").replace("\u00a0", "").replace(" ", "").replace(",", ".")) for x in nums]
+    nums = re.findall(r"[−-]?€?\d+(?:,\d{3}(?!\d))*(?:\.\d+)?", text)
+    vals = [float(x.replace("−", "-").replace("€", "").replace(",", "")) for x in nums]
     return round(sum((i + 1) * v for i, v in enumerate(vals)), 2)
 
 
@@ -232,21 +232,21 @@ def comments(items: list, kontrolor: dict, tol: float = 0.5) -> tuple:
             txt = _one_line(raw)
             stale = num is None or not isinstance(num, (int, float)) or abs(float(num) - it["number"]) > it.get("tol", tol)
             if stale:
-                warn.append(f"komentár kontrolóra '{k}' písaný k inému číslu ({num} → {it['number']:,.2f}) — platí veta stroja")
-                final = f"{auto} ⚠ komentár kontrolóra zastaral (písaný pri čísle {num}) — over"
-                status = f"kontrolór zastaral — písaný pri čísle {num}, teraz {it['number']:,.2f}: platí stroj"
+                warn.append(f"controller comment '{k}' was written for a different number ({num} → {it['number']:,.2f}) — the machine sentence applies")
+                final = f"{auto} ⚠ controller comment is out of date (written at number {num}) — verify"
+                status = f"controller out of date — written at number {num}, now {it['number']:,.2f}: machine applies"
             else:
-                final = f"[kontrolór] {txt} (číslo stroja {it.get('number_txt', it['number'])})"
-                status = "kontrolór"
-            final_md = (f"[kontrolór] {md_escape(txt)} (číslo stroja {it.get('number_txt', it['number'])})"
-                        if status == "kontrolór" else final)
+                final = f"[controller] {txt} (machine number {it.get('number_txt', it['number'])})"
+                status = "controller"
+            final_md = (f"[controller] {md_escape(txt)} (machine number {it.get('number_txt', it['number'])})"
+                        if status == "controller" else final)
             rows.append({"key": k, "number": it["number"], "auto": auto, "kontrolor": txt, "final": final,
                          "final_md": final_md, "status": status})
         else:
             rows.append({"key": k, "number": it["number"], "auto": auto, "kontrolor": "", "final": auto, "final_md": auto,
-                         "status": "stroj"})
+                         "status": "machine"})
     known = {it["key"] for it in items}
-    warn += [f"komentár kontrolóra '{k}' nemá položku v tomto behu — nepoužitý" for k in sorted(kontrolor) if k not in known]
+    warn += [f"controller comment '{k}' has no item in this run — not used" for k in sorted(kontrolor) if k not in known]
     return rows, warn
 
 
@@ -258,7 +258,7 @@ def build(con, profile: dict, profile_dir: Path, findings: list, ro: list) -> di
     brd = [{"key": f"board|{f['rule']}|{f['key']}", "number": _numbers_fingerprint(f["text"]), "tol": 0.001,
             "text": f["text"]} for f in findings]
     for b in brd:
-        b["number_txt"] = f"odtlačok čísel vety {b['number']:g}".replace(".", ",")
+        b["number_txt"] = f"number fingerprint of the sentence {b['number']:g}"
     kontrolor = read_controller_comments(profile_dir / cfg["comments_file"])
     com, warn = comments(fy + var + ro + brd, kontrolor)
     methods = dict(con.execute("SELECT method, count(*) FROM bp_forecast GROUP BY 1").fetchall())

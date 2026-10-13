@@ -2,7 +2,7 @@
   "name": "reporting-pipeline-evidence",
   "version": "0.1.0",
   "private": true,
-  "description": "Evidence nad SQL vrstvou motora: board pack, odchýlky, riziká, kontrolný panel — tie isté marty ako prehlad.xlsx.",
+  "description": "Evidence on top of the engine's SQL layer: board pack, variances, risks, control panel — the same marts as overview.xlsx.",
   "scripts": {
     "build": "evidence build",
     "build:strict": "evidence build:strict",
