@@ -64,7 +64,37 @@ file, the row and the amount:
 
 ## Try it
 
-Requires Python 3.11+, `git` and `make`. The block can be pasted into a terminal as it is:
+Every path below ends with the same command, `make demo`, and the same result. Pick the row that fits you:
+
+| You have | Path | What you install |
+|---|---|---|
+| Only a web browser (Windows, Mac, anything) | [A. Binder](#a-in-the-browser-no-account-binder) | nothing, no account |
+| A GitHub account | [B. Codespaces](#b-in-the-browser-with-a-github-account-codespaces) | nothing |
+| A Mac or Linux and you are fine with a terminal | [C. On your computer](#c-on-your-mac-or-linux) | Python 3.11+, `git`, `make` |
+| Windows and you want it on your computer | [D. Windows with WSL](#d-on-windows-with-wsl) | WSL (Ubuntu) |
+
+On Windows the easy way is A or B. The demo does not run in plain PowerShell or Command Prompt.
+
+### A. In the browser, no account (Binder)
+
+1. Open **<https://mybinder.org/v2/gh/mvajcik/finance-automation-portfolio/main?urlpath=lab>**
+2. Wait until JupyterLab opens. Usually a minute or two; the first start after a change in this repository takes longer.
+3. Click the **Terminal** tile, type `make demo` and press Enter.
+
+Binder is a free public service: it can be slow or busy, and the session disappears after a few minutes without activity.
+
+### B. In the browser, with a GitHub account (Codespaces)
+
+1. Sign in to GitHub and open **<https://codespaces.new/mvajcik/finance-automation-portfolio>**, then click **Create codespace**.
+2. Wait about a minute for the editor to open. If it asks whether you trust the authors, click **Trust Folder & Continue**.
+3. In the **Terminal** panel at the bottom, type `make demo` and press Enter.
+4. When you are done, delete the codespace at <https://github.com/codespaces> (three dots → Delete) so it does not use up your free hours.
+
+### C. On your Mac or Linux
+
+Requires Python 3.11 or newer, `git` and `make`. On a Mac, `git` and `make` come with the Xcode Command Line
+Tools (`xcode-select --install`); the `python3` that comes with macOS is too old, install a current one from
+[python.org](https://www.python.org/downloads/). The block can be pasted into a terminal as it is:
 
 ```bash
 git clone https://github.com/mvajcik/finance-automation-portfolio.git
@@ -72,10 +102,46 @@ cd finance-automation-portfolio
 make demo
 ```
 
-`make demo` runs every tool on the fictional data and prints the verdicts. The first run also creates a
-virtual environment, installs the packages and generates the data.
+### D. On Windows, with WSL
 
-Further commands, run from the same folder:
+1. Open PowerShell as administrator, run `wsl --install` and restart the computer. This installs Ubuntu.
+2. Open **Ubuntu** from the Start menu and paste:
+
+```bash
+sudo apt update && sudo apt install -y git make python3-venv
+git clone https://github.com/mvajcik/finance-automation-portfolio.git
+cd finance-automation-portfolio
+make demo
+```
+
+### What you should see
+
+The first run creates a virtual environment, installs the packages and generates the data, then runs every
+tool. It takes about a minute. The lines that matter:
+
+```text
+TOOLKIT: 4/4 tools PASS, every live tamper caught
+   kontroly PASS: 29, FAIL: 0
+   VERDIKT: SEDÍ — výstup exports/papiernictvo2/prehlad.xlsx
+   kontroly FAIL: 13
+   VERDIKT: NESEDÍ — výstup exports/papiernictvo2_chyby/prehlad.xlsx
+######## demo finished: every step above ended as expected ########
+```
+
+*SEDÍ* = ties out: the clean delivery passed all 29 checks and the board pack was issued. *NESEDÍ* = does not
+tie out: the second delivery has 7 errors planted on purpose, the checks caught them and no board pack was
+issued. Both are the expected result.
+
+### How this is tested
+
+[![demo](https://github.com/mvajcik/finance-automation-portfolio/actions/workflows/demo.yml/badge.svg)](https://github.com/mvajcik/finance-automation-portfolio/actions/workflows/demo.yml)
+
+On every change, `make demo` runs automatically on Linux and macOS (Python 3.11 and 3.14, together with
+`make test`) and on Windows inside WSL Ubuntu. Paths A and B were run by hand in a browser.
+
+### Further commands
+
+Run from the same folder:
 
 | Command | What it does |
 |---|---|

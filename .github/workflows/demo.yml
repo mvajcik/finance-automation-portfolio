@@ -1,0 +1,43 @@
+# Runs the demo and the tests on every operating system the README promises.
+name: demo
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mac-linux:
+    name: ${{ matrix.os }} · Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ["3.11", "3.14"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - run: make demo
+      - run: make test
+
+  windows-wsl:
+    name: Windows · WSL Ubuntu
+    runs-on: windows-latest
+    steps:
+      - uses: Vampire/setup-wsl@v7
+        with:
+          distribution: Ubuntu-24.04
+          additional-packages: git make python3-venv
+      - name: clone and make demo, as the README says
+        shell: wsl-bash {0}
+        run: |
+          cd ~
+          git clone --branch "${{ github.ref_name }}" "https://github.com/${{ github.repository }}.git" portfolio
+          cd portfolio
+          python3 --version
+          make demo
