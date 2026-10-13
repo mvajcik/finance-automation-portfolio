@@ -12,6 +12,7 @@ jobs:
   mac-linux:
     name: ${{ matrix.os }} · Python ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -28,8 +29,20 @@ jobs:
   windows-wsl:
     name: Windows · WSL Ubuntu
     runs-on: windows-latest
+    timeout-minutes: 30
     steps:
-      - uses: Vampire/setup-wsl@v7
+      # Preparing WSL on the runner sometimes hangs. Limit it and try once more before failing the job.
+      - id: wsl
+        uses: Vampire/setup-wsl@v7
+        timeout-minutes: 8
+        continue-on-error: true
+        with:
+          distribution: Ubuntu-24.04
+          additional-packages: git make python3-venv
+      - name: set up WSL, second attempt
+        if: steps.wsl.outcome != 'success'
+        uses: Vampire/setup-wsl@v7
+        timeout-minutes: 10
         with:
           distribution: Ubuntu-24.04
           additional-packages: git make python3-venv
